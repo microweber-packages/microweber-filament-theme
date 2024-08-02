@@ -2,7 +2,4 @@
 
 namespace MicroweberPackages\MicroweberFilamentTheme;
 
-class MicroweberFilamentThemeServiceProvider extends \Illuminate\Support\ServiceProvider
-{
-
-}
+class MicroweberFilamentThemeServiceProvider extends \Illuminate\Support\ServiceProvider {}
