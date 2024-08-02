@@ -1,1 +1,5 @@
 @import '../../vendor/filament/filament/resources/css/theme.css';
+
+body {
+    background-color: #f111ab !important;
+}

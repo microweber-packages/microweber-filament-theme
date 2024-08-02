@@ -38,8 +38,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MicroweberPackages\\MicroweberFilamentTheme\\": "src/",
-            "MicroweberPackages\\MicroweberFilamentTheme\\Database\\Factories\\": "database/factories/"
+            "MicroweberPackages\\MicroweberFilamentTheme\\": "src/"
         }
     },
     "autoload-dev": {
@@ -63,12 +62,6 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "MicroweberPackages\\MicroweberFilamentTheme\\MicroweberFilamentThemeServiceProvider"
-            ],
-            "aliases": {
-                "MicroweberFilamentTheme": "MicroweberPackages\\MicroweberFilamentTheme\\Facades\\MicroweberFilamentTheme"
-            }
         }
     },
     "minimum-stability": "dev",
