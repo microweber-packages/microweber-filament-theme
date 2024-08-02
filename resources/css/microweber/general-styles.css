@@ -422,7 +422,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .admin-thumb-item .form-check {
-    @apply transition-all duration-300;
+    @apply transition-all duration-300 absolute left-0 top-0;
 }
 
 .admin-thumbs-holder .admin-thumb-item.mw-post-media-img {
@@ -430,7 +430,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .mw-post-media-img--header{
-    @apply absolute top-[5px] right-[3px] left-[3px] flex justify-end items-center;
+    @apply absolute top-[0px] left-[0px] flex justify-end items-center w-full relative;
 }
 
 .image-settings {
@@ -445,9 +445,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply fill-[#ff4f52];
 }
 
-.image-settings.settings-img {
-    @apply mr-[23px];
-}
+
 
 .mw-tree-item-content-root {
     @apply ms-3;
