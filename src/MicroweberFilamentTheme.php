@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace MicroweberPackages\MicroweberFilamentTheme;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -8,17 +8,17 @@ use Filament\Support\Assets\Theme;
 use Filament\Support\Color;
 use Filament\Support\Facades\FilamentAsset;
 
-class Skeleton implements Plugin
+class MicroweberFilamentTheme implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'microweber-filament-theme';
     }
 
     public function register(Panel $panel): void
     {
         FilamentAsset::register([
-            Theme::make('skeleton', __DIR__ . '/../resources/dist/skeleton.css'),
+            Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/microweber-filament-theme.css'),
         ]);
 
         $panel
@@ -29,7 +29,7 @@ class Skeleton implements Plugin
             ->dangerColor(Color::Rose)
             ->successColor(Color::Green)
             ->grayColor(Color::Gray)
-            ->theme('skeleton');
+            ->theme('microweber-filament-theme');
     }
 
     public function boot(Panel $panel): void
