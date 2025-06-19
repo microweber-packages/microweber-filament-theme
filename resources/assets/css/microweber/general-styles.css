@@ -1193,3 +1193,6 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply mb-3;
 }
 
+.mw-filepicker-root .fi-simple-main {
+    @apply min-w-[100%];
+}
