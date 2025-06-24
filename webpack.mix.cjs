@@ -37,6 +37,7 @@ mix.webpackConfig({
 mix.js('resources/assets/js/microweber-filament-theme.js', 'resources/dist/build').setPublicPath('resources/dist/build');
 mix.copy('resources/assets/js/mw-media-browser.js', 'resources/dist/build').setPublicPath('resources/dist/build');
 mix.copy('resources/assets/js/mw-tree-component.js', 'resources/dist/build').setPublicPath('resources/dist/build');
+mix.copy('resources/assets/js/tiny-editor.js', 'resources/dist/build').setPublicPath('resources/dist/build');
 
 mix.postCss('resources/assets/css/microweber-filament-theme.css', 'resources/dist/build')
     .setPublicPath('resources/dist/build').tailwind();
