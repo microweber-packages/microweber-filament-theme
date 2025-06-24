@@ -5,6 +5,7 @@ namespace MicroweberPackages\MicroweberFilamentTheme;
 use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
 use Filament\Panel;
+use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Theme;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentAsset;
@@ -48,11 +49,15 @@ class MicroweberFilamentTheme implements Plugin
     public static function configureAssets(): void
     {
 
+        // Register filament assets
 
         FilamentAsset::register([
             //  Theme::make('microweber-filament-theme', __DIR__ . '/../resources/dist/css/microweber-filament-theme.css'),
             Theme::make('microweber-filament-theme', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.css')),
             Js::make('microweber-filament-theme-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/microweber-filament-theme.js')),
+
+            AlpineComponent::make('mw-media-browser-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-media-browser.js')),
+            AlpineComponent::make('mw-tree-component-js', public_asset('vendor/microweber-packages/microweber-filament-theme/build/mw-tree-component.js')),
 
         ]);
 
