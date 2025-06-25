@@ -6,7 +6,7 @@
 
 
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form{
-    @apply sticky bottom-0 z-10   ;
+    @apply sticky bottom-[-20px] z-10;
 }
 
 .quick-ai-card{
