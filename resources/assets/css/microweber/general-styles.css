@@ -139,7 +139,15 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
     @apply rounded !p-1.5 border-2 border-gray-300 bg-gray-100 dark:text-white dark:bg-gray-700  text-gray-600 dark:text-white shadow-none border-none;
 }
 
-.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active, .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active, .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:hover,
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-admin-action-links:hover,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.active,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
     @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
 }
 
