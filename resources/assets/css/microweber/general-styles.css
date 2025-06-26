@@ -317,13 +317,11 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 .mw-ui-progress {
-    position: relative;
+       position: relative;
     height: 19px;
     min-width: 50px;
-    overflow: hidden;
     white-space: nowrap;
-    background-color: #EEEEEE;
-    border: 1px solid #919191;
+    background-color: #0b2f47;
     border-radius: 10px;
     display: flex;
     align-items: center; }
@@ -334,30 +332,39 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     background-color: #4592ff;
     position: absolute;
     top: 0;
-    left: 0; }
+    left: 0;
+    border-radius: 20px;
+    transition: width .25s;
+}
 
 .mw-ui-progress-info {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 9px;
-    position: relative;
+    color: rgb(255 255 255);
+    font-size: 14px;
+    position: absolute;
     display: inline-block;
     max-width: 100%;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 0 0 0 6px;
-    z-index: 2; }
+    z-index: 2;
+    top: 100%;
+    width: 100%;
+    text-align: center;
+    text-shadow: -1px 2px 4px #000;
+}
 
 .mw-ui-progress-percent {
-    font-weight: bold;
-    color: white;
+        font-weight: bold;
+    color: #ffffff;
     margin-inline-start: 5px;
-    font-size: 9px;
+    font-size: 12px;
     position: relative;
     display: inline-block;
-    z-index: 2; }
+    z-index: 2;
+    width: 100%;
+    text-align: center;
+    letter-spacing: 1px; }
 
 /* Small progressbar */
 .mw-ui-progress-small,
