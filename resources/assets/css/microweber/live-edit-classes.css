@@ -152,6 +152,11 @@ body {
 
 }
 
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
+    @apply !bg-white dark:!bg-gray-950 dark:text-white border-none;
+}
+
+
 .mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons svg,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     @apply !fill-black dark:!fill-white;
