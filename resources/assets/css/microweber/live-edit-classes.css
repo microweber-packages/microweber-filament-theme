@@ -153,7 +153,7 @@ body {
 }
 
 .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
-    @apply !bg-white dark:!bg-gray-950 dark:text-white border-none;
+    @apply !bg-white dark:!bg-gray-800 dark:text-white border-none;
 }
 
 
