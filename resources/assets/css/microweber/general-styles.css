@@ -1233,3 +1233,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .modules-list-search-block svg.icon {
     @apply stroke-black dark:stroke-white;
 }
+
+.live-edit-settings-back-button-wrapper {
+    @apply sticky top-0 z-10 bg-white dark:bg-gray-800 dark:text-white text-gray-900 py-4 px-0;
+}
