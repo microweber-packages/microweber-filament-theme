@@ -1228,3 +1228,8 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 select#activeLocale:not(:has(option:nth-of-type(2))) {
     display: none !important;
 }
+
+
+.modules-list-search-block svg.icon {
+    @apply stroke-white;
+}
