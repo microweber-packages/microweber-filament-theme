@@ -1231,5 +1231,5 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 
 
 .modules-list-search-block svg.icon {
-    @apply stroke-white;
+    @apply stroke-black dark:stroke-white;
 }
