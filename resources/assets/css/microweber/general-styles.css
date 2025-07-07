@@ -1293,6 +1293,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
         font-size: 16px;
         font-weight: bold;
         color: #666;
+        @apply dark:!text-white;
         background: rgba(0, 0, 0, 0.08);
         @apply dark:bg-gray-700 dark:text-white;
         border-radius: 50%;
