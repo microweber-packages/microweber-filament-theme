@@ -1141,7 +1141,31 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 
 
 .ai-settings-wrapper {
-    @apply dark:bg-gray-800 dark:text-white bg-gray-100 border rounded-md border-gray-100 p-5 mt-3;
+    @apply relative p-6 bg-white dark:bg-gray-700 border border-gray-200 rounded-xl shadow-lg transition-all duration-300 overflow-hidden;
+
+    &:hover {
+        @apply shadow-xl -translate-y-0.5;
+    }
+
+    .live-edit-label {
+        @apply block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wide;
+    }
+
+    .btn {
+        @apply inline-block relative py-3 px-6 bg-white dark:bg-gray-600 border border-gray-200 rounded-lg text-gray-800 dark:text-gray-200 no-underline text-base font-medium text-center shadow-md transition-all duration-300 cursor-pointer;
+
+        &:hover {
+            @apply -translate-y-1 shadow-lg bg-gray-50 dark:bg-gray-500;
+        }
+
+        &:active {
+            @apply -translate-y-0.5 shadow-md;
+        }
+
+        &:disabled {
+            @apply opacity-50 cursor-not-allowed transform-none shadow-sm;
+        }
+    }
 }
 
 .tab-pane, .CodeMirror-scroll, .CodeMirror-gutter.CodeMirror-linenumbers {
