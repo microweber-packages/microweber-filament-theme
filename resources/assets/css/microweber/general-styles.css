@@ -1406,5 +1406,5 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .edit-mode-subtitle {
-    @apply text-sm text-gray-500 dark:text-gray-400 leading-relaxed;
+    @apply text-xs text-gray-500 dark:text-gray-400 leading-relaxed;
 }
