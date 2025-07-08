@@ -1375,59 +1375,32 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 
 .edit-mode-toggle-container {
     @apply flex gap-3 flex-wrap;
+
+    @media (max-width: 768px) {
+        @apply flex-col;
+    }
 }
 
 .edit-mode-option {
     @apply flex-1 min-w-[200px] p-5 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 cursor-pointer transition-all duration-300 ease-in-out shadow-md hover:shadow-xl flex items-center gap-4;
-}
 
-.edit-mode-option:hover {
-    @apply border-blue-500 dark:border-blue-400 shadow-blue-500/20 -translate-y-0.5;
-}
-
-.edit-mode-option.active {
-    @apply border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-gray-700 shadow-blue-500/30;
-}
-
-.edit-mode-icon {
-    @apply flex-shrink-0 w-12 h-12 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg transition-all duration-300;
-}
-
-.edit-mode-option:hover .edit-mode-icon {
-    @apply bg-blue-50 dark:bg-gray-600 text-blue-500 dark:text-blue-400;
-
-    svg {
-        @apply dark:fill-white;
+    &:hover {
+        @apply border-blue-500 dark:border-blue-400 shadow-blue-500/20 -translate-y-0.5;
     }
-}
 
-.edit-mode-option.active .edit-mode-icon {
-    @apply bg-blue-500 dark:bg-blue-600 text-white;
-}
+    &.active {
+        @apply border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-gray-700 shadow-blue-500/30;
 
-.edit-mode-text {
-    @apply flex-1;
-}
+        .edit-mode-title {
+            @apply text-blue-500 dark:text-blue-400;
+        }
+    }
 
-.edit-mode-title {
-    @apply text-base font-semibold text-gray-900 dark:text-white mb-1;
+    @media (max-width: 768px) {
+        @apply min-w-0;
+    }
 }
 
 .edit-mode-subtitle {
     @apply text-sm text-gray-500 dark:text-gray-400 leading-relaxed;
-}
-
-.edit-mode-option.active .edit-mode-title {
-    @apply text-blue-500 dark:text-blue-400;
-}
-
-
-@media (max-width: 768px) {
-    .edit-mode-toggle-container {
-        @apply flex-col;
-    }
-
-    .edit-mode-option {
-        @apply min-w-0;
-    }
 }
