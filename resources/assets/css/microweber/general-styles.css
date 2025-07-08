@@ -1395,6 +1395,10 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 
 .edit-mode-option:hover .edit-mode-icon {
     @apply bg-blue-50 dark:bg-gray-600 text-blue-500 dark:text-blue-400;
+
+    svg {
+        @apply dark:fill-white;
+    }
 }
 
 .edit-mode-option.active .edit-mode-icon {
