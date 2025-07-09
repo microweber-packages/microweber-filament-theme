@@ -1287,7 +1287,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     font-size: 18px;
     font-weight: 600;
     text-align: center;
-    min-width: 280px;
+    min-width: 287px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
