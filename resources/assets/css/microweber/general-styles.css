@@ -153,7 +153,7 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
 
 
 .mw-live-edit-resolutions-wrapper svg, .mw-live-edit-right-sidebar-wrapper svg {
-    @apply fill-black;
+    @apply fill-black dark:fill-white;
 }
 
 
