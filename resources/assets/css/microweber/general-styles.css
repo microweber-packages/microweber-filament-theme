@@ -1424,3 +1424,9 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
         @apply dark:invert;
     }
 }
+
+.modules-list-categories {
+    li {
+        @apply dark:text-white;
+    }
+}
