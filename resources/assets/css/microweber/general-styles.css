@@ -1259,7 +1259,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .live-edit-settings-back-button-wrapper {
-    @apply sticky top-0 z-10 bg-white dark:bg-gray-800 dark:text-white text-gray-900 py-4 px-0;
+    @apply sticky top-[-20px] z-10 bg-white dark:bg-gray-800 dark:text-white text-gray-900 py-4 px-0;
 }
 
 .predefined-styles-names {
