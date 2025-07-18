@@ -527,7 +527,7 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
 }
 
 .admin-thumb-item {
-    --admin-thumb-item-size: 110px;
+    --admin-thumb-item-size: 147px;
     --admin-thumb-item-gap: 8px;
     @apply block relative float-left  my-0 border border-[#cfcfcf] cursor-grab;
     width: var(--admin-thumb-item-size);
