@@ -707,9 +707,22 @@ div:focus-visible {
     @apply w-[15px];
 }
 
+
+
 .noUi-tooltip {
     @apply block absolute border border-solid border-[#D9D9D9] rounded-[3px] bg-white text-black p-[5px] text-center whitespace-nowrap;
 }
+
+/*Only showing tooltips when sliding handles*/
+.noUi-tooltip {
+    display: none;
+}
+.noUi-active .noUi-tooltip {
+    display: block;
+}
+/*end Only showing tooltips when sliding handles*/
+
+
 
 .noUi-horizontal .noUi-tooltip {
     transform: translate(-50%, 0);
