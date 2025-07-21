@@ -80,6 +80,13 @@
     margin: 0;
 }
 
+.mwiconlist-settings-section-block-item {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
 .mwiconlist-settings-section-block-item .form-control[type='number'] {
     -moz-appearance: textfield;
 }
@@ -119,10 +126,6 @@
     appearance: slider-horizontal !important;
 }
 
-.mwiconlist-settings-section-block-item {
-    display: block;
-}
-
 .mwiconlist-settings-section-block-item
     + .mwiconlist-settings-section-block-item {
     padding-top: 16px;
@@ -139,11 +142,6 @@
     height: 35px;
     width: 45px;
     cursor: pointer;
-}
-
-.mw-tooltip .mwiconlist-section,
-.mwiconlist-settings-section-block-item {
-    width: 360px;
 }
 
 .mwiconlist-settings-section-block-item .mw-tooltip .mwiconlist-section {
