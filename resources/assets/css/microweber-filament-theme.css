@@ -1,28 +1,31 @@
-
-
-
 @import './index.css';
 @import './admin.scss';
 
-
-#mw-live-edit-quickEditComponent-box .mw-ai-chat-form{
+#mw-live-edit-quickEditComponent-box .mw-ai-chat-form {
     @apply sticky bottom-[-20px] z-10;
 }
 
-.quick-ai-card{
-
+.quick-ai-card {
     background: #7d7d7d17;
     margin-bottom: 1rem;
 }
 
-.card-body{
-    padding: 20px;
+.quick-ai-card-body .live-edit-label + input:not(:focus) {
+    border-color: #cacaca;
 }
-
-.quick-ai-card-header {
-    padding: 10px 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-bottom: 1px solid #74747469;
+.quick-ai-card-body .live-edit-label {
+    margin: -10px 7px;
+    position: relative;
+    z-index: 1;
+    background: #f3f3f3;
+    display: inline-block;
+    line-height: 11px;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+html.darl .quick-ai-card-body .live-edit-label {
+    background: #2e2e31;
+}
+.quick-ai-card-body {
+    padding: 0 15px 7.5px 15px;
 }
