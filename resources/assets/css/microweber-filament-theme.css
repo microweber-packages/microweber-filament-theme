@@ -1,6 +1,11 @@
 @import './index.css';
 @import './admin.scss';
 
+#mw-live-edit-quickEditComponent-box:has(.edit-fields-container:empty)
+    .mw-control-box-content {
+    pointer-events: none;
+    opacity: 0.5;
+}
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form {
     @apply sticky bottom-[-20px] z-10;
 }
@@ -22,9 +27,15 @@
     line-height: 11px;
     padding: 3px 6px;
     border-radius: 4px;
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.5);
 }
-html.darl .quick-ai-card-body .live-edit-label {
+html.dark .quick-ai-card-body .live-edit-label {
     background: #2e2e31;
+    color: rgba(255, 255, 255, 0.5);
+}
+.quick-ai-card-body .form-control-live-edit-input {
+    font-size: 14px;
 }
 .quick-ai-card-body {
     padding: 0 15px 7.5px 15px;
