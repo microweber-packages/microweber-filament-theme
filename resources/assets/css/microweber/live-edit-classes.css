@@ -962,3 +962,11 @@ div:focus-visible {
     max-width: var(--size);
     max-height: var(--size);
 }
+
+.admin-toolbar-live-edit {
+    @media screen and (max-width: 600px) {
+        .fi-btn-label{
+            @apply hidden;
+        }
+    }
+}

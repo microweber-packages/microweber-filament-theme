@@ -1399,3 +1399,4 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
         @apply dark:text-white;
     }
 }
+
