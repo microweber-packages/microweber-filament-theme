@@ -7,7 +7,11 @@
     opacity: 0.5;
 }
 #mw-live-edit-quickEditComponent-box .mw-ai-chat-form {
-    @apply sticky bottom-[-20px] z-10;
+    @apply absolute bottom-[60px] z-10 w-[calc(100%_-_40px)];
+}
+
+.edit-fields-container {
+    padding-bottom: 220px;
 }
 
 .quick-ai-card {
