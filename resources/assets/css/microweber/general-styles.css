@@ -1388,7 +1388,8 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
     }
 }
 
-.current-layout-modules .module-settings-button {
+.module-settings-button {
+    text-transform: capitalize;
     img {
         @apply dark:invert;
     }
@@ -1399,4 +1400,3 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
         @apply dark:text-white;
     }
 }
-
