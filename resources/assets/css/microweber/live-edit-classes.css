@@ -148,7 +148,7 @@ body {
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:focus,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons:active,
 .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.active {
-    @apply !bg-white !border-white dark:!bg-gray-800 dark:!border-gray-800;
+    @apply !bg-white !text-black !border-white dark:!bg-gray-800 dark:!text-white dark:!border-gray-800;
 
 }
 
