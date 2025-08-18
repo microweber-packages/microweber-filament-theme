@@ -30,7 +30,13 @@ export default function mwMediaManagerComponent({mediaIds}) {
         bulkDeleteSelectedMedia() {
             if (this.selectedImages && this.selectedImages.length > 0) {
                 if (confirm('Are you sure you want to delete the selected images?')) {
-                    const statePath = this.$el.closest('[x-data-id]').getAttribute('x-data-id');
+
+//console.log(this.$el.parentNode.parentNode.parentNode.parentNode.parentNode)
+//console.log(this.$root)
+                    const statePath = (this.$root.querySelector('[x-data-id]').getAttribute('x-data-id'))
+
+//return;
+                 //   const statePath = this.$root.closest('[x-data-id]').getAttribute('x-data-id');
                     this.$wire.dispatchFormEvent('mwMediaBrowser::deleteMediaItemsByIds', statePath, {
                         ids: this.selectedImages
                     });
