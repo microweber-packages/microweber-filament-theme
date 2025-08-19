@@ -1408,3 +1408,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .module-icon img{
     @apply dark:invert;
 }
+
+.mw-live-edit-slider-small {
+    @apply dark:!bg-gray-800 dark:text-white;
+}
