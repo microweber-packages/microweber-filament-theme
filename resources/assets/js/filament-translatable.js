@@ -2,10 +2,11 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.store('translationLocale', {
 
-        locale: window.filamentData.multilanguage.translationLocale.locale,
-        shortLocale: window.filamentData.multilanguage.translationLocale.abr,
-        flagUrl: window.filamentData.multilanguage.translationLocale.iconUrl,
-        supportedLocales: window.filamentData.multilanguage.supportedLocales,
+        locale: window.filamentData?.multilanguage?.translationLocale?.locale ?? 'en',
+        shortLocale: window.filamentData?.multilanguage?.translationLocale?.abr ?? 'en',
+        flagUrl: window.filamentData?.multilanguage?.translationLocale?.iconUrl ?? '',
+        supportedLocales: window.filamentData?.multilanguage?.supportedLocales ?? [],
+
 
         getFlagUrl(locale) {
             let flagUrl = '';
