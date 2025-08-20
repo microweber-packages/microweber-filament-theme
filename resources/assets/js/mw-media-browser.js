@@ -1,9 +1,10 @@
-export default function mwMediaManagerComponent({mediaIds}) {
-    return {
+document.addEventListener('alpine:init', () => {
+    Alpine.data('mwMediaManagerComponent', ({mediaIds}) => ({
         mediaIds,
         modalImageSettingsOpen: false,
         showBulkDeleteButton: false,
         selectedImages: [],
+
 
         init() {
             this.$watch('selectedImages', (value) => {
@@ -62,5 +63,5 @@ export default function mwMediaManagerComponent({mediaIds}) {
                 data: { id: id, filename: editedImage }
             });
         }
-    }
-}
+    }));
+});
