@@ -1412,3 +1412,7 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 .mw-live-edit-slider-small {
     @apply dark:!bg-gray-800 dark:text-white;
 }
+
+.mw-le-handle-menu-button-icon * {
+    @apply dark:fill-white dark:invert;
+}
