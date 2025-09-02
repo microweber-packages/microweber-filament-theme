@@ -159,7 +159,22 @@ module.exports = {
 
     ],
     //  safelist: [{ pattern: /./ }],
+    safelist: [
+        // Background colors with hover
+        {
+            pattern: /(hover:)?bg-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
 
+        // Border colors with hover
+        {
+            pattern: /(hover:)?border-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+
+        // Text colors with hover
+        {
+            pattern: /(hover:)?text-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+    ],
 
     content: {
         relative: true,
