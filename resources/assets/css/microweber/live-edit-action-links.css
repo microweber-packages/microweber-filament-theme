@@ -1,8 +1,11 @@
+.mw-link-editor-root .mw-admin-action-links {
+    white-space: nowrap;
+}
 .mw-admin-action-links,
-.fi-tabs .fi-tabs-item, .fi-tabs .fi-tabs-item .fi-tabs-item-label {
+.fi-tabs .fi-tabs-item,
+.fi-tabs .fi-tabs-item .fi-tabs-item-label {
     @apply relative no-underline !font-bold !text-black dark:!text-white hover:cursor-pointer text-[1rem];
 }
-
 
 .mw-admin-action-links:disabled,
 .fi-tabs .fi-tabs-item:disabled {
@@ -13,11 +16,11 @@
 .fi-tabs .fi-tabs-item:after {
     @apply absolute bottom-[5px] left-0 h-[2px] w-0 bg-black dark:bg-white opacity-0;
     content: '';
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .fi-tabs .fi-tabs-item:after {
-   @apply !bottom-0;
+    @apply !bottom-0;
 }
 
 .mw-admin-action-links:hover,
@@ -60,8 +63,7 @@
 .fi-tabs .fi-tabs-item:active,
 .fi-tabs .fi-tabs-item:focus,
 .fi-tabs .fi-tabs-item.active,
-.fi-tabs .fi-tabs-item:hover
-{
+.fi-tabs .fi-tabs-item:hover {
     @apply font-bold;
 }
 
@@ -79,4 +81,3 @@
 .fi-tabs .fi-tabs-item.text-danger:hover {
     @apply text-red-500 !important;
 }
-

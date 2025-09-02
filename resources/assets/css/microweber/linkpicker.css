@@ -2,7 +2,8 @@
     @apply w-full;
 }
 
-.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+.mw-filepicker-component-navigation-header
+    .form-control-live-edit-label-wrapper {
     @apply w-full flex items-center justify-center rounded bg-gray-100 p-1.5 gap-2;
 }
 
@@ -23,18 +24,19 @@
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-dialog-container {
-   @apply !p-0;
+    @apply !p-0;
 }
 
-
-.mw_modal_live_edit_link_editor_settings .mw-link-editor-root .mw-ui-form-controller-root > div:first-of-type {
+.mw_modal_live_edit_link_editor_settings
+    .mw-link-editor-root
+    .mw-ui-form-controller-root
+    > div:first-of-type {
     max-height: calc(100vh - 210px);
     @apply pt-0;
-
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-link-editor-root {
-    @apply flex flex-wrap w-full;
+    @apply flex  w-full;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-ac-editor-nav {
@@ -57,11 +59,15 @@
     @apply pe-1;
 }
 
-.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder, .mw_modal_live_edit_link_editor_settings .form-label, .mw_modal_live_edit_link_editor_settings .modal-footer {
+.mw_modal_live_edit_link_editor_settings .mw-ui-field-holder,
+.mw_modal_live_edit_link_editor_settings .form-label,
+.mw_modal_live_edit_link_editor_settings .modal-footer {
     @apply py-0 px-1;
 }
 
-.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div:first-of-type {
+.mw_modal_live_edit_link_editor_settings
+    .mw-ui-form-controller-root
+    > div:first-of-type {
     @apply h-full pb-3;
 }
 
