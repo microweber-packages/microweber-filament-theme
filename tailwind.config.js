@@ -174,6 +174,40 @@ module.exports = {
         {
             pattern: /(hover:)?text-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
         },
+        // Display utilities (all breakpoints)
+        {
+            pattern: /(sm:|md:|lg:|xl:|2xl:)?(hidden|block|flex|inline-flex)/,
+        },
+        // Display (base)
+        'block', 'flex', 'inline-flex', 'inline-block',
+
+        // Display (2xl)
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block',
+
+        // Visibility (base)
+        'visible', 'invisible',
+
+        // Visibility (breakpoints)
+        'sm:visible', 'sm:invisible',
+        'md:visible', 'md:invisible',
+        'lg:visible', 'lg:invisible',
+        'xl:visible', 'xl:invisible',
+        '2xl:visible', '2xl:invisible',
+
+
+        // Display (sm)
+        'sm:block', 'sm:flex', 'sm:inline-flex', 'sm:inline-block', 'sm:hidden',
+        'hidden',
+        // Display (md)
+        'md:block', 'md:flex', 'md:inline-flex', 'md:inline-block', 'md:hidden',
+
+        // Display (lg)
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+
+        // Display (xl)
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block',
+        '2xl:hidden', 'xl:hidden',
+
     ],
 
     content: {
