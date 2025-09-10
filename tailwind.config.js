@@ -208,6 +208,44 @@ module.exports = {
         'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block',
         '2xl:hidden', 'xl:hidden',
 
+        // Base display
+        'block', 'flex', 'inline-flex', 'inline-block', 'hidden',
+
+        // Base visibility
+        'visible', 'invisible',
+
+        // Min-width breakpoints
+        'sm:block', 'sm:flex', 'sm:inline-flex', 'sm:inline-block', 'sm:hidden',
+        'sm:visible', 'sm:invisible',
+
+        'md:block', 'md:flex', 'md:inline-flex', 'md:inline-block', 'md:hidden',
+        'md:visible', 'md:invisible',
+
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+        'lg:visible', 'lg:invisible',
+
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block', 'xl:hidden',
+        'xl:visible', 'xl:invisible',
+
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block', '2xl:hidden',
+        '2xl:visible', '2xl:invisible',
+
+        // Max-width breakpoints
+        'max-sm:block', 'max-sm:flex', 'max-sm:inline-flex', 'max-sm:inline-block', 'max-sm:hidden',
+        'max-sm:visible', 'max-sm:invisible',
+
+        'max-md:block', 'max-md:flex', 'max-md:inline-flex', 'max-md:inline-block', 'max-md:hidden',
+        'max-md:visible', 'max-md:invisible',
+
+        'max-lg:block', 'max-lg:flex', 'max-lg:inline-flex', 'max-lg:inline-block', 'max-lg:hidden',
+        'max-lg:visible', 'max-lg:invisible',
+
+        'max-xl:block', 'max-xl:flex', 'max-xl:inline-flex', 'max-xl:inline-block', 'max-xl:hidden',
+        'max-xl:visible', 'max-xl:invisible',
+
+        'max-2xl:block', 'max-2xl:flex', 'max-2xl:inline-flex', 'max-2xl:inline-block', 'max-2xl:hidden',
+        'max-2xl:visible', 'max-2xl:invisible',
+
     ],
 
     content: {
