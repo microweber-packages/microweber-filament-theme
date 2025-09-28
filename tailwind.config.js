@@ -194,6 +194,20 @@ module.exports = {
         'xl:visible', 'xl:invisible',
         '2xl:visible', '2xl:invisible',
 
+        'overflow-scroll', 'overflow-scroll-y', 'overflow-scroll-x',
+        'overflow-auto', 'overflow-auto-y', 'overflow-auto-x',
+
+        'overflow-hidden', 'overflow-hidden-y', 'overflow-hidden-x',
+
+        'overflow-visible', 'overflow-visible-y', 'overflow-visible-x',
+
+        // Display (2xl)
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block', '2xl:hidden',
+        // Display (xl)
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block', 'xl:hidden',
+        // Display (lg)
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+
 
         // Display (sm)
         'sm:block', 'sm:flex', 'sm:inline-flex', 'sm:inline-block', 'sm:hidden',
