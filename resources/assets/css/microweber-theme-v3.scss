@@ -232,12 +232,18 @@ svg[wire\:loading\.remove] {
 
   .fi-sidebar-group-label {
     color: $mw-text-secondary !important;  // Darker than before — matches MW v2 parent items
-    font-size: 0.7rem !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
-    padding: 10px 8px 4px !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    letter-spacing: normal !important;
+    text-transform: none !important;
+    padding: 6px 8px !important;
   }
+}
+
+// Group button icons — match standalone item icon color (MW v2: same dark color)
+.fi-sidebar-group-btn svg {
+  color: $mw-text-primary !important;
+  stroke: $mw-text-primary !important;
 }
 
 // Remove Filament's default 16px gap between sidebar items
@@ -249,7 +255,7 @@ svg[wire\:loading\.remove] {
   .fi-sidebar-item-btn {
     border-radius: 4px !important;  // MW v2 exact: 4px
     transition: all 0.15s ease !important;
-    padding: 8px 12px 8px 44px !important;  // MW v2 exact: 8px 12px 8px 44px
+    padding: 8px 12px 8px 52px !important;  // MW v2: aligned with parent item labels
     background-color: transparent !important;
     border: none !important;  // Remove any border/underline on sidebar items
     text-decoration: none !important;
@@ -340,7 +346,15 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-main {
   background-color: transparent !important;  // MW v2: transparent, page bg shows through
-  padding: 10px 16px !important;  // MW v2 exact: 10px 16px
+  padding: 10px 5rem !important;  // Desktop: generous side padding to prevent stretching
+
+  @media (max-width: 1440px) {
+    padding: 10px 3rem !important;  // Mid-range screens: moderate padding
+  }
+
+  @media (max-width: 1024px) {
+    padding: 10px 1.5rem !important;  // Tablets: tighter padding
+  }
 }
 
 // Main content container — MW v2: transparent bg
@@ -352,7 +366,8 @@ svg[wire\:loading\.remove] {
 // Page body — MW v2: 24px vertical margin
 // ============================================================================
 .fi-page > div {
-  margin: 24px 0 !important;  // MW v2 exact: page body margin
+  margin: 24px auto !important;  // MW v2: centered with vertical margin
+  max-width: 1440px !important;  // Cap content width on ultra-wide screens
 }
 
 // Gap between sections/cards — MW v2: 24px
