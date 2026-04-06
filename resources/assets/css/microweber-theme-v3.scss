@@ -220,12 +220,11 @@ svg[wire\:loading\.remove] {
 // Group labels — MW v2 style: looks like parent nav items, not tiny uppercase headers
 .fi-sidebar-group {
   padding: 0 !important;
-  border-top: 1px solid rgba(4, 32, 69, 0.10) !important;  // MW v2: subtle separator between sections
+  border-top: none !important;
   margin-top: 4px !important;
   padding-top: 4px !important;
 
   &:first-child {
-    border-top: none !important;  // No separator above first group
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
@@ -249,6 +248,7 @@ svg[wire\:loading\.remove] {
 // Remove Filament's default 16px gap between sidebar items
 .fi-sidebar-group-items {
   gap: 0px !important;
+  padding-top: 0 !important;  // Remove gap between group header and first sub-item
 }
 
 .fi-sidebar-item {
@@ -267,7 +267,7 @@ svg[wire\:loading\.remove] {
 
   // Item labels — default to sub-item style: 14px/400 (MW v2 exact dropdown-item)
   .fi-sidebar-item-label {
-    color: $mw-text-primary !important;
+    color: $mw-text-secondary !important;  // Sub-items: softer secondary color
     font-weight: 400 !important;  // MW v2 sub-item: 400
     font-size: 14px !important;  // MW v2 sub-item: 14px
     line-height: 20px !important;  // MW v2 exact: 20px
@@ -285,8 +285,9 @@ svg[wire\:loading\.remove] {
     margin-right: 16px !important;  // MW v2 exact: 16px
   }
 
-  // When item HAS an icon, it's a top-level item — override to 16px/15px padding
+  // When item HAS an icon, it's a top-level item — override to primary color & 16px
   .fi-sidebar-item-icon ~ .fi-sidebar-item-label {
+    color: $mw-text-primary !important;  // Top-level: dark primary color
     font-size: 16px !important;  // MW v2 top-level: 16px
     line-height: 22.86px !important;  // MW v2 exact: 22.8571px
   }
@@ -414,14 +415,14 @@ svg[wire\:loading\.remove] {
 }
 
 // ============================================================================
-// Widgets — dashboard stat cards
+// Widgets — dashboard widget containers
 // ============================================================================
 .fi-wi {
   border-radius: $mw-radius-lg !important;
-  box-shadow: $mw-shadow-sm !important;
-  border: none !important;
-  overflow: hidden;
-  background-color: $mw-bg-surface !important;
+  box-shadow: none !important;
+  border: none !important;  // No border on widget container — individual cards have their own
+  overflow: visible;
+  background-color: transparent !important;  // MW v2: transparent, body bg shows through
 }
 
 .fi-wi-stats-overview-stat {
@@ -1058,7 +1059,7 @@ svg[wire\:loading\.remove] {
 .fi-header-heading {
   color: $mw-text-primary !important;
   font-weight: 700 !important;
-  font-size: 1.5rem !important;  // 24px — matches MW v2 exact
+  font-size: 1.75rem !important;  // 28px — prominent page title
   letter-spacing: normal !important;  // MW v2 exact: normal (was -0.01em)
   margin-bottom: 0 !important;  // MW v2: 0 margin-bottom (flex layout)
 }
@@ -1433,6 +1434,21 @@ svg[wire\:loading\.remove] {
 .fi-pagination-item-active {
   background-color: #182433 !important;
   color: #ffffff !important;
+}
+
+// Per-page select — MW v2 style dropdown
+.fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+  background-color: $mw-bg-sidebar !important;
+  border: 1px solid $mw-border-color !important;
+  border-radius: $mw-radius-sm !important;
+}
+
+.fi-ta-ctn .fi-select-input {
+  appearance: auto !important;  // Restore native dropdown arrow
+  cursor: pointer !important;
+  padding: 6px 8px !important;
+  font-size: 13px !important;
+  min-width: 60px !important;
 }
 
 // ============================================================================
@@ -2346,8 +2362,8 @@ html.dark {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0;
-  margin-bottom: 8px;
+  padding: 8px 0 16px;
+  margin-bottom: 16px;
 }
 
 .mw-welcome-widget-heading {
@@ -2364,11 +2380,6 @@ html.dark {
   margin: 0 !important;
 }
 
-.mw-welcome-widget-period {
-  font-size: 14px !important;
-  color: $mw-text-secondary !important;
-  margin: 0 !important;
-}
 
 // ============================================================================
 // Dashboard — MW v2 Quick Stats Cards (Emails, Comments, Sales, Orders)
@@ -2388,15 +2399,17 @@ html.dark {
 .mw-quick-stat-card {
   background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
-  box-shadow: $mw-shadow-sm;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: 1px solid $mw-border-color;
   display: flex;
   flex-direction: column;
   text-decoration: none !important;
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease;
   overflow: hidden;
 
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px 0px;
+    border-color: darken($mw-border-color, 10%);
+    box-shadow: none;
     text-decoration: none !important;
   }
 }
@@ -2486,8 +2499,7 @@ html.dark {
     color: #e2e8f0 !important;
   }
 
-  .mw-welcome-widget-subtitle,
-  .mw-welcome-widget-period {
+  .mw-welcome-widget-subtitle {
     color: #718096 !important;
   }
 
@@ -2520,7 +2532,8 @@ html.dark {
   position: relative;
   background-color: $mw-bg-surface;
   border-radius: $mw-radius-lg;
-  box-shadow: $mw-shadow-sm;
+  border: 1px solid $mw-border-color;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
@@ -2717,15 +2730,15 @@ html.dark {
 
 .fi-simple-header {
   text-align: center;
+  padding-top: 8px !important;
 
-  .fi-logo {
-    display: flex;
-    justify-content: center;
-
-    img {
-      height: 40px !important;
-      width: auto !important;
-    }
+  // Logo on login page — larger and centered
+  img.fi-logo {
+    height: 48px !important;
+    width: auto !important;
+    display: block;
+    margin: 0 auto 16px;
+    overflow: visible !important;
   }
 
   .fi-simple-header-heading {
