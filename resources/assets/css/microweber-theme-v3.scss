@@ -209,7 +209,7 @@ svg[wire\:loading\.remove] {
 
 .fi-sidebar-nav-groups {
   gap: 0px !important;
-  padding: 0 15px !important;  // MW v2 exact: 0 15px
+  padding: 16px 15px !important;  // MW v2: 16px top/bottom to match topbar padding
 
   // Override Filament's default divider (we handle it on .fi-sidebar-group)
   > * + * {
@@ -235,14 +235,18 @@ svg[wire\:loading\.remove] {
     font-weight: 400 !important;
     letter-spacing: normal !important;
     text-transform: none !important;
-    padding: 6px 8px !important;
+    padding: 0 !important;  // No extra padding — vertical rhythm handled by group-btn padding
   }
 }
 
-// Group button icons — match standalone item icon color (MW v2: same dark color)
-.fi-sidebar-group-btn svg {
-  color: $mw-text-primary !important;
-  stroke: $mw-text-primary !important;
+// Group button — match standalone item padding (MW v2: consistent vertical rhythm)
+.fi-sidebar-group-btn {
+  padding: 10px 0px !important;  // Match .fi-sidebar-item-btn with icon
+
+  svg {
+    color: $mw-text-primary !important;
+    stroke: $mw-text-primary !important;
+  }
 }
 
 // Remove Filament's default 16px gap between sidebar items
@@ -512,10 +516,11 @@ svg[wire\:loading\.remove] {
   white-space: nowrap !important;
 }
 
-// Selection cell should not truncate
+// Selection cell should not truncate and must align header/row checkboxes
 .fi-ta-selection-cell {
   overflow: visible !important;
   max-width: none !important;
+  text-align: start !important;
 }
 
 // Actions cell should not truncate
@@ -1042,12 +1047,12 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Page header container — reduce Filament's large padding/gap from --spacing * 8
 .fi-page-header-main-ctn {
-  padding-block: 8px !important;  // MW v2: tight padding around header area
+  padding-block: 16px !important;  // MW v2: comfortable padding around header area
   row-gap: 12px !important;  // MW v2: minimal gap between heading row and content
 }
 
 .fi-header {
-  margin: 24px 0 0 !important;  // MW v2 exact: page-header margin
+  margin: 16px 0 8px !important;  // MW v2: page-header margin with bottom spacing
   height: auto !important;
   min-height: 49px !important;  // MW v2 exact: ~49px page-header height
   display: flex !important;
@@ -1089,19 +1094,19 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 .fi-tabs {
   border-bottom: none !important;  // MW v2: no container border, tabs float above card
-  padding-left: 16px !important;  // MW v2: align tabs with card body content (16px padding)
+  padding-left: 10px !important;  // Align tab icons with section header icons
 }
 
 // Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item-button)
 // Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item)
 .fi-tabs .fi-tabs-item {
-  border-radius: 0 !important;
+  border-radius: $mw-radius-sm !important;
   font-weight: 500 !important;  // MW v2 inactive: 500
   font-size: 14px !important;  // MW v2 exact: 14px
   color: $mw-text-primary !important;  // MW v2: dark color for all tabs
-  padding: 10px 0 !important;  // MW v2: ~45px height
-  margin-right: 24px !important;  // MW v2: spacing between tabs
-  border-bottom: 2px solid transparent !important;
+  padding: 8px 14px !important;
+  margin-right: 4px !important;
+  border-bottom: none !important;
   margin-bottom: 0 !important;
   background-color: transparent !important;
 
@@ -1113,14 +1118,15 @@ svg[wire\:loading\.remove] {
 
   &:hover {
     color: $mw-text-primary !important;
-    background-color: transparent !important;
-    border-bottom-color: $mw-border-color !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
   }
 
   &.fi-active {
     color: $mw-text-primary !important;
     font-weight: 600 !important;  // MW v2 active: 600
-    border-bottom-color: $mw-text-primary !important;  // MW v2: 2px solid dark underline
+    background-color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 2px solid $mw-text-primary !important;
 
     .fi-tabs-item-label {
       font-weight: 600 !important;  // MW v2 active label: 600
@@ -1140,9 +1146,9 @@ svg[wire\:loading\.remove] {
 // ============================================================================
 // Content Create/Edit Form — MW v2 style
 // ============================================================================
-// Tabs content panel — remove default padding so sections sit flush
+// Tabs content panel — match section content padding for alignment
 .fi-tabs > .fi-tabs-tab-content {
-  padding: 0 !important;
+  padding: 16px 24px !important;
 }
 
 // 3-column grid layout — tighten gap between main content and sidebar
@@ -1444,9 +1450,8 @@ svg[wire\:loading\.remove] {
 }
 
 .fi-ta-ctn .fi-select-input {
-  appearance: auto !important;  // Restore native dropdown arrow
   cursor: pointer !important;
-  padding: 6px 8px !important;
+  padding: 6px 24px 6px 8px !important;  // Extra right padding for the chevron icon
   font-size: 13px !important;
   min-width: 60px !important;
 }
@@ -2265,11 +2270,12 @@ html.dark {
   }
   .fi-tabs-item {
     color: #a0aec0 !important;
-    border-bottom-color: transparent !important;
 
     &.fi-active {
       color: #e2e8f0 !important;
-      border-bottom-color: #e2e8f0 !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+      border-bottom: 2px solid #e2e8f0 !important;
     }
   }
 
@@ -2282,6 +2288,28 @@ html.dark {
   .fi-ta-header-ctn {
     background-color: #161922 !important;
     border-bottom-color: #1e2330 !important;
+  }
+
+  // Pagination text — visible in dark mode
+  .fi-pagination-overview {
+    color: #a0aec0 !important;
+  }
+
+  // Pagination active page — dark mode
+  .fi-pagination-item-active {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+  }
+
+  // Per-page select label
+  .fi-pagination {
+    color: #a0aec0 !important;
+  }
+
+  // Per-page select wrapper in table — dark bg
+  .fi-ta-ctn .fi-input-wrp:has(.fi-select-input) {
+    background-color: #1a1f2e !important;
+    border-color: #2d3748 !important;
   }
 
   // Form labels in dark mode
@@ -2476,22 +2504,6 @@ html.dark {
   line-height: 1.2 !important;
 }
 
-.mw-quick-stat-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding: 8px 24px 12px;
-  border-top: 1px solid $mw-border-subtle;
-}
-
-.mw-quick-stat-card-link {
-  font-size: 13px !important;
-  color: #206bc4 !important;
-  font-weight: 500 !important;
-
-  &:hover {
-    text-decoration: underline !important;
-  }
-}
 
 // Dark mode for dashboard widgets
 html.dark {
@@ -2516,13 +2528,6 @@ html.dark {
     color: #e2e8f0 !important;
   }
 
-  .mw-quick-stat-card-footer {
-    border-top-color: #1e2330 !important;
-  }
-
-  .mw-quick-stat-card-link {
-    color: #63b3ed !important;
-  }
 }
 
 // ============================================================================
