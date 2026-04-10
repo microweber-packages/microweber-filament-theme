@@ -405,7 +405,7 @@ svg[wire\:loading\.remove] {
 // MW v2 cards have no header separator — heading is inline in card body
 .fi-section-header {
   border: none !important;  // MW v2: no borders at all (no top, bottom, or left accent line)
-  padding: 16px 24px 0 !important;  // MW v2: match card body horizontal padding (24px)
+  padding: 20px 28px 0 !important;  // MW v2: match card body horizontal padding
   border-radius: $mw-radius-lg $mw-radius-lg 0 0 !important;  // MW v2: top corners match card
 }
 
@@ -914,11 +914,17 @@ svg[wire\:loading\.remove] {
   .fi-modal-content {
     box-shadow: none !important;  // No shadow inside slide-over panel
     border: none !important;
+    padding: 20px 24px !important;  // Content padding for slide-over panels
   }
   .fi-modal-footer {
     box-shadow: none !important;
     border-top: none !important;
   }
+}
+
+// Sidebar-aligned modals — ensure content has padding
+.fi-modal-window.fi-align-start .fi-modal-content {
+  padding: 28px 28px !important;
 }
 
 // Modal header — MW v2: 16px heading, consistent padding
@@ -966,7 +972,7 @@ svg[wire\:loading\.remove] {
 
 // Modal body padding — consistent with card body
 .fi-modal-content .fi-section-content {
-  padding: 16px 24px !important;
+  padding: 20px 28px !important;
 }
 
 // Confirmation dialog — centered text, reasonable max-width
@@ -978,8 +984,8 @@ svg[wire\:loading\.remove] {
 // Card body padding — MW v2: 16px
 // ============================================================================
 .fi-section-content {
-  padding: 16px 24px !important;  // MW v2 exact card body padding (16px vertical, 24px horizontal)
-  gap: 16px !important;  // MW v2: tighter gap between form fields (was 24px Filament default)
+  padding: 20px 28px !important;  // Card body padding — generous spacing for readability
+  gap: 18px !important;  // Comfortable gap between form fields
 }
 
 // ============================================================================
@@ -3643,7 +3649,7 @@ html.dark {
   min-height: 500px;
   border: 1px solid $mw-border-color;
   border-radius: $mw-radius-lg;
-  overflow: hidden;
+  overflow: visible;
   background: $mw-bg-surface;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
@@ -3848,7 +3854,7 @@ html.dark {
 .mw-media-content {
   flex: 1;
   min-width: 0;
-  overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -3875,7 +3881,7 @@ html.dark {
   border: 1px solid $mw-border-color;
   border-radius: $mw-radius-md;
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
   background: $mw-bg-surface;
   transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
@@ -3981,6 +3987,7 @@ html.dark {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border-radius: $mw-radius-md $mw-radius-md 0 0;
   background: rgba(0, 0, 0, 0.03);
 }
 
@@ -4758,11 +4765,7 @@ html.dark .mw-media-pagination {
   }
 
   .mw-media-sidebar {
-    width: 100%;
-    min-width: 100%;
-    max-height: 200px;
-    border-right: none;
-    border-bottom: 1px solid $mw-border-color;
+    display: none;
   }
 
   .mw-media-detail {
@@ -4770,13 +4773,14 @@ html.dark .mw-media-pagination {
     min-width: 100%;
     border-left: none;
     border-top: 1px solid $mw-border-color;
-    max-height: 400px;
+    max-height: 350px;
+    overflow-y: auto;
   }
 
   .mw-media-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 6px;
-    padding: 8px;
+    gap: 8px;
+    padding: 10px;
   }
 
   .mw-media-grid-thumb {
