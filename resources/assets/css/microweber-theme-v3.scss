@@ -2666,6 +2666,56 @@ html.dark {
   .mw-quick-stats-grid {
     grid-template-columns: 1fr;
   }
+
+  // Fix Published/Unpublished dropdown badge clipping on mobile.
+  // The Split layout is flex-nowrap so content + dropdown overflow.
+  // Force wrapping so the dropdown badge moves below the content card.
+  .fi-ta-split {
+    flex-wrap: wrap !important;
+  }
+
+  // Truncate long category names in the categories tree on mobile.
+  .mw-edit-categories-list .mw-tree-item-title {
+    display: inline-block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  // Fix page edit header title overflow on mobile.
+  // The .fi-header flex container has nowrap, so the title div and
+  // actions div overflow. Wrap and constrain the title.
+  .fi-header {
+    flex-wrap: wrap !important;
+  }
+
+  .fi-header > div:first-child {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  // Compact tab labels on mobile so all tabs fit without scrolling.
+  .fi-tabs {
+    gap: 2px !important;
+
+    .fi-tabs-item {
+      padding: 8px 6px !important;
+      font-size: 12px !important;
+      gap: 4px !important;
+      margin-right: 0 !important;
+
+      .fi-icon {
+        display: none !important;
+      }
+
+      .fi-tabs-item-label {
+        font-size: 12px !important;
+      }
+    }
+  }
 }
 
 .mw-quick-stat-card {
