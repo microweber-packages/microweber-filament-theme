@@ -320,7 +320,7 @@ svg[wire\:loading\.remove] {
       color: $mw-text-primary !important;
     }
 
-    // Top-level items (with icon): underline text, transparent bg — MW v2 Dashboard style
+    // Top-level items (with icon): text underline on label only — MW v2 Dashboard style
     &:has(.fi-sidebar-item-icon) {
       .fi-sidebar-item-btn {
         background-color: transparent !important;
@@ -328,7 +328,7 @@ svg[wire\:loading\.remove] {
 
       .fi-sidebar-item-label {
         text-decoration: underline !important;
-        text-underline-offset: 4px !important;
+        text-underline-offset: 8px !important;
         text-decoration-thickness: 2px !important;
         text-decoration-color: $mw-text-primary !important;
       }
@@ -517,11 +517,11 @@ svg[wire\:loading\.remove] {
   white-space: nowrap !important;
 }
 
-// Selection cell should not truncate and must align header/row checkboxes
+// Selection cell should not truncate and must center checkbox with equal spacing
 .fi-ta-selection-cell {
   overflow: visible !important;
   max-width: none !important;
-  text-align: start !important;
+  text-align: center !important;
 }
 
 // Actions cell should not truncate
@@ -2217,6 +2217,16 @@ html.dark {
 
   .fi-ta-record .group a:hover svg {
     color: #e2e8f0 !important;
+  }
+
+  // Module icons — force light colors in dark mode for inline SVGs
+  .fi-ta-record svg {
+    fill: #e2e8f0 !important;
+    color: #e2e8f0 !important;
+
+    path, g, circle, rect, polygon, polyline, line, ellipse {
+      fill: #e2e8f0 !important;
+    }
   }
 
   // Product price dark mode
