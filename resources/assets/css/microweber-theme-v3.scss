@@ -2346,8 +2346,8 @@ html.dark {
   }
 
   .fi-wi {
-    background-color: #1a1f2b !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
   }
 
   .fi-modal-content {
@@ -3134,7 +3134,7 @@ html.dark {
   overflow: hidden;
 
   &:hover {
-    border-color: darken($mw-border-color, 10%);
+    border-color: #b8c1cb; // darken($mw-border-color, 10%)
     box-shadow: none;
     text-decoration: none !important;
   }
@@ -4422,7 +4422,7 @@ html.dark {
   transition: border-color 150ms, box-shadow 150ms, transform 150ms;
 
   &:hover {
-    border-color: darken($mw-border-color, 8%);
+    border-color: #c0c8d0; // darken($mw-border-color, 8%)
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
@@ -5658,13 +5658,13 @@ html.dark {
 
 .mw-settings-hub-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $mw-space-xs;  // GR: xs(6)
+  grid-template-columns: repeat(2, 1fr);
+  gap: $mw-space-sm $mw-space-md;  // GR: sm(10) vertical, md(16) horizontal
 }
 
-@media (max-width: 1280px) {
+@media (min-width: 1280px) {
   .mw-settings-hub-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
