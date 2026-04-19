@@ -48,8 +48,15 @@
 
 .list-layouts-search-bar-icon.input-icon-addon {
     @apply left-0;
-
     right: unset;
+}
+
+.dark .list-layouts-search-bar-icon.input-icon-addon {
+    color: #d1d5db; /* gray-300 — visible on dark backgrounds */
+}
+
+.dark .mw-le-dialog-close-btn {
+    color: #d1d5db;
 }
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
@@ -930,6 +937,25 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 
 .dark body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: rgb(17 24 39) !important;
+}
+
+/* Module settings sections — remove card borders/shadows and unify bg */
+.mw-live-edit-page-wrapper .fi-section:not(.fi-aside),
+.mw-live-edit-page-wrapper .fi-section-content-ctn,
+.mw-live-edit-page-wrapper .fi-section-header,
+.mw-live-edit-page-wrapper .fi-sc-tabs.fi-contained {
+    box-shadow: none !important;
+    background-color: #fff !important;
+    border: none !important;
+}
+
+.dark .mw-live-edit-page-wrapper .fi-section:not(.fi-aside),
+.dark .mw-live-edit-page-wrapper .fi-section-content-ctn,
+.dark .mw-live-edit-page-wrapper .fi-section-header,
+.dark .mw-live-edit-page-wrapper .fi-sc-tabs.fi-contained {
+    box-shadow: none !important;
+    background-color: rgb(17 24 39) !important;
+    border: none !important;
 }
 
 .mw-dropzone{
