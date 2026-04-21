@@ -30,7 +30,7 @@
 }
 
 .mw-le-layouts-dialog-col:first-child, .modules-list-search-field {
-    @apply bg-white dark:bg-gray-800 z-[120];
+    @apply bg-white z-[120];
 }
 
 
@@ -39,7 +39,11 @@
 }
 
 .mw-le-layouts-dialog {
-    @apply dark:!bg-gray-800;
+    background-color: #ececec;
+}
+
+.dark .mw-le-layouts-dialog {
+    background-color: rgb(31 41 55);
 }
 
 .input-icon-addon {
@@ -60,7 +64,19 @@
 }
 
 .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
-    @apply bg-white dark:bg-gray-700 !rounded-none border-white dark:border-gray-700 w-full border-b-gray-100 dark:border-b-gray-700;
+    @apply bg-white !rounded-none border-white w-full border-b-gray-100;
+}
+
+.dark .mw-le-layouts-dialog .modules-list-search-block .modules-list-search-field {
+    background-color: rgb(55 65 81);
+    border-color: rgb(55 65 81);
+    color: #e5e7eb;
+}
+
+.dark .mw-le-layouts-dialog .modules-list-block-item-title,
+.dark .modules-list-block-item-masonry-title {
+    background-color: rgb(31 41 55);
+    color: #e5e7eb;
 }
 
 @media screen and (max-width: 1200px) {
@@ -1285,4 +1301,25 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .dark .live-edit-toolbar-buttons-add {
     background-color: rgb(55 65 81) !important;
     border-color: rgb(55 65 81) !important;
+}
+
+/* Add content modal cards — dark mode */
+.dark .mw-add-content-modal-action-wrapper {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .font-bold {
+    color: #e5e7eb !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .text-sm {
+    color: #9ca3af !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper svg {
+    color: #d1d5db !important;
+}
+
+.dark .mw-add-content-modal-action-wrapper .w-20 {
+    background-color: rgba(255, 255, 255, 0.06) !important;
 }
