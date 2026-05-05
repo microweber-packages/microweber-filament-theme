@@ -139,7 +139,14 @@
 }
 
 .text-align {
-    @apply block border border-gray-300 h-[30px] text-[0px];
+    /* task-2026-05-05-d2ce0f: was h-[30px] block — combined with
+       inline-block children with `text-[0px]` parent (whitespace
+       collapse trick), the icons rendered ~50% width and floated
+       next to the next field's button (Color picker pill bled into
+       the empty right side). Switching to flex w-full distributes
+       the 4 buttons across the full row, and `dark:border-gray-700`
+       picks up the dark theme so the bordered group is visible. */
+    @apply flex w-full border border-gray-300 dark:border-gray-700 h-[30px] mb-2 rounded-sm overflow-hidden;
 }
 
 .text-align .active {
@@ -153,7 +160,7 @@
 
 
 .text-align > * {
-    @apply inline-block w-1/4 h-7 relative cursor-pointer p-[3px_0] text-center text-[17px]  [&:not(.active)]:text-white [&:not(.active)]:text-black;
+    @apply flex-1 flex items-center justify-center cursor-pointer text-center;
 }
 
 #shadow > .mw-ui-field-holder.prop-ui-field-holder {
@@ -278,4 +285,225 @@ html[dir="rtl"] .reset-field {
 
 .style-editor-disabled {
     @apply pointer-events-none opacity-50;
+}
+
+/*
+ * task-2026-05-05-098f1e: novice-customer pass.
+ * Hide the obscure Writing direction / Text orientation controls
+ * behind a `<details><summary>More options</summary>` disclosure
+ * so the primary Typography surface only shows controls a typical
+ * site owner understands. Style the disclosure summary so it reads
+ * as a quiet "v More options" link.
+ */
+#mw-element-style-editor-app .mw-typography-advanced {
+    margin-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 0.5rem;
+}
+:not(.dark) #mw-element-style-editor-app .mw-typography-advanced {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary {
+    list-style: none;
+    user-select: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::-webkit-details-marker {
+    display: none;
+}
+#mw-element-style-editor-app .mw-typography-advanced > summary::before {
+    content: '⌄';
+    display: inline-block;
+    margin-inline-end: 0.4rem;
+    transition: transform 0.15s;
+    transform: rotate(0deg);
+}
+#mw-element-style-editor-app .mw-typography-advanced[open] > summary::before {
+    transform: rotate(180deg);
+}
+
+/*
+ * task-2026-05-05-e62d5b drunk-designer findings:
+ *
+ * - "Add more fonts" was a tiny 11px right-aligned link that drunk
+ *   eyes would never spot. Bump it to a quiet button-shaped link.
+ * - The ALIGN row's 4 icons clumped at the start; make them
+ *   distribute evenly with thin separators.
+ * - COLOR row had wasted space between label and swatch — pull the
+ *   label tighter and let the wrapper own the layout.
+ * - The active row's bg tint extended below the heading making it
+ *   hard to tell where "expanded panel content" begins; add a 1px
+ *   top divider on the expanded panel.
+ */
+#mw-element-style-editor-app .font-picker-wrapper small,
+#mw-element-style-editor-app .font-picker-wrapper [class*="cursor-pointer"][class*="d-flex"][class*="ms-auto"] {
+    font-size: 11px !important;
+    color: rgb(96, 165, 250) !important;
+    padding-top: 6px !important;
+    padding-bottom: 4px !important;
+}
+#mw-element-style-editor-app .font-picker-wrapper small::before {
+    content: '+ ';
+    font-weight: 700;
+}
+
+#mw-element-style-editor-app .text-align > * + * {
+    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#mw-element-style-editor-app .form-control-live-edit-label-wrapper:has(.picker-button) > .d-flex {
+    align-items: center;
+    gap: 12px;
+    padding: 4px 0;
+}
+
+.element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px !important;
+    margin-top: 8px !important;
+}
+:not(.dark) .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * task-2026-05-05-d2ce0f / task-2026-05-05-73c751: the Element
+ * Style Editor right-rail uses the dark theme (#1a1f2b panel bg),
+ * but Vuetify's `<v-slider>` defaults to `v-theme--light` and
+ * renders its track as a near-white horizontal bar. We use
+ * opacity-tinted currentColor so the sliders inherit the surrounding
+ * text color on both light and dark themes; bumped opacity values
+ * so the track is actually visible (was 0.18 — too faint to spot).
+ */
+.mw-live-edit-slider-small .v-slider-track__background {
+    background: currentColor !important;
+    opacity: 0.30 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
+}
+.mw-live-edit-slider-small .v-slider-track__fill {
+    background: currentColor !important;
+    opacity: 0.85 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
+}
+.mw-live-edit-slider-small .v-slider-thumb__surface {
+    background: currentColor !important;
+    width: 14px !important;
+    height: 14px !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
+    border-radius: 50%;
+}
+/*
+ * task-2026-05-05-e62d5b drunk-designer audit + task-2026-05-05-4bd251:
+ * Vuetify's own CSS isn't loaded in the parent admin window — only
+ * its `.v-slider-track` / `.v-slider-thumb__surface` selectors are
+ * styled here. The wrapper `.v-slider-thumb` needs to be positioned
+ * along the track via `inset-inline-start: var(--v-slider-thumb-
+ * position)`. Initial fix in e62d5b made the thumb absolute relative
+ * to `.mw-live-edit-slider-small` (which already had
+ * `position: relative`), but that container is the FULL slider
+ * component including the label+number-input row above the track.
+ * 50% of that container placed the thumb in the middle of the
+ * combined block — visibly above the track line.
+ *
+ * Fix: make `.v-slider__container` (the row that wraps just the
+ * track + thumb) the positioning context. `inset-block-start: 50%`
+ * on the thumb now references the slider row only, putting the
+ * thumb on the track's center line as intended.
+ */
+.mw-live-edit-slider-small .v-slider__container {
+    position: relative;
+    min-height: 14px;
+    display: flex;
+    align-items: center;
+}
+.mw-live-edit-slider-small .v-slider-track {
+    position: relative;
+    flex: 1;
+}
+.mw-live-edit-slider-small .v-slider-thumb {
+    position: absolute !important;
+    inset-block-start: 50% !important;
+    transform: translateY(-50%) !important;
+    inset-inline-start: var(--v-slider-thumb-position, 0%) !important;
+    margin-inline-start: -7px;
+    width: 14px !important;
+    height: 14px !important;
+    z-index: 1;
+}
+.mw-live-edit-slider-small .v-slider {
+    min-height: 24px !important;
+}
+.mw-live-edit-slider-small .v-slider .v-input__control {
+    min-height: 24px !important;
+}
+/*
+ * Vuetify renders an inert `<input>` underneath the visible track for
+ * accessibility — under `v-theme--light` (its default), that input
+ * gets the browser default white bg and renders as a solid white bar
+ * on the dark ESE panel. Hide it via opacity (still focusable) so the
+ * track + thumb above it become the only visible UI.
+ */
+.mw-live-edit-slider-small .v-slider__container > input,
+.mw-live-edit-slider-small .v-slider input[id^="input-v"] {
+    /*
+     * task-2026-05-05-4bd251 — was `opacity: 0` (still occupies
+     * layout) which forced .v-slider__container to be 29px tall
+     * and pushed the track to the bottom 4px. Anchoring the thumb
+     * via `inset-block-start: 50%` then placed it at 14.5px from
+     * the top — visibly above the track. Strip the accessibility
+     * input from layout entirely (still focusable via the slider
+     * itself) so the container collapses to track height.
+     */
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+}
+/*
+ * The standalone numeric input (.form-control-input-range-slider) was
+ * still rendering with the platform default white background despite
+ * the scoped `background: transparent !important` because Vuetify or
+ * the form-control-* rules in live-edit-input.css apply with higher
+ * specificity. Force transparent + currentColor here.
+ */
+.mw-live-edit-slider-small .form-control-input-range-slider {
+    background: transparent !important;
+    color: inherit !important;
+}
+
+/*
+ * task-2026-05-05-73c751: force the ColorPicker pill to render as
+ * a 28×28 round swatch with a thin border, regardless of which
+ * scoped-style or higher-specificity rule fights it. The text
+ * "Pick color" inside the button is hidden via `font-size: 0` so
+ * the button reads visually as a swatch — but earlier the scoped
+ * style was bypassed (computed reported w=61, fontSize=14px), so
+ * we re-assert at the theme level.
+ */
+.form-control-live-edit-label-wrapper .picker-button,
+#mw-element-style-editor-app .picker-button {
+    width: 28px !important;
+    height: 28px !important;
+    min-height: 28px !important;
+    border-radius: 50% !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
+    cursor: pointer;
+    background-clip: padding-box;
+}
+.form-control-live-edit-label-wrapper .picker-button:hover {
+    border-color: rgba(255, 255, 255, 0.65) !important;
+}
+/* Light theme fallback: the canvas-iframe inline-styled .picker-button
+   for non-dark contexts still reads. */
+:not(.dark) .form-control-live-edit-label-wrapper .picker-button {
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
 }
