@@ -175,3 +175,156 @@
 .fi-badge {
     text-transform: none;
 }
+
+/*
+ * TASK-020 / TICKET-T / AI-38 (cycle-60 2026-05-08):
+ * Hide single-level breadcrumb everywhere — when the breadcrumb only
+ * contains one entry (e.g. "Posts" on the list page) it is pure visual
+ * noise; the page title already says "Posts". Edit/view/create pages
+ * always have a multi-level trail (e.g. Posts > Edit > "My Title")
+ * which has 2+ entries and stays visible.
+ *
+ * Filament v5 renders the breadcrumb list as
+ *   `.fi-breadcrumbs > nav > ol > li` (default).
+ * `:has(> li:only-child)` matches the <ol> whose only child is a
+ * single <li> — the exact single-level shape PM specified. Modern
+ * browser :has() support is sufficient for Filament's targets
+ * (no IE / legacy).
+ */
+.fi-breadcrumbs ol:has(> li:only-child) {
+    display: none;
+}
+
+/*
+ * TASK-021 / TICKET-R / AI-39 (cycle-61 2026-05-08):
+ * On Filament list pages, both the topbar global search AND the
+ * per-table `->searchable()` toolbar search render at the same
+ * time — two parallel search inputs that admins find confusing.
+ * Per the brief option (a), hide the topbar global search ONLY
+ * on resource-list pages; edit/view/create pages and dashboards
+ * keep the global search since they do not carry a per-table
+ * search input.
+ *
+ * Scoped to `.fi-resource-list-records-page .fi-topbar
+ * .fi-global-search-field` so:
+ *   - dashboards / settings / non-list admin pages are unaffected
+ *   - the wrapper `<div class="fi-global-search">` is left in place
+ *     (the Microweber quick-nav widget anchors content to that
+ *     parent — see livewire/filament/search-quick-nav.blade.php
+ *     line 72)
+ */
+.fi-resource-list-records-page .fi-topbar .fi-global-search-field {
+    display: none;
+}
+
+/*
+ * TICKET-U/V/W (cycle-62 2026-05-08) — mobile-audit follow-up:
+ * touch-target sweep across admin chrome (topbar) + list-page
+ * row controls + Orders status tabs. Mirror of the cycle-58
+ * `public-touch.css` strategy — TARGETED selector list scoped
+ * to the touch-viewport media block so desktop power-user
+ * density on >=1024px is preserved.
+ *
+ * Source: agent-test mobile-audit brief 2026-05-08T18:32:56Z
+ * (iPhone 14 Pro, 390x844px). Selectors verified against the
+ * Filament v5 dist CSS in packages/microweber-filament-theme/
+ * resources/dist/build/microweber-filament-theme.css.
+ */
+@media (max-width: 1023.98px), (hover: none) and (pointer: coarse) {
+    /* TICKET-U — Admin topbar controls.
+       - .fi-topbar-nav-button is the sidebar toggle (52x36 measured)
+       - .fi-topbar-item-button is the user-profile button (32x32)
+       - .fi-global-search-field input is the quick-nav search (36x34) */
+    .fi-topbar-nav-button,
+    .fi-topbar-item-button,
+    .fi-global-search-field input {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    /* "Live Edit" link is rendered inline in the topbar via
+       livewire/filament/top-navigation-go-live-edit.blade.php; bump
+       the wrapper anchor without touching the visible chip styling. */
+    .fi-topbar a.mw-go-live-edit,
+    .fi-topbar .mw-go-live-edit {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* TICKET-V — Admin list-page row controls.
+       Row checkboxes are wrapped in <label> by Filament; bumping the
+       label gets the whole hit-area without breaking native click
+       semantics on the input. Row action icon buttons / status badges
+       / category-tag badges / pagination select all use stable Filament
+       v5 selectors so no Blade-level changes needed. */
+    .fi-ta-row .fi-checkbox-input + label,
+    .fi-ta-row label:has(> input[type="checkbox"]),
+    .fi-ta-header-cell label:has(> input[type="checkbox"]) {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fi-ta-row .fi-ta-actions .fi-icon-btn,
+    .fi-ta-row .fi-ta-actions a,
+    .fi-ta-row .fi-ta-actions button {
+        min-width: 44px;
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-badge,
+    .fi-ta-row .fi-badge button {
+        min-height: 44px;
+    }
+    .fi-ta-row .fi-ta-text a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    .fi-pagination select,
+    .fi-ta .fi-pagination select {
+        min-height: 44px;
+    }
+
+    /* TICKET-W — Orders status tabs.
+       7 tabs (All/New/Processing/Shipped/Delivered/Cancelled/Refunded)
+       render at 31px height. Scoped to list pages so other Filament
+       tab usages are unaffected. */
+    .fi-resource-list-records-page .fi-tabs-item {
+        min-height: 44px;
+        padding-block: 8px;
+    }
+}
+
+/*
+ * AI-64 / TICKET-PP (cycle-77 2026-05-08): live-edit toolbar
+ * `.btn-icon.live-edit-toolbar-buttons` controls were converted from
+ * <div>/<span> to real <button> elements (see SettingsCustomize.vue
+ * cycle-77 changes). The wrapper rule at live-edit-classes.css:162
+ * forces `!max-h-[35px]` on the wrapper, which would clamp these
+ * buttons to 35px tall and bust the 44x44 floor.
+ *
+ * `mw-toolbar-icon-btn` is a marker class added in cycle-77; the
+ * sizing override is scoped to it so we DO NOT inflate the wrapper
+ * itself (which has other content + needs to stay 35px in
+ * desktop-density mode).
+ *
+ * Applies at ALL viewports (not gated by the touch-viewport media
+ * query above) because keyboard + AT users on desktop benefit from
+ * the larger hit-area too — these are icon-only controls with no
+ * text label, so the visual change at desktop is negligible (icons
+ * stay the same, padding grows by ~9px each axis).
+ */
+.live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+button.btn-icon.live-edit-toolbar-buttons,
+.mw-live-edit-resolutions-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn,
+.mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons.mw-toolbar-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+    max-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
