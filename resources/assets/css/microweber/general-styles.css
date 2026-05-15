@@ -80,6 +80,38 @@ live-edit-add-content-button-wrapper .live-edit-toolbar-buttons.button,
     @apply !rounded-[7px];
 }
 
+/*
+ * AI-211 (task-2026-05-13-8b4721) — checkout form style unification.
+ * tester observed Filament checkout inputs rendering at 7px while
+ * Bootstrap public inputs use 4px (--radius-sm), creating a jarring
+ * visual mismatch when users navigate from /shop (Bootstrap) to
+ * /checkout (Filament). The global `!rounded-[7px]` rule above is the
+ * Microweber admin brand choice and stays — but the checkout panel
+ * specifically is a *public-facing surface* and should match the
+ * public Bootstrap form palette.
+ *
+ * Scope: `body.fi-panel-checkout` only. Admin panel keeps 7px. The
+ * `!important` qualifier is required because the global rule above
+ * uses `@apply !rounded-[7px]` (Tailwind `!` = !important) and we
+ * need to win on equal-specificity tie via source order. The
+ * `var(--radius-sm, 4px)` fallback keeps the rule resilient if the
+ * design-system stylesheet hasn't loaded yet.
+ *
+ * AC #1 coverage: checkout input border radius is now uniform 4px
+ * across .fi-input-wrp + .fi-select-wrp + .fi-textarea-wrp + .fi-btn
+ * (the Place Order button) so there is no longer a mix of 4 and 7.
+ * AC #2 coverage: matches the Bootstrap public form-theme 4px.
+ */
+body.fi-panel-checkout .fi-input-wrp,
+body.fi-panel-checkout .fi-select-wrp,
+body.fi-panel-checkout .fi-textarea-wrp,
+body.fi-panel-checkout .fi-input,
+body.fi-panel-checkout .fi-select,
+body.fi-panel-checkout .fi-textarea,
+body.fi-panel-checkout .fi-btn {
+    border-radius: var(--radius-sm, 4px) !important;
+}
+
 .form-check-input {
     @apply !m-0;
 }
@@ -817,8 +849,142 @@ div.mw-custom-fields-tags a.ui-draggable-dragging:after {
     @apply bg-green-500 text-white;
 }
 
+/*
+ * AI-174 (cycle-151 2026-05-10) — Saved ✓ toast emphasis (admin chrome).
+ *
+ * mw.notification.* writes to window.top.document.body, which is the
+ * admin Filament chrome — so the styling for the page-saved toast
+ * lives in the filament-theme bundle, not the canvas-iframe css.
+ *
+ * The toast HTML is `<span class="mw-notification-saved-toast">
+ * <svg class="mw-notification-saved-toast__icon">…✓…</svg>
+ * <span class="mw-notification-saved-toast__label">Page saved</span>
+ * </span>` — emitted from SaveButton.vue:50 after `mw.drag.save()`
+ * resolves. The defaults give the checkmark + label some breathing
+ * room so the toast reads as a deliberate confirmation rather than a
+ * passing status sentence — the AI-174 audit complaint was "no
+ * confirmation appears / users uncertain if work was saved".
+ */
+.mw-notification-saved-toast {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+}
+.mw-notification-saved-toast__icon {
+    flex: 0 0 auto;
+    width: 20px;
+    height: 20px;
+    color: currentColor;
+}
+.mw-notification-saved-toast__label {
+    letter-spacing: 0.01em;
+}
+
+/*
+ * NOVICE #2 (task-2026-05-13-899d57) — "Undo last publish" button
+ * styling inside the Saved & Published success toast. The button
+ * sits to the right of the label and reads as a clear secondary
+ * action: text underline + transparent background + matches every
+ * other "Undo" affordance the user has seen in Gmail / Slack /
+ * Figma toasts. Hover/focus surfaces a subtle background change so
+ * keyboard users get a visible focus ring, not just a colour shift.
+ */
+.mw-notification-saved-toast__undo {
+    margin-inline-start: 0.5rem;
+    padding: 2px 8px;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.2;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+}
+.mw-notification-saved-toast__undo:hover,
+.mw-notification-saved-toast__undo:focus-visible {
+    background: rgba(255, 255, 255, 0.18);
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
 .animate-pulse {
     animation: none;
+}
+
+/*
+ * NOVICE #6 (task-2026-05-13-899d57) — user-menu button visual
+ * rework. The legacy `.mw-le-hamburger` is a 24×17 box with three
+ * absolutely-positioned span bars. We're keeping the class for
+ * back-compat (tests + the .active>.mw-le-hamburger>span:nth-child(2)
+ * highlight rule in live-edit-classes.css both target it) but
+ * overriding sizing/layout with the new `.mw-le-user-menu-button`
+ * modifier so the affordance reads as a real account-menu button:
+ * pill shape, user icon on the left, optional "Menu" label, chevron
+ * on the right. Hover/focus surfaces a subtle background change for
+ * pointer + keyboard users alike.
+ */
+.mw-le-user-menu-button {
+    /* Reset the legacy absolute-bars sizing */
+    width: auto;
+    height: auto;
+    /* Real button shape */
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+.mw-le-user-menu-button:hover,
+.mw-le-user-menu-button:focus-visible {
+    background-color: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+html.dark .mw-le-user-menu-button:hover,
+html.dark .mw-le-user-menu-button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.mw-le-user-menu-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+.mw-le-user-menu-button__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+}
+.mw-le-user-menu-button__label {
+    letter-spacing: 0.02em;
+}
+.mw-le-user-menu-button__chevron {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    transition: transform 150ms ease;
+}
+/* When the wrapper has .active, the chevron flips up — same visual
+   feedback dropdown menus give the user everywhere on the web. */
+#user-menu-wrapper.active .mw-le-user-menu-button__chevron {
+    transform: rotate(180deg);
+}
+/* Hide the legacy three-bar inner spans if they ever leak in via
+   a different rendering path (e.g. an older cached Vue bundle). */
+.mw-le-user-menu-button > span:empty {
+    display: none;
 }
 
 .btn-link.mw-live-edit-toolbar-link.mw-live-edit-toolbar-link--arrowed {
