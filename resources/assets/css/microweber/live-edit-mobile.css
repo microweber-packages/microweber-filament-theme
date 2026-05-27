@@ -128,6 +128,17 @@
      * 72px fits "Template settings" on two short lines without
      * truncation, while keeping the canvas area mostly intact at
      * the typical mobile 360-414px viewport.
+     *
+     * task-2026-05-16-af3348 / AI-718 (Option A, interim): designer
+     * reverted the 72px+labels approach at mobile — the rail was
+     * eating 16% of viewport width for navigation chrome. Reduced
+     * rail to 40px and dropped the text labels (kept as title= /
+     * aria-label for desktop hover + AT users). Option B (collapse
+     * rail entirely → bottom-anchored Tools pill + bottom-sheet)
+     * is the recommended final state; ships when AI-685 lands.
+     * The 72px/64px values below are overridden by the AI-718
+     * rules further down — kept in source as a record of the
+     * intermediate iteration.
      */
     .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
         width: 72px !important;
@@ -137,6 +148,63 @@
         width: 64px !important;
         height: auto !important;
         min-height: 56px;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+     * AI-718 (Option A — interim, task-2026-05-16-af3348):
+     * the right vertical rail was eating 64px (~16% of mobile
+     * 390 viewport) for navigation chrome — too much given the
+     * 5 cells render as 2-line text labels under each icon.
+     *
+     * Option A fix:
+     *   - Drop the text labels (suppress the AI-178/task-8149b5
+     *     `::after { content: attr(aria-label) }` rule for the
+     *     right rail ONLY; top-toolbar buttons keep their
+     *     2-line labels per the original task-8149b5 spec).
+     *   - Reduce rail width from 72px → 40px.
+     *   - Reduce button width from 64px → 40px.
+     *   - Keep min-height 44px on each button per WCAG 2.5.5
+     *     (vertical tap area unchanged; only horizontal shrinks).
+     *
+     * The `title` and `aria-label` attributes on each button in
+     * SettingsCustomize.vue are PRESERVED — desktop hover
+     * tooltips + screen-reader announcements still work.
+     *
+     * Option B (recommended final): collapse the rail entirely
+     * at ≤768px and replace with a bottom-anchored Tools pill
+     * that opens a bottom-sheet listing the 5 actions. Saves the
+     * full 40px column. Blocked on AI-685 (mobile bottom-sheet
+     * primitive); flagged AI-718b follow-up candidate.
+     * ───────────────────────────────────────────────────── */
+
+    /* Suppress the AI-178/task-8149b5 ::after label inside the
+       right rail only — preserves the top-toolbar 2-line labels. */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .live-edit-toolbar-buttons.mw-toolbar-icon-btn::after,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons::after,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .fi-icon-btn::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    /* AI-718 narrow rail — 40px width on the rail and its buttons.
+       min-height: 44px preserves WCAG 2.5.5 vertical tap area. */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
+        width: 40px !important;
+    }
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
+        width: 40px !important;
+        min-width: 40px !important;
+        min-height: 44px !important;
+        padding: 6px !important;
+        flex-direction: row !important;
+    }
+    /* AI-718 — keep the icon centred + sized at 22px (the rail
+       has no label so the icon does the full job). */
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
+        width: 22px;
+        height: 22px;
     }
     /*
      * No `:has(*:not(:empty))` suppression: the Vue toolbar buttons
@@ -605,5 +673,106 @@
     .mw-live-edit-page #toolbar > * {
         scroll-snap-align: start;
         flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+     * AI-717 v2 — pin PREVIEW + SAVE absolute to the toolbar's
+     * RIGHT EDGE on mobile (task-2026-05-17-946668 supersedes
+     * task-2026-05-16-e0d0f1 sticky approach).
+     *
+     * Designer DOM-probe found AI-717 v1's `position: sticky` did
+     * NOT pull SAVE into view at mobile 390:
+     *   Before scroll: SAVE rect left=426 right=488  (off-screen)
+     *   After scroll : SAVE rect left=237 right=299  (at middle, NOT right edge)
+     * User had to horizontal-scroll 319px to reach SAVE — spec
+     * acceptance #3 ("visible at right edge by default, no
+     * scrolling required") not met.
+     *
+     * Root cause: `position: sticky; right: 0` inside an
+     * `overflow-x: auto` parent pins to the right of the
+     * scroll-container CONTENT area (at content-end x=709),
+     * NOT to the right of the VIEWPORT. Sticky doesn't pull
+     * off-screen elements onto screen — it only pins elements
+     * that would otherwise scroll out.
+     *
+     * Fix per designer's Option C: use `position: absolute`
+     * relative to `#toolbar` (which becomes `position: relative`).
+     * The scrollable middle region gets `padding-right: 152px`
+     * (80 SAVE + 64 PREVIEW + 8 gap) so the scrolling content
+     * doesn't underlap the absolutely-positioned right cluster.
+     *
+     * SAVE pinned at `right: 0`; PREVIEW pinned at
+     * `right: calc(80px + var(--space-sm))` so it sits just
+     * inside SAVE with the gap. Both `top: 50%; translateY(-50%)`
+     * for vertical centering inside the 48px toolbar (AI-698a).
+     *
+     * `box-shadow` left-fade hides scrolling content as it
+     * passes under the right cluster.
+     * ───────────────────────────────────────────────────── */
+    .mw-admin-live-edit-page #toolbar,
+    .mw-live-edit-page #toolbar {
+        position: relative !important;
+        padding-right: 152px !important;
+    }
+    .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
+    .mw-live-edit-page #toolbar #mw-page-set-preview-mode,
+    .mw-admin-live-edit-page #toolbar #save-button,
+    .mw-live-edit-page #toolbar #save-button {
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        z-index: 3;
+        background-color: var(--ese-surface, #ffffff) !important;
+        box-shadow: -8px 0 8px -4px var(--ese-surface, #ffffff);
+        flex-shrink: 0;
+    }
+    /* SAVE: right-most, pinned to right: 0 of #toolbar. */
+    .mw-admin-live-edit-page #toolbar #save-button,
+    .mw-live-edit-page #toolbar #save-button {
+        right: 0 !important;
+    }
+    /* PREVIEW: just inside SAVE — 80px (SAVE width) + 8px gap. */
+    .mw-admin-live-edit-page #toolbar #mw-page-set-preview-mode,
+    .mw-live-edit-page #toolbar #mw-page-set-preview-mode {
+        right: calc(var(--space-sm, 8px) + 80px) !important;
+    }
+
+    /* task-2026-05-22-17d95a / AI-832 — Tools dropdown mobile viewport safety.
+     *
+     * ROOT CAUSE: .dropdown-content is position:absolute (scoped Vue CSS)
+     * relative to .custom-dropdown. Inside the horizontally-scrollable
+     * #toolbar (overflow-x:auto, AI-74c5f5), position:absolute is relative
+     * to the SCROLLED container — not the visible viewport. When the toolbar
+     * is scrolled right the popup renders off-screen to the right (invisible).
+     *
+     * FIX: switch to position:fixed on mobile so the popup is always
+     * viewport-relative, anchored just below the toolbar height token.
+     * right:4px keeps it away from the screen edge; left:auto lets the
+     * popup take its natural width (min-width:200px from the Vue scoped CSS).
+     * max-height:80vh + overflow-y:auto makes all items reachable by scroll.
+     * z-index:100000 ensures it paints above the toolbar and iframe canvas.
+     *
+     * Dark mode parity: no extra rule needed — the scoped Vue dark-mode
+     * selectors (html.dark .dropdown-content) remain in force.
+     *
+     * The trigger button itself stays at flex-shrink:0 so it is never
+     * crushed off the visible edge of the toolbar. */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown .dropdown-content.show,
+    .mw-live-edit-page #toolbar .custom-dropdown .dropdown-content.show {
+        position: fixed !important;
+        top: calc(var(--toolbar-height, 48px) + 4px) !important;
+        right: 4px !important;
+        left: auto !important;
+        max-height: 80vh !important;
+        overflow-y: auto !important;
+        z-index: 100000 !important;
+        /* Keep min-width from Vue scoped CSS; cap at viewport width minus 8px */
+        max-width: calc(100vw - 8px) !important;
+    }
+
+    /* Prevent the trigger button from being crushed by toolbar flex */
+    .mw-admin-live-edit-page #toolbar .custom-dropdown,
+    .mw-live-edit-page #toolbar .custom-dropdown {
+        flex-shrink: 0 !important;
     }
 }

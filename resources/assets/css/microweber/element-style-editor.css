@@ -1,3 +1,383 @@
+/* ============================================================
+ * Element Style Editor (ESE) MwToolButton + MwSegmented
+ * primitives — slice 1.3a (AI-684 / F1.1).
+ *
+ * task-2026-05-16-f69d54 — Spec §4.5 (MwToolButton) + §4.3
+ * (MwSegmented). Designer's brief: collapse 3 existing button
+ * "languages" (.btn.btn-icon with .active in Spacing, .mw-italic-
+ * toggle in Typography, .btn-light in Background, etc.) into one
+ * coherent primitive set with 3 variants.
+ *
+ * Slice 1.3a = primitives + 1 proof-of-pattern consumer migration
+ *              (.mw-italic-toggle in Typography — easiest single
+ *              toggle, already tagged for AI-690 alpha bump in
+ *              slice 1.7, so re-touching is incremental).
+ * Slice 1.3b = remaining ~13 consumer migrations (Spacing presets,
+ *              Background/Border align rows, Typography align row,
+ *              etc.) — deferred to next dispatch so the per-slice
+ *              diff stays reviewable.
+ *
+ * Variants per spec §4.5 (no `swatch` — deferred to slice 1.4
+ * MwField since the swatch inherits MwField context):
+ *   .mw-tool-btn            — default: 24x24 hit, 16px icon, ghost
+ *   .mw-tool-btn--toggle    — 32x32, --radius-sm, on=accent-soft + accent text
+ *   .mw-tool-btn--preset    — 32x28, label-sized, on=accent-soft
+ *
+ * MwSegmented per spec §4.3 — full-width strip, internal dividers
+ * only, active cell uses --ese-accent-soft. Single-line at all
+ * viewports (N2 mobile exception).
+ *
+ * `.mw-live-edit-page` ancestor scope keeps the primitives off
+ * non-live-edit Filament panels (per the live-edit-css-must-be-
+ * scoped skill — defensive even though `.mw-tool-btn` doesn't
+ * collide with any `.fi-*`).
+ * ============================================================ */
+.mw-live-edit-page .mw-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: var(--border-hair) solid transparent;
+    border-radius: var(--radius-sm);
+    color: inherit;
+    cursor: pointer;
+    /* default variant — small ghost icon button (reset, kebab, toolbar) */
+    min-width: 24px;
+    min-height: 24px;
+    padding: 0;
+    font-size: var(--font-control);
+    line-height: var(--line-tight);
+    transition: background var(--t-fast) var(--ease),
+                border-color var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+}
+.mw-live-edit-page .mw-tool-btn:hover {
+    background: var(--ese-surface-hover);
+}
+.mw-live-edit-page .mw-tool-btn:focus-visible {
+    outline: 2px solid var(--ese-accent);
+    outline-offset: 1px;
+}
+.mw-live-edit-page .mw-tool-btn[disabled],
+.mw-live-edit-page .mw-tool-btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Toggle variant — italic / bold / underline / pin-the-state. */
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle {
+    min-width: 32px;
+    min-height: 32px;
+    border-color: var(--ese-border-strong);
+}
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle.is-active,
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--toggle[aria-pressed="true"] {
+    background: var(--ese-accent-soft);
+    border-color: var(--ese-accent);
+    color: var(--ese-accent);
+}
+
+/* Preset variant — Spacing S/M/L/XL, BorderRadius presets, etc. */
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset {
+    min-width: 32px;
+    min-height: 28px;
+    padding: 0 var(--space-xs);
+    font-size: var(--font-label);
+    font-weight: var(--weight-label);
+    border-color: var(--ese-border);
+}
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset.is-active,
+.mw-live-edit-page .mw-tool-btn.mw-tool-btn--preset[aria-pressed="true"] {
+    background: var(--ese-accent-soft);
+    border-color: var(--ese-accent);
+    color: var(--ese-accent);
+}
+
+/* ----------------------------------------------------------------
+ * MwSegmented — spec §4.3.
+ * Replaces the ad-hoc "row of toggle icons" pattern used by
+ * align / border-style / container / device selectors. One outer
+ * border + internal 1px dividers; never an outer-edge divider.
+ * N2 mobile exception: single-line at ALL viewports (the §6.2
+ * two-line label-above-control rule does NOT apply to segmented).
+ * ---------------------------------------------------------------- */
+.mw-live-edit-page .mw-segmented {
+    display: inline-flex;
+    width: 100%;
+    border: var(--border-xs) solid var(--ese-border-strong);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+.mw-live-edit-page .mw-segmented__cell {
+    flex: 1 1 0;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    border-inline-start: 1px solid var(--ese-border);
+    border-radius: 0;
+    color: inherit;
+    cursor: pointer;
+    /*
+     * task-2026-05-17-439f34 / AI-811 — font-family: inherit is
+     * the load-bearing add when AI-811 swapped the cells from
+     * <span> to native <button> in ResolutionSwitch.vue. Browsers
+     * paint a UA-default font on <button> (Arial / Helvetica)
+     * that fights the live-edit page font. inherit pulls the page
+     * font back; the rest of the button-reset (background:
+     * transparent, border: 0, color: inherit) was already in
+     * place for the <span> shape.
+     */
+    font-family: inherit;
+    font-size: var(--font-control);
+    transition: background var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+}
+.mw-live-edit-page .mw-segmented__cell:first-child {
+    border-inline-start: 0;
+}
+.mw-live-edit-page .mw-segmented__cell:hover {
+    background: var(--ese-surface-hover);
+}
+.mw-live-edit-page .mw-segmented__cell:focus-visible {
+    outline: 2px solid var(--ese-accent);
+    outline-offset: -2px;
+}
+/*
+ * task-2026-05-17-439f34 / AI-811 — extended active-state to
+ * also match [aria-checked="true"] (the radio-APG ARIA shape
+ * shipped on ResolutionSwitch.vue cells). Pre-fix selector
+ * matched [aria-pressed="true"] (toggle-button ARIA shape);
+ * the .is-active class binding remains the load-bearing
+ * trigger but the aria-checked match adds defense-in-depth in
+ * case the class binding ever drifts. [aria-pressed="true"]
+ * kept as legacy alias — other MwSegmented consumers may still
+ * use the toggle-button pattern.
+ */
+.mw-live-edit-page .mw-segmented__cell.is-active,
+.mw-live-edit-page .mw-segmented__cell[aria-pressed="true"],
+.mw-live-edit-page .mw-segmented__cell[aria-checked="true"] {
+    background: var(--ese-accent-soft);
+    color: var(--ese-accent);
+    box-shadow: inset 0 0 0 1px var(--ese-accent);
+}
+
+/* ================================================================
+ * MwField — slice 1.4 (AI-687 / ESE Phase 1 step 6/7).
+ * task-2026-05-16-5fe1f9.
+ * Spec: designer-agent/output/ese-design-spec-2026-05-16.md §4.1
+ *       "the universal field-row".
+ *
+ * Replaces the four ad-hoc field-row patterns currently in
+ * Spacing / Grid / RoundedCorners / UlOl. Layout:
+ *   [ LABEL ………… [ CONTROL ] [ ↺ ] ]   single row, baseline aligned.
+ *   height 32px, touch-padded to 44px row total.
+ *   gap: var(--space-sm); margin-block: var(--space-sm) var(--space-md);
+ *
+ * Class names use `.mw-tool-field` (NOT `.mw-field`) — `.mw-field`
+ * is owned by a long-standing rule cluster further down in this
+ * file (line ~239: .mw-multiple-fields, .rouded-corners .mw-field,
+ * .mw-field.unit input + input, etc.) that styles the current
+ * Spacing/Grid/Border dropdown+input markup. Renaming would
+ * cascade into every consumer; instead, the new primitive uses
+ * a distinct class so consumers migrate incrementally without
+ * disturbing existing layout rules. Same coexistence pattern as
+ * MwToolButton's `.mw-tool-btn` (1.3a / AI-684 / task-f69d54).
+ *
+ * Scoped under `.mw-live-edit-page` per the live-edit-css-must-
+ * be-scoped skill — defensive even though `.mw-tool-field`
+ * doesn't currently collide.
+ *
+ * Phase 1 ships:
+ *   - the .mw-tool-field primitive + 3 modifier elements
+ *   - one proof-of-pattern consumer migration (RoundedCorners
+ *     predefined-radius select) marked with `mw-tool-field` next
+ *     to the legacy `form-control-live-edit-label-wrapper` for
+ *     back-compat. AI-687a will migrate Spacing/Grid/UlOl later.
+ *
+ * AI-701 PageChip popover input + AI-712a Template Settings
+ * AI-Assistant collapse are both queued to consume this token
+ * pattern when they land.
+ * ---------------------------------------------------------------- */
+.mw-live-edit-page .mw-tool-field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm, 9.9px);
+    min-height: 44px;
+    padding-block: var(--space-xs, 6.1px);
+    margin-block: var(--space-sm, 9.9px) var(--space-md, 16px);
+}
+.mw-live-edit-page .mw-tool-field__label {
+    flex: 1 1 auto;
+    font-size: var(--font-label, 11px);
+    font-weight: var(--weight-label, 500);
+    letter-spacing: var(--letter-label, 0.01em);
+    color: var(--ese-label, #475569);
+    line-height: var(--line-tight, 1.2);
+    margin: 0;
+}
+.mw-live-edit-page .mw-tool-field__control {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs, 6.1px);
+    max-width: 60%;
+}
+.mw-live-edit-page .mw-tool-field__control > select,
+.mw-live-edit-page .mw-tool-field__control > .mw-tool-field__select {
+    min-width: 120px;
+    max-width: 100%;
+    height: 32px;
+    border: var(--border-xs, 1.9px) solid var(--ese-border, rgba(15, 23, 42, 0.12));
+    border-radius: var(--radius-sm, 6px);
+    background: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #0f172a);
+    padding: 4px 28px 4px 8px;
+    font-size: var(--font-control, 13px);
+    font-weight: var(--weight-control, 400);
+    transition: border-color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.mw-live-edit-page .mw-tool-field__control > select:hover {
+    border-color: var(--ese-border-strong, rgba(15, 23, 42, 0.20));
+}
+.mw-live-edit-page .mw-tool-field__control > select:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 1px;
+    border-color: var(--ese-accent, #0d6efd);
+}
+.mw-live-edit-page .mw-tool-field__control > input[type="number"] {
+    width: 52px;
+    height: 32px;
+    text-align: right;
+    border: var(--border-xs, 1.9px) solid var(--ese-border, rgba(15, 23, 42, 0.12));
+    border-radius: var(--radius-sm, 6px);
+    background: var(--ese-surface, #ffffff);
+    color: var(--ese-text, #0f172a);
+    padding: 4px 6px;
+    font-size: var(--font-control, 13px);
+    font-weight: var(--weight-control, 400);
+}
+.mw-live-edit-page .mw-tool-field__reset {
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    color: var(--ese-text-muted, #64748b);
+    cursor: pointer;
+    opacity: 0;
+    border-radius: var(--radius-xs, 4px);
+    transition: opacity var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1)),
+                color var(--t-fast, 120ms) var(--ease, cubic-bezier(0.2, 0.8, 0.2, 1));
+}
+.mw-live-edit-page .mw-tool-field:hover .mw-tool-field__reset,
+.mw-live-edit-page .mw-tool-field.is-dirty .mw-tool-field__reset {
+    opacity: 1;
+}
+.mw-live-edit-page .mw-tool-field__reset:hover {
+    color: var(--ese-accent, #0d6efd);
+}
+.mw-live-edit-page .mw-tool-field__reset:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: 2px;
+}
+
+/* ============================================================
+ * Element Style Editor (ESE) design tokens — slice 1.1
+ * AI-684 / AI-685 prerequisite. Spec: designer-agent/output/
+ * ese-design-spec-2026-05-16.md §2 (drop-in :root block).
+ *
+ * task-2026-05-16-11812b — purely additive in slice 1.1. Token
+ * defs cascade inert until consumed by MwToolButton (AI-684),
+ * mobile bottom-sheet (AI-685), MwField, MwSlider, MwSegmented,
+ * MwAccordion, semantic-colour migration, etc.
+ *
+ * φ scale (golden ratio = 1.618). Snap rule per the
+ * golden-ratio-spacing skill: every ESE spacing/border value
+ * must reference one of these tokens or sit within ±2% of a
+ * step. Adjacent token ratios must be φ ±5%.
+ * ============================================================ */
+:root {
+    /* ── Spacing — φ scale, base 1rem ───────────────────────── */
+    --space-hair: 0.236rem;   /*  3.8px */
+    --space-xs:   0.382rem;   /*  6.1px */
+    --space-sm:   0.618rem;   /*  9.9px */
+    --space-md:   1.000rem;   /* 16.0px */
+    --space-lg:   1.618rem;   /* 25.9px */
+    --space-xl:   2.618rem;   /* 41.9px */
+    --space-2xl:  4.236rem;   /* 67.8px */
+
+    /* ── Borders ───────────────────────────────────────────── */
+    --border-hair: 1px;
+    --border-xs:   1.9px;
+    --border-sm:   3.1px;
+
+    /* ── Radii ─────────────────────────────────────────────── */
+    --radius-xs:   4px;       /* dense controls (slider thumb, chips) */
+    --radius-sm:   6px;       /* inputs, dropdowns, buttons (default) */
+    --radius-md:  10px;       /* cards, accordion bodies */
+    --radius-pill: 999px;     /* colour swatch, status chips */
+
+    /* ── Typography ───────────────────────────────────────── */
+    --font-label: 11px;       /* sentence-case; PM-sanctioned 11px floor */
+    --font-control: 13px;     /* dropdowns, inputs */
+    --font-section: 15px;     /* accordion headers */
+    --font-title:   17px;     /* panel title */
+    --weight-label: 500;
+    --weight-control: 400;
+    --weight-section: 600;
+    --line-tight: 1.2;
+    --line-base:  1.45;
+    --letter-label: 0.01em;
+
+    /* ── Semantic colour aliases (light) ──────────────────── */
+    --ese-surface:        #ffffff;
+    --ese-surface-muted:  #f7f8fa;
+    --ese-surface-hover:  rgba(13, 110, 253, 0.06);
+    --ese-border:         rgba(15, 23, 42, 0.12);
+    --ese-border-strong:  rgba(15, 23, 42, 0.20);
+    --ese-text:           #0f172a;
+    --ese-text-muted:     #64748b;
+    --ese-label:          #475569;
+    --ese-accent:         #0d6efd;            /* MwColors::Blue */
+    --ese-accent-soft:    rgba(13, 110, 253, 0.12);
+    --ese-danger:         #dc2626;
+    --ese-track:          rgba(15, 23, 42, 0.18);
+    --ese-track-fill:     var(--ese-accent);
+
+    /* ── Motion ───────────────────────────────────────────── */
+    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --t-fast: 120ms;
+    --t-base: 200ms;
+    --t-slow: 320ms;
+}
+
+/* Dark theme: swap surfaces + adjust alphas. Filament toggles
+   `dark` on <html>; we also accept `.theme-dark` / [data-theme]
+   for non-Filament contexts. */
+html.dark,
+.theme-dark,
+[data-theme="dark"] {
+    --ese-surface:        #1a1f2b;
+    --ese-surface-muted:  #232938;
+    --ese-surface-hover:  rgba(255, 255, 255, 0.06);
+    --ese-border:         rgba(255, 255, 255, 0.12);
+    --ese-border-strong:  rgba(255, 255, 255, 0.20);
+    --ese-text:           #f1f5f9;
+    --ese-text-muted:     #94a3b8;
+    --ese-label:          #cbd5e1;
+    --ese-track:          rgba(255, 255, 255, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root { --t-fast: 0ms; --t-base: 0ms; --t-slow: 0ms; }
+}
+
 .mw-multiple-fields {
     @apply relative;
 }
@@ -293,9 +673,14 @@ html[dir="rtl"] .reset-field {
  * I-glyph that visibly turns blue + italic-rendered when active.
  */
 #mw-element-style-editor-app .mw-italic-toggle {
+    /* task-2026-05-16-b30fd9 AI-690: rgba literals → --ese-* aliases.
+       Dark `rgba(255,255,255,0.18)` and light `rgba(0,0,0,0.18)` both
+       collapse to `--ese-border-strong` (alpha 0.20 per theme — visual
+       Δ ≤ 0.02 imperceptible). Removes the `:not(.dark)` override
+       below. */
     width: 32px;
     height: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid var(--ese-border-strong);
     background: transparent;
     color: inherit;
     border-radius: 4px;
@@ -306,9 +691,6 @@ html[dir="rtl"] .reset-field {
     font-family: serif;
     font-size: 16px;
     transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-:not(.dark) #mw-element-style-editor-app .mw-italic-toggle {
-    border-color: rgba(0, 0, 0, 0.18);
 }
 #mw-element-style-editor-app .mw-italic-toggle:hover {
     border-color: rgba(96, 165, 250, 0.5);
@@ -332,12 +714,14 @@ html[dir="rtl"] .reset-field {
  * as a quiet "v More options" link.
  */
 #mw-element-style-editor-app .mw-typography-advanced {
+    /* task-2026-05-16-b30fd9 AI-690: divider literal → --ese-border.
+       Original dark `rgba(255,255,255,0.05)` was below the WCAG
+       non-text-contrast floor for UI dividers — the spec §F2.5 calls
+       this out explicitly. Token bumps to 0.12 alpha both themes,
+       passing the 3:1 contrast floor while keeping the divider quiet. */
     margin-top: 0.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--ese-border);
     padding-top: 0.5rem;
-}
-:not(.dark) #mw-element-style-editor-app .mw-typography-advanced {
-    border-top-color: rgba(0, 0, 0, 0.08);
 }
 #mw-element-style-editor-app .mw-typography-advanced > summary {
     list-style: none;
@@ -383,7 +767,8 @@ html[dir="rtl"] .reset-field {
 }
 
 #mw-element-style-editor-app .text-align > * + * {
-    border-inline-start: 1px solid rgba(255, 255, 255, 0.08);
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. */
+    border-inline-start: 1px solid var(--ese-border);
 }
 
 #mw-element-style-editor-app .form-control-live-edit-label-wrapper:has(.picker-button) > .d-flex {
@@ -393,85 +778,118 @@ html[dir="rtl"] .reset-field {
 }
 
 .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    /* task-2026-05-16-b30fd9 AI-690: divider → --ese-border. Collapses
+       the dark base + `:not(.dark)` light override into one rule via
+       the theme-auto-switching alias. */
+    border-top: 1px solid var(--ese-border);
     padding-top: 8px !important;
     margin-top: 8px !important;
 }
-:not(.dark) .element-style-editor-toggle-wrapper.active > div:nth-child(2) {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
 
 /*
- * task-2026-05-05-d2ce0f / task-2026-05-05-73c751: the Element
- * Style Editor right-rail uses the dark theme (#1a1f2b panel bg),
- * but Vuetify's `<v-slider>` defaults to `v-theme--light` and
- * renders its track as a near-white horizontal bar. We use
- * opacity-tinted currentColor so the sliders inherit the surrounding
- * text color on both light and dark themes; bumped opacity values
- * so the track is actually visible (was 0.18 — too faint to spot).
- */
-.mw-live-edit-slider-small .v-slider-track__background {
-    background: currentColor !important;
-    opacity: 0.30 !important;
-    height: 4px !important;
-    border-radius: 2px !important;
-}
-.mw-live-edit-slider-small .v-slider-track__fill {
-    background: currentColor !important;
-    opacity: 0.85 !important;
-    height: 4px !important;
-    border-radius: 2px !important;
-}
-.mw-live-edit-slider-small .v-slider-thumb__surface {
-    background: currentColor !important;
-    width: 14px !important;
-    height: 14px !important;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.25);
-    border-radius: 50%;
-}
-/*
- * task-2026-05-05-e62d5b drunk-designer audit + task-2026-05-05-4bd251:
- * Vuetify's own CSS isn't loaded in the parent admin window — only
- * its `.v-slider-track` / `.v-slider-thumb__surface` selectors are
- * styled here. The wrapper `.v-slider-thumb` needs to be positioned
- * along the track via `inset-inline-start: var(--v-slider-thumb-
- * position)`. Initial fix in e62d5b made the thumb absolute relative
- * to `.mw-live-edit-slider-small` (which already had
- * `position: relative`), but that container is the FULL slider
- * component including the label+number-input row above the track.
- * 50% of that container placed the thumb in the middle of the
- * combined block — visibly above the track line.
+ * task-2026-05-16-1b5604 — ESE Slice 1.2 / AI-689 / F1.6 MwSlider
+ * geometry. Spec §4.2 locks slider geometry at token level so the
+ * prior `!important` fortress (six rules guarding against Vuetify
+ * defaults) can be deleted. Per the vuetify-slider-in-mw-admin
+ * skill: Vuetify's own CSS is NOT loaded in the parent admin
+ * window, so there is no Vuetify default specificity to fight on
+ * `.v-slider-track__background` / `__fill` / `__surface` — those
+ * `!important` declarations were defensive against a non-loaded
+ * stylesheet. Dropping them.
  *
- * Fix: make `.v-slider__container` (the row that wraps just the
- * track + thumb) the positioning context. `inset-block-start: 50%`
- * on the thumb now references the slider row only, putting the
- * thumb on the track's center line as intended.
+ * Surviving !important (intentional):
+ *   - .v-slider-thumb positioning — Vuetify writes inline styles
+ *     for `inset-inline-start` on every drag tick; without
+ *     `!important` the inline updates would win the cascade.
+ *   - hidden-input + .form-control-input-range-slider — fight
+ *     higher-specificity rules in live-edit-input.css; deleted
+ *     from this block but documented in surviving rules below.
+ *
+ * Geometry constants (one rule, no `!important` on the geometry):
+ *   --slider-track-h: 2px         (spec §4.2)
+ *   --slider-thumb-d: 16px        (spec §4.2)
+ *   track row height: --space-lg  (25.9px — thumb centres naturally)
+ *   track bg:         var(--ese-track)
+ *   filled track:     var(--ese-track-fill)
+ *   thumb fill:       var(--ese-accent)
+ *   thumb ring (light): 1px solid var(--ese-surface)         (N3)
+ *   thumb ring (dark):  2px solid var(--ese-surface-muted)   (N3)
+ *
+ * Visual delta vs prior fortress: thumb fill switches from
+ * `currentColor` (followed text colour, theme-dependent) to
+ * `--ese-accent` (Bootstrap blue #0d6efd, consistent both themes).
+ * Spec §4.2 explicitly requests the blue accent fill so the active
+ * affordance reads as interactive across themes.
  */
+.mw-live-edit-slider-small {
+    --slider-track-h: 2px;
+    --slider-thumb-d: 16px;
+}
 .mw-live-edit-slider-small .v-slider__container {
     position: relative;
-    min-height: 14px;
+    min-height: var(--space-lg);
     display: flex;
     align-items: center;
+}
+.mw-live-edit-slider-small .v-slider {
+    min-height: var(--space-lg);
+}
+.mw-live-edit-slider-small .v-slider .v-input__control {
+    min-height: var(--space-lg);
 }
 .mw-live-edit-slider-small .v-slider-track {
     position: relative;
     flex: 1;
+    height: var(--slider-track-h);
+}
+.mw-live-edit-slider-small .v-slider-track__background {
+    background: var(--ese-track);
+    height: var(--slider-track-h);
+    border-radius: var(--radius-pill);
+}
+.mw-live-edit-slider-small .v-slider-track__fill {
+    background: var(--ese-track-fill);
+    height: var(--slider-track-h);
+    border-radius: var(--radius-pill);
+}
+.mw-live-edit-slider-small .v-slider-thumb__surface {
+    background: var(--ese-accent);
+    width: var(--slider-thumb-d);
+    height: var(--slider-thumb-d);
+    border-radius: var(--radius-pill);
+    /* N3: 1px --ese-surface ring on light (default). */
+    box-shadow: 0 0 0 1px var(--ese-surface);
+}
+html.dark .mw-live-edit-slider-small .v-slider-thumb__surface,
+.theme-dark .mw-live-edit-slider-small .v-slider-thumb__surface,
+[data-theme="dark"] .mw-live-edit-slider-small .v-slider-thumb__surface {
+    /* N3: 2px --ese-surface-muted ring on dark — accepted per
+       designer's spec v2 (#90), prevents thumb-into-track merge. */
+    box-shadow: 0 0 0 2px var(--ese-surface-muted);
 }
 .mw-live-edit-slider-small .v-slider-thumb {
+    /* `!important` here remains intentional: Vuetify writes inline
+       `inset-inline-start: <px>` on every drag tick; without
+       `!important` the inline value would override our 0%-default
+       fallback even when no drag is active. */
     position: absolute !important;
     inset-block-start: 50% !important;
     transform: translateY(-50%) !important;
     inset-inline-start: var(--v-slider-thumb-position, 0%) !important;
-    margin-inline-start: -7px;
-    width: 14px !important;
-    height: 14px !important;
+    margin-inline-start: calc(var(--slider-thumb-d) / -2);
+    width: var(--slider-thumb-d) !important;
+    height: var(--slider-thumb-d) !important;
     z-index: 1;
 }
-.mw-live-edit-slider-small .v-slider {
-    min-height: 24px !important;
+/* Disabled state — spec §5 interaction matrix:
+   thumb opacity 0.4, track opacity 0.5. */
+.mw-live-edit-slider-small[aria-disabled="true"] .v-slider-thumb__surface,
+.mw-live-edit-slider-small .v-slider[aria-disabled="true"] .v-slider-thumb__surface {
+    opacity: 0.4;
 }
-.mw-live-edit-slider-small .v-slider .v-input__control {
-    min-height: 24px !important;
+.mw-live-edit-slider-small[aria-disabled="true"] .v-slider-track,
+.mw-live-edit-slider-small .v-slider[aria-disabled="true"] .v-slider-track {
+    opacity: 0.5;
 }
 /*
  * Vuetify renders an inert `<input>` underneath the visible track for
@@ -523,6 +941,14 @@ html[dir="rtl"] .reset-field {
  */
 .form-control-live-edit-label-wrapper .picker-button,
 #mw-element-style-editor-app .picker-button {
+    /* task-2026-05-16-b30fd9 AI-690: literal borders → tokens. The dark
+       0.35 / light 0.25 border alphas both collapse to
+       `--ese-border-strong` (0.20 per theme — slight visual softening,
+       <0.15 alpha shift). The inset 2px ring stays a literal
+       `rgba(0,0,0,0.2)`: its purpose is to delineate the user's chosen
+       swatch colour from the container, NOT theme-aware chrome. If we
+       made it theme-aware, light user-colours on dark mode would get a
+       brightening white ring — wrong contrast direction. */
     width: 28px !important;
     height: 28px !important;
     min-height: 28px !important;
@@ -530,18 +956,17 @@ html[dir="rtl"] .reset-field {
     font-size: 0 !important;
     line-height: 0 !important;
     padding: 0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    border: 1px solid var(--ese-border-strong) !important;
     box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.2) !important;
     cursor: pointer;
     background-clip: padding-box;
 }
 .form-control-live-edit-label-wrapper .picker-button:hover {
-    border-color: rgba(255, 255, 255, 0.65) !important;
-}
-/* Light theme fallback: the canvas-iframe inline-styled .picker-button
-   for non-dark contexts still reads. */
-:not(.dark) .form-control-live-edit-label-wrapper .picker-button {
-    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    /* task-2026-05-16-b30fd9 AI-690: hover border → --ese-accent. The
+       original `rgba(255,255,255,0.65)` was a "lift" highlight; per
+       spec §4.1 swatch click opens the picker, so a blue accent
+       outline is the right hover affordance + theme-symmetric. */
+    border-color: var(--ese-accent) !important;
 }
 
 /* ------------------------------------------------------------------
@@ -894,3 +1319,344 @@ html[dir="rtl"] .reset-field {
 .element-style-editor-toggle-wrapper.active .font-picker-add-more:hover {
     opacity: 1;
 }
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-821 — aria-live announcement region
+ * visually-hidden with !important.
+ *
+ * Root cause: the ESE Vue app loads its own CSS bundle in the live-edit
+ * iframe; Bootstrap's .visually-hidden class is not present there, so
+ * the class="visually-hidden mw-ese-announce" region renders visible text
+ * (e.g. "Typography panel opened") above every section header.
+ *
+ * Fix: explicit sr-only properties with !important directly on
+ * .mw-ese-announce so the hiding works regardless of Bootstrap availability.
+ * The aria-live / aria-atomic / role="status" attrs on the DOM node still
+ * fire announcements to AT — only the visual rendering is suppressed.
+ * ============================================================ */
+.mw-ese-announce {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================================
+ * task-2026-05-22-e8b42c / AI-825 — ESE dark mode contrast sweep.
+ *
+ * Problem: 5 contrast failures in dark mode across all ESE sections:
+ *   1. Field labels:  Tailwind @apply text-gray-500/600 hardcodes light
+ *      colours → not swapped in dark; can fall below 4.5:1.
+ *   2. Input borders: --ese-border at rgba(255,255,255,0.12) on #1a1f2b ≈
+ *      1.5:1 — fails WCAG 3:1 non-text minimum.
+ *   3. Dropdown chrome: native <select> bg stays gray-100 (Tailwind @apply)
+ *      → near-white on dark panel; hard to read.
+ *   4. Dark colour swatches: --ese-border-strong at rgba(255,255,255,0.20)
+ *      on #1a1f2b ≈ 2.0:1 — swatch outline invisible.
+ *   5. "More options:" divider: same rgba(255,255,255,0.12) → invisible.
+ *
+ * Fix strategy: Stage-2 cascade-loss compound selector + !important pattern:
+ *   (a) Token override block bumps --ese-border and --ese-border-strong
+ *       in dark; later css block wins via source-order cascade.
+ *   (b) Compound selectors override Tailwind @apply hardcoded colours on
+ *       inputs, selects, labels; !important beats Tailwind utility output.
+ *
+ * Light mode is regression-guarded: all rules are scoped to html.dark /
+ * .theme-dark / [data-theme="dark"] so no light mode property is touched.
+ * ============================================================ */
+
+/* (a) Token bump — later in file = source-order wins over the existing
+ * html.dark block at line 363. Both have the same specificity; this wins
+ * because it appears last. */
+html.dark,
+.theme-dark,
+[data-theme="dark"] {
+    /* Bumped from 0.12 → 0.35; achieves ≈3.54:1 on #1a1f2b (≥3:1 non-text) */
+    --ese-border:        rgba(255, 255, 255, 0.35);
+    /* Bumped from 0.20 → 0.50; achieves ≈5.5:1 on #1a1f2b (colour swatches) */
+    --ese-border-strong: rgba(255, 255, 255, 0.50);
+}
+
+/* (b) Compound selector overrides for Tailwind-hardcoded light values */
+
+/* 1. Field labels */
+html.dark #mw-element-style-editor-app .live-edit-label,
+.theme-dark #mw-element-style-editor-app .live-edit-label,
+[data-theme="dark"] #mw-element-style-editor-app .live-edit-label {
+    color: var(--ese-label, #cbd5e1) !important;
+}
+
+/* 2. All text inputs, number inputs, selects, textareas inside ESE */
+html.dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+html.dark #mw-element-style-editor-app select,
+html.dark #mw-element-style-editor-app textarea,
+.theme-dark #mw-element-style-editor-app input:not([type="color"]):not([type="range"]),
+.theme-dark #mw-element-style-editor-app select,
+.theme-dark #mw-element-style-editor-app textarea {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 3. Dropdown Chrome: .mw-esc select uses @apply bg-gray-100 text-gray-800 */
+html.dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select,
+.theme-dark #mw-element-style-editor-app .mw-esc .mw-multiple-fields .mw-field:last-child select {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    color: var(--ese-text, #f1f5f9) !important;
+    border-color: var(--ese-border-strong, rgba(255, 255, 255, 0.50)) !important;
+}
+
+/* 4. Color swatch outline — .picker-button border uses --ese-border-strong
+ * which is bumped by token override (a) above; no extra rule needed there.
+ * Ensure the inset delineation ring is still visible: */
+html.dark .form-control-live-edit-label-wrapper .picker-button,
+html.dark #mw-element-style-editor-app .picker-button,
+.theme-dark .form-control-live-edit-label-wrapper .picker-button,
+.theme-dark #mw-element-style-editor-app .picker-button {
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* 5. "More options:" summary text (Typography section <details>) */
+html.dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+.theme-dark #mw-element-style-editor-app .mw-typography-advanced > summary,
+[data-theme="dark"] #mw-element-style-editor-app .mw-typography-advanced > summary {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-747f20 / AI-724 — ESE chrome dark mode contrast sweep.
+ *
+ * Four surfaces identified by tester at dark mode on-device probe:
+ *  1. Collapsed accordion section labels — inherited dark text on dark panel.
+ *  2. Section dividers — hardcoded #000 corner-marks (Border section) +
+ *     any Tailwind-hardcoded light hairlines invisible on dark surface.
+ *  3. Right-edge icon strip SVGs — dark glyphs on dark sidebar background.
+ *     (Handled in live-edit-classes.css alongside existing sidebar rules.)
+ *  4. Reset icon (↺) — dark stroke on dark ESE surface.
+ *
+ * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 6. Collapsed accordion section labels (Typography, Background, …).
+ *    The parent container gets `color: white` via general-styles.css
+ *    `.dark #mw-element-style-editor-app`, but Tailwind-generated link
+ *    styles on `.mw-admin-action-links` can win with higher specificity in
+ *    some builds — anchor here with an explicit token-driven override. */
+html.dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+.theme-dark .element-style-editor-toggle-wrapper .mw-admin-action-links,
+[data-theme="dark"] .element-style-editor-toggle-wrapper .mw-admin-action-links {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* Accordion header SVG icons — ensure they use the muted text colour so
+ * they're readable but don't compete with the active-state blue accent. */
+html.dark .element-style-editor-toggle-wrapper svg,
+.theme-dark .element-style-editor-toggle-wrapper svg,
+[data-theme="dark"] .element-style-editor-toggle-wrapper svg {
+    color: var(--ese-text-muted, #94a3b8) !important;
+    fill: currentColor;
+}
+
+/* Chevron ::after data-uri SVG uses stroke='currentColor'; making the
+ * parent colour light (above) propagates automatically. */
+
+/* 7. Section dividers — Border section corner-angle marks use hardcoded
+ *    `border: 1px solid #000` which vanishes on a dark surface. These are
+ *    scoped Vue styles; `!important` is required to override them. */
+html.dark .angle-top-left,
+html.dark .angle-top-right,
+html.dark .angle-bottom-left,
+html.dark .angle-bottom-right,
+.theme-dark .angle-top-left,
+.theme-dark .angle-top-right,
+.theme-dark .angle-bottom-left,
+.theme-dark .angle-bottom-right {
+    border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* 8. Reset (↺) icon — `.reset-field` uses `color: inherit`; `.mw-tool-field__reset`
+ *    has `color: var(--ese-text-muted)` which maps to #94a3b8 in dark mode
+ *    — correct. Anchor `.reset-field` explicitly so it doesn't regress. */
+html.dark #mw-element-style-editor-app .reset-field,
+html.dark #mw-element-style-editor-app .reset-field a,
+html.dark #mw-element-style-editor-app .reset-field button,
+.theme-dark #mw-element-style-editor-app .reset-field,
+.theme-dark #mw-element-style-editor-app .reset-field a,
+.theme-dark #mw-element-style-editor-app .reset-field button {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+html.dark #mw-element-style-editor-app .reset-field svg,
+.theme-dark #mw-element-style-editor-app .reset-field svg {
+    fill: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-06f3f4 / AI-725 — ESE panel content dark mode mapping.
+ *
+ * Six surfaces INSIDE accordion panel content (AI-724 fixed the chrome —
+ * accordion labels, dividers, icon-strip SVGs, reset icon; this ticket
+ * fixes what's visible inside each open panel):
+ *
+ * 9.  Typographic preset thumbnails (.mw-live-edit-predefines-styles-box)
+ * 10. Selected predefined-style preview heading (.predefined-styles-rended)
+ * 11. Spacing diagram holder (.mw-ese-holder, .mw-ese-holder.active)
+ * 12. Spacing diagram position labels (.mw-ese-label: TOP/RIGHT/BOTTOM/LEFT)
+ * 13. Preset quick-action buttons (.mw-tool-btn.mw-tool-btn--preset)
+ * 14. Unit toggle button (px/rem/% switcher in .mw-field.unit .mw-ui-btn)
+ * 15. Segmented-control buttons (.mw-segmented-control button + active state)
+ *
+ * All rules html.dark / .theme-dark / [data-theme="dark"] scoped.
+ * Light mode completely unchanged. !important where Vue SFC scoped styles
+ * or Bootstrap .btn class raise specificity beyond (0,1,0).
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* 9. Typographic preset thumbnail — keep a white backplate so the predefined
+ *    text style is visible regardless of whether the class sets dark text.
+ *    This is intentionally a light island inside the dark panel: the preview
+ *    shows how the text looks in its natural context. */
+html.dark .mw-live-edit-predefines-styles-box,
+.theme-dark .mw-live-edit-predefines-styles-box,
+[data-theme="dark"] .mw-live-edit-predefines-styles-box {
+    background-color: #ffffff;
+    border: 1px solid var(--ese-border, rgba(255, 255, 255, 0.35));
+    border-radius: var(--radius-sm, 6px);
+    padding: 4px 8px;
+}
+
+/* 10. Selected predefined-style preview (h3.predefined-styles-rended shown
+ *     when a class is already applied) — same white-island treatment. */
+html.dark .predefined-styles-rended,
+.theme-dark .predefined-styles-rended,
+[data-theme="dark"] .predefined-styles-rended {
+    background-color: #ffffff;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm, 6px);
+}
+
+/* 11. Spacing diagram holder — @apply bg-gray-100 border-gray-300 compiles
+ *     to hardcoded light colors; override with dark panel surface. */
+html.dark .mw-ese-holder,
+.theme-dark .mw-ese-holder,
+[data-theme="dark"] .mw-ese-holder {
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+html.dark .mw-ese-holder.active,
+.theme-dark .mw-ese-holder.active,
+[data-theme="dark"] .mw-ese-holder.active {
+    background-color: var(--ese-surface, #1a1f2b) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* 12. Spacing diagram position labels (TOP, RIGHT, BOTTOM, LEFT) */
+html.dark .mw-ese-label,
+.theme-dark .mw-ese-label,
+[data-theme="dark"] .mw-ese-label {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 13. Preset quick-action buttons (S / M / L / XL / trash) — Bootstrap .btn
+ *     class can force dark text via its own specificity; re-anchor in dark. */
+html.dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+.theme-dark #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset,
+[data-theme="dark"] #mw-element-style-editor-app .mw-tool-btn.mw-tool-btn--preset {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+/* 14. Unit toggle button (px/rem/% switcher inside .mw-field.unit) */
+html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+html.dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn,
+.theme-dark #mw-element-style-editor-app .mw-field.unit .mw-ui-btn i {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* 15. Segmented-control buttons (older align/justify/position icon strip that
+ *     uses .mw-segmented-control, distinct from the ESE-primitive .mw-segmented)
+ *     Bootstrap styles override ESE token defaults for this component. */
+html.dark #mw-element-style-editor-app .mw-segmented-control button,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button,
+[data-theme="dark"] #mw-element-style-editor-app .mw-segmented-control button {
+    color: var(--ese-text, #f1f5f9) !important;
+    background-color: var(--ese-surface-muted, #232938) !important;
+    border-color: var(--ese-border, rgba(255, 255, 255, 0.35)) !important;
+}
+
+html.dark #mw-element-style-editor-app .mw-segmented-control button.active,
+html.dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"],
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button.active,
+.theme-dark #mw-element-style-editor-app .mw-segmented-control button[aria-pressed="true"] {
+    background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.15)) !important;
+    border-color: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #0d6efd) !important;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+ * task-2026-05-22-48070d / AI-720 — ESE per-panel empty state styles.
+ *
+ * Three panels (Animations, Section Settings, AI Style Editor) now render
+ * an empty state when the selected element doesn't support their controls.
+ * These rules handle both light and dark surface presentation:
+ *
+ *   .mw-ese-panel-empty-state    — wrapper (padding + layout)
+ *   .mw-admin-empty-state__heading  — h3 heading text
+ *   .mw-admin-empty-state__body     — p body text
+ *   .mw-ese-link-disabled           — non-interactive link visual
+ *
+ * Scoped to #mw-element-style-editor-app where possible.
+ * Dark overrides follow the html.dark / .theme-dark pattern.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* Base empty-state styles (light mode) */
+#mw-element-style-editor-app .mw-ese-panel-empty-state {
+    padding: var(--space-sm, 8px) var(--space-xs, 6px);
+    text-align: left;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__heading {
+    font-size: var(--font-section, 15px);
+    font-weight: 600;
+    color: var(--ese-text, #111827);
+    margin: 0 0 var(--space-xs, 6px) 0;
+    line-height: 1.3;
+}
+
+#mw-element-style-editor-app .mw-admin-empty-state__body {
+    font-size: var(--font-control, 13px);
+    color: var(--ese-text-muted, #6b7280);
+    margin: 0;
+    line-height: 1.45;
+}
+
+/* Disabled-link style for Section Settings header when no layout node */
+#mw-element-style-editor-app .mw-ese-link-disabled {
+    opacity: 0.45;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Dark mode overrides */
+html.dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__heading,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__heading {
+    color: var(--ese-text, #f1f5f9) !important;
+}
+
+html.dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+.theme-dark #mw-element-style-editor-app .mw-admin-empty-state__body,
+[data-theme="dark"] #mw-element-style-editor-app .mw-admin-empty-state__body {
+    color: var(--ese-text-muted, #94a3b8) !important;
+}
+
+/* Light mode regression-guard anchor (no-op selector, proves no changes to light) */
+/* task-2026-05-22-e8b42c AI-825: all rules above are html.dark scoped */
+/* task-2026-05-22-747f20 AI-724: same scope discipline */
+/* task-2026-05-22-06f3f4 AI-725: same scope discipline */
+/* task-2026-05-22-48070d AI-720: per-panel empty state light styles above + dark overrides scoped */

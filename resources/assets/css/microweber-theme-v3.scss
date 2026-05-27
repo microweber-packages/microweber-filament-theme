@@ -9,6 +9,45 @@
 //   - Sidebar: clean, flat, matching MW v2 layout
 // ============================================================================
 
+// ----------------------------------------------------------------------------
+// task-2026-05-17-9a12c2 / AI-819 — Filament primary token brand alignment
+// ----------------------------------------------------------------------------
+// Filament v5's ColorManager passes `->colors(['primary' => MwColors::Blue])`
+// through `Color::convertToOklch()` and emits the CSS variables in OKLCH
+// format. The project's tailwind.config.js still maps Tailwind utilities
+// via `rgba(var(--primary-500), <alpha-value>)` — a Filament v3 / Tailwind
+// v3 pattern that expects R,G,B comma-separated RGB triplets, not OKLCH.
+// The two formats don't compose: `rgba(oklch(...), 1)` is invalid CSS
+// and falls back to Filament's bundled default Tailwind blue (#4299e1),
+// not the Microweber brand blue (#0d6efd) per AI-209 / AI-737 / AI-794
+// primary-CTA lineage.
+//
+// Fix: explicitly emit the brand-anchored `--primary-XX` CSS variables
+// in this SCSS bundle (loads after Filament's runtime emit, wins cascade)
+// using the comma-separated R,G,B triplet format the project's
+// tailwind.config.js expects. Values mirror MwColors::Blue verbatim
+// (#e7f1ff → #010a19, anchored at #0d6efd on slot 500).
+//
+// Pairs with AI-816 (task-2026-05-17-2b1020) which swapped Save CTAs from
+// `->color('success')` to `->color('primary')` — without AI-819, those
+// CTAs render at the wrong blue. Slice B follow-up AI-819a: audit the
+// remaining $mw-accent: #4299e1 SCSS literal (line ~37 below) — used on
+// link colors / focus rings / checkbox backgrounds throughout this file —
+// for the same drift back to brand blue.
+:root {
+    --primary-50: 231, 241, 255;
+    --primary-100: 207, 226, 255;
+    --primary-200: 158, 197, 254;
+    --primary-300: 110, 168, 254;
+    --primary-400: 61, 139, 253;
+    --primary-500: 13, 110, 253;
+    --primary-600: 10, 88, 202;
+    --primary-700: 8, 66, 152;
+    --primary-800: 5, 44, 101;
+    --primary-900: 3, 22, 51;
+    --primary-950: 1, 10, 25;
+}
+
 // --- Design Tokens ---
 $mw-bg-page: #f6f8fb;          // MW v2 cool blue-gray background
 $mw-bg-surface: #ffffff;
@@ -731,18 +770,28 @@ svg[wire\:loading\.remove] {
   }
 }
 
-// Primary button — MW v2: dark bg #182433
-// Exclude topbar toolbar buttons which use light bg
-.fi-btn.fi-color-primary:not(.admin-toolbar-buttons) {
-  background-color: #182433 !important;  // MW v2 exact: btn-dark
+// task-2026-05-17-68e111 / AI-819 CHANGE absorption — primary button re-anchored to brand-blue
+// Pre-CHANGE used literal #182433 (MW v2 "btn-dark" near-black) which silently won the cascade
+// over the AI-819 `:root` --primary-NNN token override + hijacked every admin Save/Create/primary
+// CTA into the toolbar's v2 black-pill look — directly contradicting the AI-209 / AI-737 / AI-794
+// / AI-816 brand-blue primary-CTA lineage. Selector was also inverted (`:not(.admin-toolbar-buttons)`
+// doesn't actually match the live-edit toolbar SAVE class). Per designer Stage-2 sub-variant
+// "token-override + downstream !important hardcode = silent override-of-override" (post-AI-819
+// CHANGE absorption sister-rule to AI-771 v1 + AI-786 cascade-loss).
+// Selector corrected to match the dark-mode rule below (lines 2904+) — excludes BOTH toolbar variants
+// (admin-toolbar-add transparent text + admin-toolbar-live-edit black v2 pill per AI-699), applies
+// brand-blue to every other primary CTA. Now consumes `var(--primary-X)` so AI-819 :root override
+// flows through; brand-blue at runtime in both light + dark modes.
+.fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
+  background-color: rgba(var(--primary-500), 1) !important;
   color: #ffffff !important;
-  border: 1px solid #1f2e41 !important;  // MW v2 exact
+  border: 1px solid rgba(var(--primary-600), 1) !important;
   svg {
     color: #ffffff !important;
   }
 
   &:hover {
-    background-color: #1f2e41 !important;
+    background-color: rgba(var(--primary-600), 1) !important;
     opacity: 1 !important;
   }
 }
@@ -2862,12 +2911,15 @@ html.dark {
   }
 
   // ── Primary / secondary / danger buttons — dark mode ──
+  // task-2026-05-17-68e111 / AI-819 CHANGE absorption — re-anchored to brand-blue via --primary-X
+  // Pre-CHANGE used literal #4299e1 (pre-AI-819 Tailwind blue) which silently won the cascade
+  // over the AI-819 :root override. Same Stage-2 sub-variant as the light-mode rule at :775.
   .fi-btn.fi-color-primary:not(.admin-toolbar-add):not(.admin-toolbar-live-edit) {
-    background-color: #4299e1 !important;
+    background-color: rgba(var(--primary-500), 1) !important;
     color: #fff !important;
 
     &:hover {
-      background-color: #3182ce !important;
+      background-color: rgba(var(--primary-600), 1) !important;
     }
   }
 
@@ -3550,6 +3602,12 @@ html.dark {
   color: $mw-text-muted;
 }
 
+// AI-1040 / task-2026-05-22-3906fc — visible text label after each stat number.
+.mw-stats-footer-label {
+  font-size: 12px;
+  color: $mw-text-muted;
+}
+
 .mw-stats-card-show-more {
   font-size: 13px !important;
   color: #206bc4 !important;
@@ -3791,6 +3849,20 @@ html.dark {
   &:focus {
     border-color: $mw-accent;
   }
+}
+
+// AI-1039 / task-2026-05-22-558c11 — wrapper label aligns text + date input inline.
+.mw-media-filter-date-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: default;
+}
+
+.mw-media-filter-date-label {
+  font-size: 12px;
+  color: $mw-text-secondary;
+  white-space: nowrap;
 }
 
 .mw-media-filter-date {
@@ -4211,6 +4283,14 @@ html.dark {
   }
 }
 
+// task-2026-05-17-8c8d0b / AI-855 Defect 2 — Upload is THE primary action of
+// the Media Library modal; must render brand-blue per the AI-209 / AI-737 /
+// AI-794 / AI-816 primary-CTA lineage. Pre-fix background: $mw-text-primary
+// (#182433 dark blue-black) competed visually with neighbouring secondary
+// buttons. Now consumes rgba(var(--primary-500), 1) so the AI-819 :root
+// override flows through; brand-blue (#0d6efd) at runtime in both light +
+// dark modes. !important defeats Filament's default .fi-btn cascade as the
+// AI-819 CHANGE rule at line 2914 does for sibling primary CTAs.
 .mw-media-upload-btn {
   display: flex;
   align-items: center;
@@ -4218,14 +4298,14 @@ html.dark {
   padding: $mw-space-xs $mw-space-md;  // GR: xs(6) md(16)
   border: none;
   border-radius: $mw-radius-sm;
-  background: $mw-text-primary;
-  color: #fff;
+  background: rgba(var(--primary-500), 1) !important;
+  color: #fff !important;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 
   &:hover {
-    background: #2a3a4d;
+    background: rgba(var(--primary-600), 1) !important;
   }
 }
 
@@ -5939,6 +6019,30 @@ html.dark {
     .mw-tree-item-content {
       &:hover {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    // task-2026-05-22-56d7dc / AI-746 — categories tree row action contrast
+    // Bootstrap link-primary (brand-blue #0d6efd) was inherited as text color
+    // on the dark navy background (#0d0f14), giving approximately 3.8:1
+    // contrast — below the WCAG AA 4.5:1 floor for normal text.
+    // #e2e8f0 on #0d0f14 achieves approximately 15:1 (WCAG AAA).
+    // The same fix applies to ShopCategoryResource which extends CategoryResource
+    // and uses the identical .mw-tree-nav-skin-category-manager skin.
+    .mw-tree-context-menu-item {
+      color: #e2e8f0 !important;
+
+      svg {
+        color: #e2e8f0 !important;
+      }
+
+      &:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+
+        svg {
+          color: #ffffff !important;
+        }
       }
     }
   }
