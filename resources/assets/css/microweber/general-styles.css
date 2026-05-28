@@ -1983,9 +1983,16 @@ body.fi-panel-admin .fi-ta:has(.mw-admin-empty-state-posts) .fi-ta-header-toolba
 
     /* Each wrapper renders an inner `.d-flex` with [icon, label] from
        the category Vue component. We only style that header row —
-       expanded controls below it inherit their own styling. */
+       expanded controls below it inherit their own styling.
+       task-2026-05-28-af5d5b AI-1146: min-height 44px so the header
+       trigger meets WCAG 2.5.5 touch target. Wrapper itself stays
+       `<div>` (carries role=button + tabindex=0 + aria-expanded +
+       keydown.enter/space handlers — equivalent semantic to <button>
+       without the invalid-HTML hazard of nesting interactive child
+       controls like sliders/colour pickers inside a <button>). */
     & .d-flex:has(> svg) {
         @apply items-center gap-2 select-none;
+        min-height: 44px;
     }
 
     /* Normalize icon: fixed 20×20 box so circle/rect SVGs all sit on
@@ -2347,9 +2354,10 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
  * in @apply dark:bg-gray-* compiled output (Tailwind v4).
  */
 
+/* task-2026-05-27-e8af06 / AI-1162: defensive hardening with !important */
 .dark #toolbar {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark #general-theme-settings,
@@ -2361,19 +2369,19 @@ select#activeLocale:not(:has(option:nth-of-type(2))) {
 }
 
 .dark .mw-control-box-default {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark .mw-control-box-bottom.mw-control-box-default {
-    background-color: rgb(31 41 55);
-    color: white;
-    border-color: rgb(55 65 81);
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
+    border-color: rgb(55 65 81) !important;
 }
 
 .dark #save-toolbar {
-    background-color: rgb(31 41 55);
-    color: white;
+    background-color: rgb(31 41 55) !important;
+    color: white !important;
 }
 
 .dark .mw-domtree li.selected > span {
@@ -2582,13 +2590,21 @@ html[dir="rtl"] .mw-main-drawer {
     font-weight: 600;
 }
 
+/* task-2026-05-28-9e3c47 / AI-1148 — MainDrawer close button widened from
+ * 32x32px to 44x44px to meet the WCAG 2.5.5 Target Size (Enhanced) 44x44
+ * CSS-pixel floor. The SVG glyph stays 20x20px so the inner stroke geometry
+ * is unchanged; only the click/tap target grows. min-width + min-height
+ * enforced as belt-and-braces against future descendant rules that might
+ * shrink the button via width/height alone. */
 .mw-main-drawer__close {
     background: transparent;
     border: 0;
     color: var(--ese-text-muted, #6b7280);
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2938,7 +2954,13 @@ html.dark .mw-page-chip-popover__tabs {
 
 .mw-page-chip-popover__tab {
     flex: 1;
-    padding: 8px 4px;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5
+       touch target); padding-block expanded to 12px to match. */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 4px;
     font-size: 12px;
     font-weight: 500;
     color: var(--ese-text-muted, #6b7280);
@@ -2948,6 +2970,13 @@ html.dark .mw-page-chip-popover__tabs {
     transition: color 0.12s;
     white-space: nowrap;
     line-height: 1.4;
+}
+
+/* task-2026-05-28-1a7899 / AI-1224 — focus ring on the tablist's
+   active treetab (roving tabindex carrier). */
+.mw-page-chip-popover__tab:focus-visible {
+    outline: 2px solid var(--ese-accent, #0d6efd);
+    outline-offset: -2px;
 }
 
 .mw-page-chip-popover__tab:hover {
@@ -3026,10 +3055,18 @@ html.dark .mw-page-chip-popover__input {
 .mw-page-chip-popover__link {
     display: flex;
     align-items: center;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5). */
+    min-height: 44px;
+    width: 100%;
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     color: var(--ese-text, #111827);
     text-decoration: none;
     font-size: var(--font-control, 13px);
+    background: transparent;
+    border: none;
+    text-align: start;
+    cursor: pointer;
+    font: inherit;
 }
 
 .mw-page-chip-popover__link:hover {
@@ -3039,6 +3076,24 @@ html.dark .mw-page-chip-popover__input {
 
 html.dark .mw-page-chip-popover__link {
     color: var(--ese-text, #f3f4f6);
+}
+
+/* task-2026-05-28-1a7899 / AI-1224 — current-page button variant:
+   carries aria-current="page", styled as the active row (accent +
+   no hover state change). Replaces the legacy empty-href anchor. */
+.mw-page-chip-popover__link--current {
+    color: var(--ese-accent, #0d6efd);
+    font-weight: 500;
+    cursor: default;
+}
+
+.mw-page-chip-popover__link--current:hover {
+    background-color: transparent;
+    color: var(--ese-accent, #0d6efd);
+}
+
+html.dark .mw-page-chip-popover__link--current {
+    color: var(--ese-accent, #0d6efd);
 }
 
 .mw-page-chip-popover__item-title {
@@ -3062,6 +3117,8 @@ html.dark .mw-page-chip-popover__link {
 .mw-page-chip-popover__new-page {
     display: flex;
     align-items: center;
+    /* task-2026-05-28-1a7899 / AI-1224 — min-height: 44px (WCAG 2.5.5). */
+    min-height: 44px;
     gap: var(--space-sm, 8px);
     padding: var(--space-sm, 8px) var(--space-md, 13px);
     color: var(--ese-accent, #0d6efd);
@@ -3218,6 +3275,84 @@ html.dark .mw-ese-empty-state__hint {
 
 html.dark .mw-main-drawer__item--depth-1::before {
     background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── AI-1197: Right-rail panel button 44px touch targets ───────────── */
+/* task-2026-05-27-9e89ba / AI-1197: action buttons in right-rail panels
+   (back button, search toggle/clear, close X) measured 24-32px; enforce
+   WCAG 2.5.5 minimum 44x44px on all interactive elements. */
+.mw-live-edit-page .btn.btn-link,
+.mw-live-edit-page .live-edit-settings-back-button-wrapper .btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mw-live-edit-page .x-close-modal-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mw-live-edit-page .style-pack-search-toggle,
+.mw-live-edit-page .style-pack-search-clear {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* ── AI-1200: Right-rail progressive disclosure ────────────────────── */
+/* task-2026-05-27-9e89ba / AI-1200: default show 3 primary sidebar
+   icons (Template, Style, More); secondary icons (Layout, AI Edit)
+   appear on hover or focus-within. Mobile always shows all. */
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+    [data-mw-sidebar-priority="secondary"] {
+    display: none;
+}
+
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:hover
+    [data-mw-sidebar-priority="secondary"],
+.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar:focus-within
+    [data-mw-sidebar-priority="secondary"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+        [data-mw-sidebar-priority="secondary"] {
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* ── AI-1192: Add Content modal Cancel button 44px touch target ────── */
+/* task-2026-05-27-fb049a / AI-1192: Filament Cancel button in the
+   Add Content modal measures 42px; enforce WCAG 2.5.5 44px minimum. */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px;
+}
+
+/* ── AI-1194: Quick AI Edit toggle buttons 44px touch target ───────── */
+/* task-2026-05-27-fb049a / AI-1194: "Active layout" / "Whole page"
+   toggle buttons in Quick AI Edit panel measure 38px; enforce 44px. */
+#mw-live-edit-quickEditComponent-box .btn {
+    min-height: 44px;
 }
 
 /* ======================================================================
@@ -4414,4 +4549,11 @@ body.fi-panel-admin .fi-notification {
     body.fi-panel-admin .fi-notification {
         transition-duration: 0ms !important;
     }
+}
+
+/* task-2026-05-27-241d90 / AI-1159: modal footer <a> tags invisible in dark mode.
+   Filament dark cascade targets <button> but misses <a> with fi-btn class. */
+html.dark .fi-modal-footer a.fi-btn,
+.theme-dark .fi-modal-footer a.fi-btn {
+    color: rgb(226, 232, 240) !important;
 }

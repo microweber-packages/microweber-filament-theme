@@ -152,15 +152,16 @@ body {
     scrollbar-gutter: auto !important;
 }
 
+/* task-2026-05-27-db429e / AI-1163: 35px → 44px for WCAG 2.5.5 touch target */
 .live-edit-toolbar-buttons-undo-redo,
 .live-edit-toolbar-buttons-view {
     background-color: #ffffff !important;
     border-radius: 7px !important;
     box-shadow: none !important;
     border: 1px solid #e0e0e0 !important;
-    height: 35px !important;
-    min-height: 35px !important;
-    max-height: 35px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
     display: inline-flex !important;
     align-items: center !important;
     font-size: 14px !important;
@@ -178,7 +179,7 @@ body {
     background-color: transparent !important;
     border-radius: 7px !important;
     padding: 0 !important;
-    max-height: 35px !important;
+    max-height: 44px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -192,9 +193,9 @@ body {
     border-radius: 7px !important;
     box-shadow: none !important;
     border: 1px solid #e0e0e0 !important;
-    height: 35px !important;
-    min-height: 35px !important;
-    max-height: 35px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
     padding: 3px 7px !important;
     line-height: 20px !important;
     font-size: 14px !important;
@@ -347,9 +348,9 @@ html.dark .mw-live-edit-right-sidebar-wrapper .live-edit-toolbar-buttons svg {
     border: none !important;
     border-radius: var(--radius-pill, 999px) !important;
     padding: 0 14px !important;
-    height: 35px !important;
-    min-height: 35px !important;
-    max-height: 35px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
     font-size: 14px !important;
     line-height: 20px !important;
     display: inline-flex !important;
@@ -1550,7 +1551,8 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.dark .mw-add-content-modal-action-wrapper .font-bold {
+.dark .mw-add-content-modal-action-wrapper .font-bold,
+.dark .mw-add-content-modal-action-wrapper .font-semibold {
     color: #e5e7eb !important;
 }
 
@@ -1564,6 +1566,19 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 
 .dark .mw-add-content-modal-action-wrapper .w-20 {
     background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* task-2026-05-28-d8b915 / AI-1217 — dark-mode text contrast fix */
+.dark .mw-add-content-modal-search-input {
+    color: #e5e7eb !important;
+}
+.dark .mw-add-content-modal-root p {
+    color: #d1d5db !important;
+}
+
+/* task-2026-05-28-102772 / AI-1218 — Cancel button 44px touch target */
+.mw-content-picker-modal .fi-modal-footer-actions .fi-btn {
+    min-height: 44px !important;
 }
 
 /*
@@ -1869,11 +1884,16 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
     color: #ffffff !important;
 }
-/* AI-1139 dark mode — dim per-type tint circles via filter so inline
-   style= background-colors stay distinguishable (not uniform gray) */
+/* AI-1139 dark mode — dim per-type tint circles for dark bg;
+   task-2026-05-27-688e38: brightness(0.55) was too aggressive,
+   making SVG icons invisible. Raised to 0.75 for visibility. */
 html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon,
 .dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon {
-    filter: brightness(0.55) saturate(0.8);
+    filter: brightness(0.75) saturate(0.8);
+}
+html.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg,
+.dark .mw-content-picker-modal .mw-add-content-group--secondary .mw-add-content-icon svg {
+    color: #e5e7eb !important;
 }
 /* AI-1139: mobile bottom-sheet modal */
 @media (max-width: 767px) {
