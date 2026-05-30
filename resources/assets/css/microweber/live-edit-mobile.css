@@ -200,25 +200,37 @@
         display: none !important;
     }
 
-    /* AI-718 narrow rail — 40px width on the rail and its buttons.
-       min-height: 44px preserves WCAG 2.5.5 vertical tap area. */
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar {
-        width: 40px !important;
+    /* task-2026-05-27-railfit — right rail widened to 48px on mobile so
+       its 44px (WCAG 2.5.5) buttons fit inside the rail without
+       clipping past the viewport right edge at 390px viewports.
+       Specificity raised via `body.fi-panel-admin` (4 classes) so
+       this rule beats the frontend-assets bundle rule
+       `.mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar
+       .btn-icon.live-edit-toolbar-buttons { width: 44px !important }`
+       which previously won via source-order tiebreak at equal
+       specificity. Pre-fix: 40px rail + 44px buttons → buttons
+       overflowed 4px past viewport (x=350..394 vs viewport 0..390). */
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar {
+        width: 48px !important;
     }
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
-        width: 40px !important;
-        min-width: 40px !important;
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons,
+    body.fi-panel-admin .mw-live-edit-right-sidebar-wrapper.mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup {
+        width: 44px !important;
+        min-width: 44px !important;
+        max-width: 44px !important;
         min-height: 44px !important;
         padding: 6px !important;
         flex-direction: row !important;
     }
-    /* AI-718 — keep the icon centred + sized at 22px (the rail
-       has no label so the icon does the full job). */
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
-    .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
-        width: 22px;
-        height: 22px;
+    /* Icon centred at 22px — no label inside rail on mobile so icon
+       carries full discoverability. */
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .btn-icon.live-edit-toolbar-buttons svg,
+    body.fi-panel-admin .mw-live-edit-page .mw-live-edit-right-sidebar-template-sidebar .mw-live-edit-advanced-settings-popup svg {
+        width: 22px !important;
+        height: 22px !important;
     }
     /*
      * No `:has(*:not(:empty))` suppression: the Vue toolbar buttons
@@ -653,6 +665,37 @@
         padding-bottom: 6px;
     }
 
+    /* task-2026-05-27-e5e443 / AI-1143 — Element Style Editor mobile
+       touch-target floors. Two sub-44 control families surfaced via
+       Tier-3 Playwright probe at 390x844:
+         1. `.mw-segmented__cell` (4x text-align toggles ta-left /
+            ta-center / ta-right / ta-justify) render 75-76 x 28 —
+            16px short on vertical hit area.
+         2. `.v-input--horizontal` (4x Vuetify slider wrappers for
+            font-size / line-height / letter-spacing etc.) render
+            304 x 26 — the `.v-slider-track` itself is 3px tall so
+            tap-to-set vertical hit area is only 26px (18px short).
+       Both pinned to min-height: 44px inside the live-edit mobile
+       block. Vuetify writes inline styles on slider drag so
+       !important is mandatory to defeat the inline override (per
+       the existing surviving-!important pattern documented in
+       element-style-editor.css). Desktop layout unaffected. */
+    .mw-admin-live-edit-page .mw-segmented__cell,
+    .mw-live-edit-page .mw-segmented__cell,
+    #mw-element-style-editor-app .mw-segmented__cell {
+        min-height: 44px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .mw-admin-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    .mw-live-edit-page #mw-element-style-editor-app .v-input--horizontal,
+    #mw-element-style-editor-app .v-input--horizontal {
+        min-height: 44px !important;
+        display: flex !important;
+        align-items: center;
+    }
+
     /*
      * Live Edit toolbar overflow at narrow viewports.
      *
@@ -807,5 +850,60 @@
     .mw-admin-live-edit-page #toolbar .custom-dropdown,
     .mw-live-edit-page #toolbar .custom-dropdown {
         flex-shrink: 0 !important;
+    }
+
+    /*
+     * task-2026-05-29-eaf3a1 / AI-1157 — Quick AI Edit panel
+     * (#mw-live-edit-quickEditComponent-box) carries 24 sub-44 interactive
+     * elements at 390x844: 12 .quick-ai-type-group-header buttons rendered
+     * at 32px tall (12px short of WCAG 2.5.5) and 12 .form-control-live-edit-input
+     * text inputs rendered at 38px tall (6px short). Pin both rule families
+     * to the 44px floor inside the canonical mobile/touch media block.
+     *
+     * Scope note: the controlBox teleports directly under body.fi-panel-admin
+     * (no .mw-admin-live-edit-page / .mw-live-edit-page ancestor), so the
+     * doubled-prefix pattern used elsewhere in this file does NOT match here.
+     * Scope via the unique box ID so other Live Edit surfaces that reuse
+     * .form-control-live-edit-input (filepicker / module settings) keep their
+     * desktop sizing.
+     *
+     * Specificity note: microweber-filament-theme.css:100 ships a same-
+     * specificity desktop rule pinning min-height:36px on the same selector
+     * with !important. That file concatenates AFTER live-edit-mobile.css in
+     * the bundle, so source-order would otherwise win against this mobile
+     * override (Stage-2 sub-variant !important-cascade-loss). Prefix with
+     * body.fi-panel-admin to bump specificity (+0/1/1/0) above the bare
+     * #id .class rule.
+     */
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .quick-ai-type-group-header {
+        min-height: 44px !important;
+    }
+
+    body.fi-panel-admin #mw-live-edit-quickEditComponent-box .form-control-live-edit-input {
+        min-height: 44px !important;
+    }
+
+    /* task-2026-05-30-pchip01 — PageChip mobile-overlay override.
+     * The toolbar-col-container hosting .mw-page-chip-wrapper is
+     * display:none at <=768px (line 777 above) for room budget. On
+     * mobile, PageChip.vue teleports the popover to <body> via
+     * <Teleport :disabled="!isMobile">; the teleported node carries
+     * the .mw-page-chip-popover--mobile class and renders as a
+     * full-viewport overlay below the toolbar. Position:fixed escapes
+     * the hidden ancestor's display:none even if Teleport's
+     * :disabled toggle is delayed by one tick. Top offset 56px
+     * matches the toolbar height (--toolbar-height: 48px + 8px margin).
+     */
+    .mw-page-chip-popover.mw-page-chip-popover--mobile {
+        position: fixed !important;
+        top: 56px !important;
+        left: 8px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        z-index: 100000 !important;
+        max-height: calc(100vh - 64px) !important;
     }
 }
