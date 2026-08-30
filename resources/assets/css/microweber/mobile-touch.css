@@ -97,6 +97,20 @@
         font-size: 16px;
     }
 
+    /* Touch tap-target floor. The desktop density pass sets form controls to
+       36px (var(--mw-space-xs) padding + 36px wrapper) — fine for a mouse but
+       below the 44px minimum for touch. Floor form fields + select triggers to
+       44px here; desktop (fine pointer, >1023px) keeps its 36px density. */
+    .fi-input-wrp,
+    .fi-input-wrp input,
+    .fi-input-wrp select,
+    .fi-input,
+    .fi-fo-text-input input,
+    .fi-fo-select select,
+    .fi-select-input-btn {
+        min-height: 44px !important;
+    }
+
     /* The Filament topbar global-search input has a project-specific
        override (`font-size: 13px !important` + height 34px) that beats
        the generic `input[type="search"]` rule above. Override here and
@@ -1398,25 +1412,25 @@ body.fi-panel-checkout .fi-fo-field:has([data-validation-error]) textarea {
 /* Type scale */
 body.fi-panel-admin h1,
 body.fi-panel-checkout h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 1.25;
 }
 
 body.fi-panel-admin h2,
 body.fi-panel-checkout h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     line-height: 1.3;
 }
 
 body.fi-panel-admin h3,
 body.fi-panel-checkout h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     line-height: 1.4;
 }
 
 body.fi-panel-admin h4,
 body.fi-panel-checkout h4 {
-    font-size: 1.125rem;
+    font-size: 0.9375rem;
     line-height: 1.45;
 }
 
