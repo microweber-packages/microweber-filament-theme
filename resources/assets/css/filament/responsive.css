@@ -1,0 +1,278 @@
+/* Responsive overrides extracted from theme-v3. Populated by extract-theme.cjs. */
+/* === extracted from microweber-theme-v3 === */
+/* 2627-2848 */
+/* ============================================================================ */
+/* Responsive — mobile/tablet */
+/* ============================================================================ */
+@media (max-width: 768px) {
+  .fi-page-header-main-ctn {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+    gap: var(--mw-space-sm) !important;
+  }
+
+  .fi-header {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  .fi-main {
+    padding-left: 14px !important;   /* phone content gutter — 6px was too tight, inputs read edge-to-edge */
+    padding-right: 14px !important;
+    padding-top: var(--mw-space-md) !important;  /* GR: md(16) */
+  }
+
+  /* Topbar: hide search text, show only icon; compact Live Edit */
+  .fi-topbar {
+    padding: var(--mw-space-xs) var(--mw-space-xs) !important;  /* GR: xs(6) */
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    min-height: 44px !important;
+  }
+
+  /* NOTE: the topbar-fit rules (hide global search + Live-Edit, shrink the brand
+     wordmark) are NOT here — at 481–768px the full topbar still fits comfortably,
+     and applying them to tablets left a tiny squished logo + a sparse bar. They
+     live in the ≤600px / ≤480px blocks below, scoped to where the bar actually
+     overflows (~560px and narrower). */
+
+  /* Compact "Add" button on mobile */
+  .fi-btn.admin-toolbar-add {
+    padding: 0 var(--mw-space-xs) !important;  /* GR: xs(6) */
+    height: 32px !important;
+    font-size: 12px !important;
+  }
+
+  /* Page heading: truncate long titles */
+  .fi-header-heading {
+    font-size: 1.125rem !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  .fi-modal-content {
+    border-radius: var(--mw-radius-lg) !important;
+  }
+
+  .fi-wi-stats-overview-stat {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  .fi-empty-state {
+    padding: 1.5rem !important;
+  }
+
+  .fi-section:not(.fi-aside) {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  /* Media library: constrain the search icon on mobile */
+  .mw-media-search-icon {
+    position: absolute !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* --- Generic mw-dialog mobile improvements --- */
+  .mw-dialog-holder {
+    max-width: calc(100vw - var(--mw-space-md)) !important;
+    max-height: calc(100vh - var(--mw-space-md)) !important;
+  }
+
+  .mw-dialog-container {
+    padding: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  }
+
+  .mw-dialog-footer {
+    padding: var(--mw-space-xs) var(--mw-space-sm) !important;  /* GR: xs(6) sm(10) */
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  .mw-dialog-footer .btn {
+    min-height: 40px;
+  }
+
+  /* --- Touch-friendly improvements --- */
+  /* Ensure all buttons and interactive elements have min 44px tap target */
+  .fi-btn {
+    min-height: 44px !important;
+  }
+
+  /* Table rows: increase vertical padding for easier tapping */
+  .fi-ta-cell {
+    padding-top: var(--mw-space-sm) !important;  /* GR: sm(10) */
+    padding-bottom: var(--mw-space-sm) !important;
+  }
+
+  /* Filament action buttons — larger touch targets */
+  .fi-ta-actions .fi-icon-btn {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  /* Scrollable table indicator — fade hint on right edge */
+  .fi-ta-content {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Stats cards — stack to single column on mobile */
+  .fi-wi-stats-overview-stat-ctn {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Form sections — tighter padding */
+  .fi-section-content-ctn {
+    padding: var(--mw-space-sm) !important;  /* GR: sm(10) */
+  }
+
+  /* Filament modals — full width on mobile */
+  .fi-modal-content {
+    max-width: calc(100vw - var(--mw-space-md)) !important;
+    margin: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+}
+
+/* Topbar fit — only where it actually overflows (~560px and narrower). The full
+   topbar (logo + Add + hamburger + search + Live-Edit + notifications + user) is
+   ~560px wide, so at 601px+ it fits untouched; below that the global search and
+   Live-Edit button collapse to ICON-ONLY (not hidden) so everything stays reachable
+   without pushing the user menu + notifications off the edge. */
+@media (max-width: 600px) {
+  /* Global search → icon only: keep the magnifier prefix icon, collapse the input
+     so just the icon shows; it still focuses/expands on tap. The 44px touch-target
+     min-width from mobile/03-touch-sweep-cards is overridden here (higher
+     specificity) so the collapse actually takes. */
+  .fi-topbar .fi-global-search,
+  .fi-topbar .fi-global-search-field {
+    max-width: 46px !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+  .fi-topbar .fi-global-search-field .fi-input-wrp {
+    padding-right: 0 !important;
+  }
+  .fi-topbar .fi-global-search-field input {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    color: transparent !important;
+  }
+  .fi-topbar .fi-global-search-field input::placeholder {
+    color: transparent !important;
+  }
+
+  /* Live Edit → icon only: hide the "Live Edit" label, keep the eye icon. (The old
+     mobile rule targeted `.fi-topbar-end a[href*=editmode]`, a selector the current
+     MW markup no longer produces, so it was dead.) */
+  .fi-topbar a[href*="editmode"] {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+  .fi-topbar a[href*="editmode"] svg,
+  .fi-topbar a[href*="editmode"] img {
+    font-size: initial;
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .fi-page-header-main-ctn {
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-bottom: var(--mw-space-xs) !important;
+    gap: var(--mw-space-xs) !important;
+  }
+
+  .fi-header {
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-bottom: var(--mw-space-xs) !important;
+  }
+
+  .fi-main {
+    padding-left: 12px !important;   /* phone content gutter — hair(4) left inputs reading edge-to-edge/cut */
+    padding-right: 12px !important;
+    padding-top: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+
+  /* Narrowest phones: with 7 items in the bar (search + Live-Edit are now icons,
+     not hidden), compact the wordmark and the "+ Add" button to icon-only so the
+     notifications + user menu stay on-screen. (Tablets at 481px+ keep the full
+     logo and the "+ Add" label.) */
+  .fi-topbar .mw-admin-brand-mark__image {
+    max-width: 84px !important;
+    height: auto !important;
+  }
+
+  /* "+ Add" → icon only. Clip to a 44px square (the "+" icon is first, the "Add"
+     text overflows out) rather than font-size:0 — the button's font-size is set
+     !important elsewhere, so clipping by width is the robust way to collapse it. */
+  .fi-topbar .mw-admin-primary-actions .fi-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+
+  /* Tighten the topbar gap so 7 items (logo + Add + hamburger + search + Live-Edit
+     + notifications + user) clear a phone width. */
+  .fi-topbar,
+  .fi-topbar > nav,
+  .fi-topbar .fi-topbar-end {
+    gap: 3px !important;
+  }
+
+  /* Hide "Add" label, show icon only */
+  .fi-btn.admin-toolbar-add {
+    font-size: 0 !important;
+    padding: 0 var(--mw-space-xs) !important;  /* GR: xs(6) */
+    gap: 0 !important;
+    svg { font-size: initial; }
+  }
+
+  .fi-section-content-ctn,
+  .fi-ta-ctn,
+  .fi-wi,
+  .fi-section:not(.fi-aside) {
+    border-radius: var(--mw-radius-sm) !important;
+  }
+
+  /* Table: reduce font size to fit more content */
+  .fi-ta-cell,
+  .fi-ta-header-cell {
+    font-size: 12px !important;
+    padding-left: var(--mw-space-xs) !important;  /* GR: xs(6) */
+    padding-right: var(--mw-space-xs) !important;
+  }
+
+  /* Modals: full-screen on very small phones */
+  .fi-modal-content {
+    max-width: 100vw !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    min-height: 100vh;
+  }
+
+  /* Page action buttons: stack vertically */
+  .fi-header-actions {
+    flex-wrap: wrap !important;
+    gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  }
+}

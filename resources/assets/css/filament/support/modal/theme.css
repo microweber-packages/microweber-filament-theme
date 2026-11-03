@@ -1,0 +1,115 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1323-1419 */
+/* =============================================================================
+   Modals (.fi-modal / -content / -window / -footer) — navigation map.
+   Core styling: HERE + ./index.css (structure, slide-over). Modal rules also
+   live (legitimately) in:
+     - Dark mode: filament/dark.css, global.css (.dark last-wins).
+     - Responsive / mobile (full-height sheets, footer stacking): filament/responsive.css,
+       microweber/mobile/07-desktop-tables-forms.css, mobile/11-buttons-editor-modal.css.
+     - Radius/compact body + primitives: microweber/general/04-compact-forms-misc.css,
+       general/01-primitives-overrides.css.
+     - Context modals: media manager (general/03-media-manager.css), topbar/search
+       (general/11-topbar-and-dashboard.css), Live-Edit right rail (general/10-live-edit-right-rail.css).
+     - Live-Edit canvas modals: microweber/live-edit-classes.css, live-edit-input.css, live-edit-mobile.css.
+   ============================================================================= */
+/* Modals — MW v2: 4px radius cards, but modals slightly larger */
+.fi-modal-content {
+  border-radius: var(--mw-radius-xl) !important;
+  box-shadow: var(--mw-shadow-elevated) !important;
+  border: 1px solid var(--mw-border-color) !important;
+}
+
+/* Slide-over modals — slide from right edge, full screen height */
+.fi-modal-slide-over {
+  .fi-modal-window-ctn {
+    justify-items: end !important;  /* Push modal to right edge instead of center */
+    grid-template-rows: 1fr !important;  /* Single row — no header/footer splitting */
+    align-items: stretch !important;
+  }
+  .fi-modal-window {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;  /* No border-radius on slide-over (flush with edge) */
+    margin: 0 !important;
+    grid-row: 1 / -1 !important;  /* Span all grid rows */
+    overflow-y: auto !important;
+  }
+  .fi-modal-content {
+    box-shadow: none !important;  /* No shadow inside slide-over panel */
+    border: none !important;
+    padding: 14px var(--mw-space-md) !important;  /* compact: 14 vertical, md(16) sides */
+    background-color: transparent !important;  /* Inherit from .fi-modal-window to avoid double background */
+  }
+  .fi-modal-footer {
+    box-shadow: none !important;
+    border-top: none !important;
+  }
+}
+
+/* Sidebar-aligned modals — ensure content has padding */
+.fi-modal-window.fi-align-start .fi-modal-content {
+  padding: 14px var(--mw-space-md) !important;  /* compact: 14 vertical, md(16) sides */
+}
+
+/* Modal header — MW v2: 16px heading, consistent padding */
+.fi-modal-header {
+  padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* compact: sm(10) md(16) */
+  border-bottom: var(--mw-border-hair) solid var(--mw-border-color) !important;
+}
+
+.fi-modal-heading {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--mw-text-primary) !important;
+}
+
+.fi-modal-description {
+  font-size: 13px !important;
+  color: var(--mw-text-secondary) !important;
+}
+
+/* Modal close button — consistent positioning */
+/* task-2026-05-27-db429e / AI-1165: 36×36 → 44×44 for WCAG 2.5.5 */
+.fi-modal-close-btn {
+  border-radius: var(--mw-radius-sm) !important;
+  color: var(--mw-text-muted) !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+
+  &:hover {
+    color: var(--mw-text-primary) !important;
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+/* Dark: give the close-button hover a visible light-alpha fill (no dark counterpart above) */
+.dark .fi-modal-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Modal footer — MW v2: right-aligned buttons, consistent padding */
+.fi-modal-footer {
+  padding: var(--mw-space-sm) var(--mw-space-lg) !important;  /* GR: sm(10) lg(26) */
+  border-top: var(--mw-border-hair) solid var(--mw-border-color) !important;
+  gap: var(--mw-space-xs) !important;  /* GR: xs(6) */
+  justify-content: flex-end !important;
+
+  /* Action buttons in modal footer — consistent sizing */
+  .fi-btn {
+    min-height: 36px !important;
+    padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+    font-size: 14px !important;
+  }
+}
+
+/* Modal body padding — consistent with card body */
+.fi-modal-content .fi-section-content {
+  padding: var(--mw-space-lg) var(--mw-space-lg) !important;  /* GR: lg(26) */
+}
+
+/* Confirmation dialog — centered text, reasonable max-width */
+.fi-modal-confirmation {
+  text-align: center !important;
+}

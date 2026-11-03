@@ -1,0 +1,21 @@
+/* Microweber Filament theme entry.
+ *
+ * 1. external.css     — Tailwind + stock Filament theme + frontend-assets
+ * 2. tokens/          — colors, breakpoints, sizes, typography
+ * 3. filament/        — per-component overrides (modal, tabs, cards, …)
+ * 4. microweber/      — live-edit + admin extras
+ * 5. admin.css        — remaining admin-only chrome
+ *
+ * Core first, Microweber skin last, so our files win the cascade.
+ */
+
+@import './external.css';
+@import './tokens/index.css';
+@import './filament/index.css';
+@import './base.css';
+@import './microweber/index.css';
+@import './admin.css';
+@import './global.css';
+
+@source not "**/*.less";
+@config "./../../../tailwind.config.js";

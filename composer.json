@@ -1,0 +1,48 @@
+{
+    "name": "microweber-packages/microweber-filament-theme",
+    "description": "Microweber CMS - Filament admin panel theme",
+    "keywords": [
+        "microweber-packages",
+        "laravel",
+        "microweber-filament-theme"
+    ],
+    "homepage": "https://github.com/microweber-packages/microweber-filament-theme",
+    "support": {
+        "issues": "https://github.com/microweber-packages/microweber-filament-theme/issues",
+        "source": "https://github.com/microweber-packages/microweber-filament-theme"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bozhidar",
+            "email": "bobi@microweber.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "microweber-packages/microweber-package": "*",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": [],
+    "autoload": {
+        "psr-4": {
+            "MicroweberPackages\\MicroweberFilamentTheme\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MicroweberPackages\\MicroweberFilamentTheme\\Tests\\": "tests/"
+        }
+    },
+    "scripts": [],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,33 @@
+.fi-checkbox-input {
+    border: 2px solid rgb(156, 163, 175) !important;
+    background-color: white !important;
+    width: 18px !important;
+    height: 18px !important;
+    cursor: pointer;
+
+    &:checked {
+        /* --primary-N are comma triplets ("10, 88, 202"), so a bare var() is an
+           invalid colour (checked box rendered transparent). Wrap in rgb(). */
+        border-color: rgb(var(--primary-600)) !important;
+        background-color: rgb(var(--primary-600)) !important;
+    }
+
+    &:focus {
+        outline: none !important;
+        box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.6) !important;
+    }
+}
+
+.dark .fi-checkbox-input {
+    border-color: rgb(107, 114, 128) !important;
+    background-color: #161922 !important;
+
+    &:checked {
+        border-color: rgb(var(--primary-500)) !important;
+        background-color: rgb(var(--primary-500)) !important;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6) !important;
+    }
+}

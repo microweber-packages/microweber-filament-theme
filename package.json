@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "scripts": {
+    "build": "node build.cjs",
+    "dev": "node build.cjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/typography": "^0.5.16",
+    "copy-webpack-plugin": "^14.0.0",
+    "fs-extra": "^11.2.0",
+    "postcss": "^8.5.3",
+    "sass": "^1.97.3",
+    "tailwindcss": "^4.2.2",
+    "webpack": "^5.110.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {},
+  "allowScripts": {
+    "@parcel/watcher": true
+  }
+}

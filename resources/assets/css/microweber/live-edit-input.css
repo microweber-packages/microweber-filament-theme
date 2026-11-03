@@ -1,0 +1,181 @@
+.form-control-live-edit-label-wrapper {
+    @apply cursor-pointer block leading-[22px] min-h-[45px] border-0 outline-0 appearance-none shadow-none relative;
+}
+
+.form-control-live-edit-label-wrapper textarea.form-control-live-edit-input {
+    @apply pt-[10px];
+}
+
+@-moz-document url-prefix() {
+    .form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
+        @apply pt-[10px];
+    }
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
+    @apply capitalize;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select option {
+    @apply text-black dark:text-white  dark:bg-[#0e0e0e];
+}
+
+.form-control-live-edit-label-wrapper .v-slider-thumb__surface.elevation-2 {
+    @apply text-[#f0f0f0];
+}
+
+.form-control-live-edit-label-wrapper .text-align .active {
+    @apply !bg-[#f0f0f0] !border-[#f0f0f0];
+
+    svg {
+        @apply fill-black dark:fill-white;
+    }
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select {
+    @apply border border-gray-100 !rounded-[7px] flex-1 text-[11px] leading-[16px] text-left caret-black min-h-[20px] w-full  dark:!bg-gray-800 dark:!text-white;
+    span {
+        @apply dark:text-white;
+
+    }
+
+    li > span{
+        &:hover {
+           @apply dark:bg-gray-700;
+        }
+    }
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:disabled,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:disabled {
+    /* task-2026-09-06-darkaudit — added dark variant; the flat #f0f0f0 disabled
+       fill was a light-gray block on the dark legacy option form. */
+    @apply bg-[#f0f0f0] opacity-70 dark:bg-gray-700 dark:opacity-60;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible {
+    @apply border-0 outline-0 appearance-none !shadow-none bg-transparent;
+}
+
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select:focus-visible + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus + .form-control-live-edit-bottom-effect:after,*/
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-input:focus-visible + .form-control-live-edit-bottom-effect:after {*/
+/*    @apply w-full transition-[width] duration-[0.3s] !shadow-none;*/
+/*}*/
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider {
+    @apply bg-transparent max-w-[50px] h-[30px] min-h-[unset] p-0 !pl-2;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-control-input-range-slider:focus-visible,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus,
+.form-control-live-edit-label-wrapper .form-control-live-edit-input.form-select.form-control-input-range-slider:focus-visible {
+    @apply bg-[#4A4A4A];
+}
+
+/*.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect {*/
+/*    @apply absolute bottom-0 h-[1px] left-[6px] w-[calc(100%-12px)] bg-[#e7e7e7] box-border;*/
+/*}*/
+
+/*#style-edit-global-template-settings-holder .form-control-live-edit-bottom-effect, #mw-live-edit-gui-editor-box .form-control-live-edit-bottom-effect {*/
+/*    @apply !hidden;*/
+/*}*/
+
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:focus-visible {
+    @apply border-none;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect:after {
+    @apply bg-[#0e0e0e] bottom-0 block h-[1px] absolute transition-[width] duration-[0.25s] w-0;
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-bottom-effect.bottom-effect-textarea {
+    @apply bottom-[5px];
+}
+
+.form-control-live-edit-label-wrapper .form-control-live-edit-settings-btn {
+    @apply absolute top-[10px] right-[16px] cursor-pointer;
+}
+
+.mw-filepicker-component-navigation-header .form-control-live-edit-label-wrapper {
+    @apply w-full;
+}
+
+.mw-live-edit-spacing-wrapper {
+
+    a {
+        @apply dark:text-white text-sm;
+
+        svg {
+            @apply dark:fill-white;
+            width: 20px;
+        }
+    }
+}
+
+
+.form-check-label {
+    @apply dark:!text-white;
+}
+
+.mw-dialog-holder {
+    @apply dark:!bg-gray-900;
+}
+
+.live-edit-label {
+    padding: 0 2px;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    font-size: 12px;
+    letter-spacing: 0.75px;
+    text-overflow: ellipsis;
+    @apply font-semibold text-gray-600 dark:text-white ps-0 block overflow-hidden box-border uppercase mb-2;
+}
+
+/*
+ * The compact form-control-live-edit-input styling above (text:11px,
+ * min-h:20px) is intended for the live-edit element-style-editor
+ * sidebar where space is at a premium. When the same control is
+ * rendered inside a Filament form (e.g. the parent-page tree search
+ * inside the "Add New Post" slide-over) the compact size looks like a
+ * shrunken accidental input next to the surrounding 40px tall Filament
+ * fields — task-2026-04-29-01c286.
+ *
+ * Bump the size + spacing whenever the wrapper is inside a Filament
+ * form/section so the page-picker search reads as a proper input.
+ */
+.mw-admin-live-edit-page .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.mw-admin-live-edit-page .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.mw-admin-live-edit-page .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input {
+    @apply !text-sm !leading-5 !min-h-[40px] !px-3 !py-2 !border-gray-200;
+    border-width: 1px !important;
+}
+.mw-admin-live-edit-page .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.mw-admin-live-edit-page .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.mw-admin-live-edit-page .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus {
+    @apply !border-[#182433];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+.dark .mw-admin-live-edit-page .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .mw-admin-live-edit-page .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .mw-admin-live-edit-page .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input,
+.dark .mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input {
+    @apply !border-gray-600;
+}
+.dark .mw-admin-live-edit-page .fi-fo-component-ctn .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-section .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-section-content .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus,
+.dark .mw-admin-live-edit-page .fi-modal-window .form-control-live-edit-label-wrapper .form-control-live-edit-input:focus {
+    @apply !border-gray-400;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18) !important;
+}

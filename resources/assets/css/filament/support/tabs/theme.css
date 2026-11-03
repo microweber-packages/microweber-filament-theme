@@ -1,0 +1,70 @@
+
+/* === extracted from microweber-theme-v3 === */
+/* 1572-1627 */
+/* =============================================================================
+   Tabs (.fi-tabs / -item) — navigation map.
+   Core styling: HERE + ./item.css (item states), ./index.css (structure). Tab
+   rules also live (legitimately) in:
+     - Dark mode: filament/dark.css.
+     - v2 reskin (active ink #182433, not blue — see the memory note): microweber/general/12-v2-admin-reskin.css,
+       general/01-primitives-overrides.css.
+     - Admin-page contexts (content-edit, dashboard, settings): microweber/admin/content-edit.css,
+       admin/dashboard.css, admin/settings.css; content form tabs: filament/forms/content-form.css.
+     - Responsive / mobile (scroll, touch floors, media pagination): microweber/mobile/03-touch-sweep-cards.css,
+       mobile/04-admin-form-floors.css, mobile/14-media-pagination-selects.css.
+     - Live-Edit action links: microweber/live-edit-action-links.css.
+   NB: the authoring active-tab is ink #182433 (NOT brand blue) — several dup rules exist, verify vs the demo.
+   ============================================================================= */
+/* Tabs — MW v2: underline style, 14px text */
+.fi-tabs,
+.fi-tabs.fi-contained {
+  border-bottom: none !important;  /* MW v2: no container border, tabs float above card */
+  padding-left: var(--mw-space-lg) !important;  /* GR: lg(26) */
+  box-shadow: none !important;  /* Remove the inset bottom-line shadow from Filament default */
+}
+
+/* Tab items — Filament v5 uses button.fi-tabs-item directly (no .fi-tabs-item) */
+/* Need .fi-tabs prefix to beat global.css specificity (.fi-tabs .fi-tabs-item) */
+.fi-tabs .fi-tabs-item {
+  border-radius: 0 !important;
+  font-weight: 500 !important;  /* MW v2 inactive: 500 */
+  font-size: 14px !important;
+  color: var(--mw-text-primary) !important;  /* MW v2: dark color for all tabs */
+  padding: var(--mw-space-sm) var(--mw-space-md) !important;  /* GR: sm(10) md(16) */
+  margin-right: var(--mw-space-hair) !important;  /* GR: hair(4) */
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  background-color: transparent !important;
+
+  .fi-tabs-item-label {
+    font-size: 14px !important;
+    font-weight: 500 !important;  /* MW v2 inactive: 500, override global.css 700 */
+    color: inherit !important;
+  }
+
+  &:hover {
+    color: var(--mw-text-primary) !important;
+    background-color: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  &.fi-active {
+    color: var(--mw-text-primary) !important;
+    font-weight: 600 !important;  /* MW v2 active: 600 */
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border-bottom: var(--mw-border-xs) solid var(--mw-text-primary) !important;  /* GR: border-xs(2) */
+
+    .fi-tabs-item-label {
+      font-weight: 600 !important;  /* MW v2 active label: 600 */
+    }
+  }
+}
+
+/* Legacy selector fallback */
+.fi-tabs-item {
+  border-radius: 0 !important;
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  color: var(--mw-text-primary) !important;
+  background-color: transparent !important;
+}

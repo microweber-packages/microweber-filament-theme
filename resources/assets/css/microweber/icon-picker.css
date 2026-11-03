@@ -1,0 +1,342 @@
+/* Icon pickers */
+.mw-icon-list {
+    width: 360px;
+    text-align: justify;
+}
+
+.mw-icon-list select {
+    width: auto;
+    min-width: 60px;
+}
+
+.mwiconlist-icon:hover {
+    background-color: #efecec3d;
+}
+
+.mw-icon-list .mw-ui-btn-nav {
+    padding-bottom: 16px;
+}
+
+.mw-icon-list .mw-ui-btn-nav,
+.mw-icon-list .mw-ui-btn-nav input {
+    width: 100%;
+}
+
+.mw-icon-list h5 {
+    font-size: 12px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    opacity: 0.6;
+}
+
+.mwiconlist-section .mw-paging a {
+    display: none;
+}
+
+.mwiconlist-section .mw-paging {
+    margin-top: 15px;
+}
+
+.mwiconlist-section .mw-paging a.mw-paging-visible-range {
+    display: inline-block;
+}
+
+.mwiconlist-section + h5 {
+    padding-top: 16px;
+}
+
+.mwiconlist-icon {
+    margin: 4px 0;
+    transition: opacity 0.3s, transform 0.3s, background-color 0.15s;
+    padding: 8px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    font-size: 22px !important;
+    border-radius: 6px;
+    width: 12%;
+    color: #636363;
+    display: inline-block;
+    cursor: pointer;
+    font-style: normal;
+}
+
+.mwiconlist-icon svg {
+    width: 35px !important;
+    height: 35px !important;
+}
+
+.mw-icon-selector-paging {
+    display: block;
+    width: 100%;
+}
+
+.mwiconlist-settings-section-block-item
+    .form-control::-webkit-outer-spin-button,
+.mwiconlist-settings-section-block-item
+    .form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.mwiconlist-settings-section-block-item {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}
+
+.mwiconlist-settings-section-block-item .form-control[type='number'] {
+    -moz-appearance: textfield;
+}
+.mwiconlist-settings-section-block-item .form-control {
+    width: 100%;
+}
+.mwiconlist-settings-section-block-item .mw-field {
+    width: 100%;
+}
+
+.mwiconlist-settings-section {
+    box-shadow: none;
+}
+
+.mwiconlist-settings-section-block-item .mw-ui-label {
+    padding: 5px 0 !important;
+    font-weight: normal !important;
+    font-size: 12px !important;
+    text-transform: none !important;
+    margin: 0 !important;
+    line-height: normal !important;
+}
+
+.mwiconlist-settings-section-block-item [type='color'] {
+    height: 30px !important;
+    padding: 0 !important;
+}
+
+.mwiconlist-settings-section-block-item .input-group-text {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+.mwiconlist-settings-section-block-item [type='range'] {
+    -webkit-appearance: slider-horizontal !important;
+    appearance: slider-horizontal !important;
+}
+
+.mwiconlist-settings-section-block-item
+    + .mwiconlist-settings-section-block-item {
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid #efecec;
+}
+
+.mwiconlist-settings-section-color-picker {
+    appearance: none;
+    -webkit-appearance: none;
+    display: block;
+    background: #ffffff;
+    border: none;
+    height: 35px;
+    width: 45px;
+    cursor: pointer;
+}
+
+.mwiconlist-settings-section-block-item .mw-tooltip .mwiconlist-section {
+    max-width: 95%;
+}
+
+.mwiconlist-icon-hidden {
+    opacity: 0;
+    transform: translateY(-5px) scale(0.5, 0.5);
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.mwiconlist-section-wrapper {
+    clear: both;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.mw-icon-selector-root .mw-ui-searchfield {
+    margin: 10px 0 0;
+}
+
+.mw-icon-selector-root .mw-ui-box {
+    border-width: 1px;
+}
+
+.mw-icon-selector-root .mw-ui-box,
+.mw-icon-selector-root .mw-accordion-item.active {
+    box-shadow: none !important;
+}
+
+.mw-icon-selector-root .mw-icon-selector-paging a {
+    display: none;
+}
+
+.mw-icon-selector-root .mw-icon-selector-paging a.mw-paging-visible-range {
+    display: inline-block;
+}
+
+.mw-icon-selector-root {
+    width: 400px;
+    padding: 16px;
+}
+
+.mw-icon-picker-icons-holder > div {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.mw-icon-picker-icons-holder {
+    clear: both;
+    padding: 15px 0 0;
+    width: 100%;
+}
+
+.mw-icon-selector-paging {
+    margin: 10px 0 0;
+    clear: both;
+    display: block;
+}
+
+/* Icon picker dialog - overall modal styling */
+.mw-icon-selector-root .mw-tab-accordion {
+    border: none !important;
+}
+
+.mw-icon-selector-root .mw-accordion-item {
+    border: none !important;
+    background: transparent;
+}
+
+.mw-icon-selector-root .mw-accordion-title {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 0 6px;
+    border-bottom: none !important;
+    background: transparent !important;
+}
+
+.mw-icon-selector-root .mw-accordion-content {
+    padding: 0 !important;
+}
+
+/* Icon picker pagination styling */
+.mw-icon-selector-root .pagination {
+    justify-content: center;
+    padding: 12px 0 4px;
+    gap: 2px;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link {
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6b7280;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+    border-color: transparent;
+}
+
+.mw-icon-selector-root .pagination .page-item .page-link.active {
+    background-color: #e5e7eb;
+    color: #111827;
+    font-weight: 600;
+    border-color: transparent;
+}
+
+/* Prev/next arrow buttons in pagination */
+.mw-icon-selector-root .pagination .mw-paging-prev,
+.mw-icon-selector-root .pagination .mw-paging-next {
+    min-width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #6b7280;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.mw-icon-selector-root .pagination .mw-paging-prev:hover,
+.mw-icon-selector-root .pagination .mw-paging-next:hover {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* Dark mode for icon picker dialog */
+.dark .mwiconlist-icon {
+    color: #b0b0b0;
+}
+
+.dark .mwiconlist-icon:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .mwiconlist-settings-section-block-item + .mwiconlist-settings-section-block-item {
+    border-top-color: oklch(0.371 0 0); /* gray-700 */
+}
+
+.dark .mwiconlist-settings-section-color-picker {
+    background: oklch(0.269 0 0); /* gray-800 */
+}
+
+.dark .mw-dialog-holder {
+    background-color: oklch(0.205 0 0); /* gray-900 */
+}
+
+/* Dark mode - icon picker pagination */
+.dark .mw-icon-selector-root .pagination .page-item .page-link {
+    color: #9ca3af;
+    background: transparent;
+}
+
+.dark .mw-icon-selector-root .pagination .page-item .page-link:hover {
+    background-color: oklch(0.269 0 0); /* gray-800 */
+    color: white;
+}
+
+.dark .mw-icon-selector-root .pagination .page-item .page-link.active {
+    background-color: oklch(0.371 0 0); /* gray-700 */
+    color: white;
+}
+
+.dark .mw-icon-selector-root .pagination .mw-paging-prev,
+.dark .mw-icon-selector-root .pagination .mw-paging-next {
+    color: #9ca3af;
+}
+
+.dark .mw-icon-selector-root .pagination .mw-paging-prev:hover,
+.dark .mw-icon-selector-root .pagination .mw-paging-next:hover {
+    background-color: oklch(0.269 0 0); /* gray-800 */
+    color: white;
+}
+
+/* Dark mode - accordion titles */
+.dark .mw-icon-selector-root .mw-accordion-title {
+    color: #d1d5db;
+}

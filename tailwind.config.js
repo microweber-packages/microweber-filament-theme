@@ -1,0 +1,289 @@
+const colors = require('tailwindcss/colors')
+const defaultTheme = require("tailwindcss/defaultTheme.js");
+
+module.exports = {
+    darkMode: 'class',
+    future: {
+        relativeContentPathsByDefault: true,
+    },
+    // mode: 'jit',
+    //  purge: [
+    //      // Your CSS will rebuild any time *any* file in `src` changes
+    //      './resources/assets/**/*.*',
+    //  ],
+    theme: {
+        extend: {
+            fontFamily: {
+                sans: ['var(--font-family)', ...defaultTheme.fontFamily.sans],
+            },
+
+            colors: {
+                blue: {
+                    50: '#edf5ff',
+                    100: '#d0e2ff',
+                    200: '#a6c8ff',
+                    300: '#78a9ff',
+                    400: '#4589ff',
+                    500: '#4991fc',
+                    600: '#4592ff',
+                    700: '#0f62fe',
+                    800: '#001d6f',
+                    900: '#001141',
+                },
+                gray: {
+                    '50': '#f9fafb',
+                    '100': '#f3f4f6',
+                    '200': '#e5e7eb',
+                    '300': '#d1d5db',
+                    '400': '#9ca3af',
+                    '500': '#6b7280',
+                    '600': '#182433',
+                    '700': '#182433',
+                    '800': '#182433',
+                    '900': '#182433',
+                    '950': '#030712'
+                },
+                custom: {
+                    50: 'rgba(var(--primary-50), <alpha-value>)',
+                    100: 'rgba(var(--primary-100), <alpha-value>)',
+                    200: 'rgba(var(--primary-200), <alpha-value>)',
+                    300: 'rgba(var(--primary-300), <alpha-value>)',
+                    400: 'rgba(var(--primary-400), <alpha-value>)',
+                    500: 'rgba(var(--primary-500), <alpha-value>)',
+                    600: 'rgba(var(--primary-600), <alpha-value>)',
+                    700: 'rgba(var(--primary-700), <alpha-value>)',
+                    800: 'rgba(var(--primary-800), <alpha-value>)',
+                    900: 'rgba(var(--primary-900), <alpha-value>)',
+                    950: 'rgba(var(--primary-950), <alpha-value>)',
+                },
+                custom__old: {
+                    50: '#edf5ff',
+                    100: '#d0e2ff',
+                    200: '#a6c8ff',
+                    300: '#78a9ff',
+                    400: '#4589ff',
+                    500: '#4991fc',
+                    600: '#4592ff',
+                    700: '#0f62fe',
+                    800: '#001d6f',
+                    900: '#001141',
+                },
+                danger: {
+                    50: 'rgba(var(--danger-50), <alpha-value>)',
+                    100: 'rgba(var(--danger-100), <alpha-value>)',
+                    200: 'rgba(var(--danger-200), <alpha-value>)',
+                    300: 'rgba(var(--danger-300), <alpha-value>)',
+                    400: 'rgba(var(--danger-400), <alpha-value>)',
+                    500: 'rgba(var(--danger-500), <alpha-value>)',
+                    600: 'rgba(var(--danger-600), <alpha-value>)',
+                    700: 'rgba(var(--danger-700), <alpha-value>)',
+                    800: 'rgba(var(--danger-800), <alpha-value>)',
+                    900: 'rgba(var(--danger-900), <alpha-value>)',
+                    950: 'rgba(var(--danger-950), <alpha-value>)',
+                },
+                gray: {
+                    50: 'rgb(var(--gray-50-rgb) / <alpha-value>)',
+                    100: 'rgb(var(--gray-100-rgb) / <alpha-value>)',
+                    200: 'rgb(var(--gray-200-rgb) / <alpha-value>)',
+                    300: 'rgb(var(--gray-300-rgb) / <alpha-value>)',
+                    400: 'rgb(var(--gray-400-rgb) / <alpha-value>)',
+                    500: 'rgb(var(--gray-500-rgb) / <alpha-value>)',
+                    600: 'rgb(var(--gray-600-rgb) / <alpha-value>)',
+                    700: 'rgb(var(--gray-700-rgb) / <alpha-value>)',
+                    800: 'rgb(var(--gray-800-rgb) / <alpha-value>)',
+                    900: 'rgb(var(--gray-900-rgb) / <alpha-value>)',
+                    950: 'rgb(var(--gray-950-rgb) / <alpha-value>)',
+                },
+                info: {
+                    50: 'rgba(var(--info-50), <alpha-value>)',
+                    100: 'rgba(var(--info-100), <alpha-value>)',
+                    200: 'rgba(var(--info-200), <alpha-value>)',
+                    300: 'rgba(var(--info-300), <alpha-value>)',
+                    400: 'rgba(var(--info-400), <alpha-value>)',
+                    500: 'rgba(var(--info-500), <alpha-value>)',
+                    600: 'rgba(var(--info-600), <alpha-value>)',
+                    700: 'rgba(var(--info-700), <alpha-value>)',
+                    800: 'rgba(var(--info-800), <alpha-value>)',
+                    900: 'rgba(var(--info-900), <alpha-value>)',
+                    950: 'rgba(var(--info-950), <alpha-value>)',
+                },
+                primary: {
+                    50: 'rgba(var(--primary-50), <alpha-value>)',
+                    100: 'rgba(var(--primary-100), <alpha-value>)',
+                    200: 'rgba(var(--primary-200), <alpha-value>)',
+                    300: 'rgba(var(--primary-300), <alpha-value>)',
+                    400: 'rgba(var(--primary-400), <alpha-value>)',
+                    500: 'rgba(var(--primary-500), <alpha-value>)',
+                    600: 'rgba(var(--primary-600), <alpha-value>)',
+                    700: 'rgba(var(--primary-700), <alpha-value>)',
+                    800: 'rgba(var(--primary-800), <alpha-value>)',
+                    900: 'rgba(var(--primary-900), <alpha-value>)',
+                    950: 'rgba(var(--primary-950), <alpha-value>)',
+                },
+                success: {
+                    50: 'rgba(var(--success-50), <alpha-value>)',
+                    100: 'rgba(var(--success-100), <alpha-value>)',
+                    200: 'rgba(var(--success-200), <alpha-value>)',
+                    300: 'rgba(var(--success-300), <alpha-value>)',
+                    400: 'rgba(var(--success-400), <alpha-value>)',
+                    500: 'rgba(var(--success-500), <alpha-value>)',
+                    600: 'rgba(var(--success-600), <alpha-value>)',
+                    700: 'rgba(var(--success-700), <alpha-value>)',
+                    800: 'rgba(var(--success-800), <alpha-value>)',
+                    900: 'rgba(var(--success-900), <alpha-value>)',
+                    950: 'rgba(var(--success-950), <alpha-value>)',
+                },
+                warning: {
+                    50: 'rgba(var(--warning-50), <alpha-value>)',
+                    100: 'rgba(var(--warning-100), <alpha-value>)',
+                    200: 'rgba(var(--warning-200), <alpha-value>)',
+                    300: 'rgba(var(--warning-300), <alpha-value>)',
+                    400: 'rgba(var(--warning-400), <alpha-value>)',
+                    500: 'rgba(var(--warning-500), <alpha-value>)',
+                    600: 'rgba(var(--warning-600), <alpha-value>)',
+                    700: 'rgba(var(--warning-700), <alpha-value>)',
+                    800: 'rgba(var(--warning-800), <alpha-value>)',
+                    900: 'rgba(var(--warning-900), <alpha-value>)',
+                    950: 'rgba(var(--warning-950), <alpha-value>)',
+                },
+            },
+        },
+    },
+
+    plugins: [
+
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/aspect-ratio'),
+        require('@tailwindcss/container-queries'),
+
+    ],
+    //  safelist: [{ pattern: /./ }],
+    safelist: [
+        // Background colors with hover
+        {
+            pattern: /(hover:)?bg-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+
+        // Border colors with hover
+        {
+            pattern: /(hover:)?border-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+
+        // Text colors with hover
+        {
+            pattern: /(hover:)?text-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(50|100|200|300|400|500|600|700|800|900|950)/,
+        },
+        // Display utilities (all breakpoints)
+        {
+            pattern: /(sm:|md:|lg:|xl:|2xl:)?(hidden|block|flex|inline-flex)/,
+        },
+        // Display (base)
+        'block', 'flex', 'inline-flex', 'inline-block',
+
+        // Display (2xl)
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block',
+
+        // Visibility (base)
+        'visible', 'invisible',
+
+        // Visibility (breakpoints)
+        'sm:visible', 'sm:invisible',
+        'md:visible', 'md:invisible',
+        'lg:visible', 'lg:invisible',
+        'xl:visible', 'xl:invisible',
+        '2xl:visible', '2xl:invisible',
+
+        'overflow-scroll', 'overflow-scroll-y', 'overflow-scroll-x',
+        'overflow-auto', 'overflow-auto-y', 'overflow-auto-x',
+
+        'overflow-hidden', 'overflow-hidden-y', 'overflow-hidden-x',
+
+        'overflow-visible', 'overflow-visible-y', 'overflow-visible-x',
+
+        // Display (2xl)
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block', '2xl:hidden',
+        // Display (xl)
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block', 'xl:hidden',
+        // Display (lg)
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+
+
+        // Display (sm)
+        'sm:block', 'sm:flex', 'sm:inline-flex', 'sm:inline-block', 'sm:hidden',
+        'hidden',
+        // Display (md)
+        'md:block', 'md:flex', 'md:inline-flex', 'md:inline-block', 'md:hidden',
+
+        // Display (lg)
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+
+        // Display (xl)
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block',
+        '2xl:hidden', 'xl:hidden',
+
+        // Base display
+        'block', 'flex', 'inline-flex', 'inline-block', 'hidden',
+
+        // Base visibility
+        'visible', 'invisible',
+
+        // Min-width breakpoints
+        'sm:block', 'sm:flex', 'sm:inline-flex', 'sm:inline-block', 'sm:hidden',
+        'sm:visible', 'sm:invisible',
+
+        'md:block', 'md:flex', 'md:inline-flex', 'md:inline-block', 'md:hidden',
+        'md:visible', 'md:invisible',
+
+        'lg:block', 'lg:flex', 'lg:inline-flex', 'lg:inline-block', 'lg:hidden',
+        'lg:visible', 'lg:invisible',
+
+        'xl:block', 'xl:flex', 'xl:inline-flex', 'xl:inline-block', 'xl:hidden',
+        'xl:visible', 'xl:invisible',
+
+        '2xl:block', '2xl:flex', '2xl:inline-flex', '2xl:inline-block', '2xl:hidden',
+        '2xl:visible', '2xl:invisible',
+
+        // Max-width breakpoints
+        'max-sm:block', 'max-sm:flex', 'max-sm:inline-flex', 'max-sm:inline-block', 'max-sm:hidden',
+        'max-sm:visible', 'max-sm:invisible',
+
+        'max-md:block', 'max-md:flex', 'max-md:inline-flex', 'max-md:inline-block', 'max-md:hidden',
+        'max-md:visible', 'max-md:invisible',
+
+        'max-lg:block', 'max-lg:flex', 'max-lg:inline-flex', 'max-lg:inline-block', 'max-lg:hidden',
+        'max-lg:visible', 'max-lg:invisible',
+
+        'max-xl:block', 'max-xl:flex', 'max-xl:inline-flex', 'max-xl:inline-block', 'max-xl:hidden',
+        'max-xl:visible', 'max-xl:invisible',
+
+        'max-2xl:block', 'max-2xl:flex', 'max-2xl:inline-flex', 'max-2xl:inline-block', 'max-2xl:hidden',
+        'max-2xl:visible', 'max-2xl:invisible',
+
+    ],
+
+    content: {
+        relative: true,
+        files: [
+            './../../app/Filament/Admin/**/*.php',
+            './../../resources/**/*.blade.php',
+            './../frontend-assets/resources/assets/**/*.vue',
+            './../frontend-assets/resources/assets/**/*.js',
+            './resources/assets/css/*.css',
+            './resources/assets/css/**/*.css',
+            './../../Modules/**/*.blade.php',
+            './../../Modules/**/resources/views/**/*.blade.php',
+            './../../src/MicroweberPackages/**/*.blade.php',
+            './../../src/MicroweberPackages/**/resources/views/**/*.blade.php',
+            './../../vendor/jaocero/radio-deck/resources/views/**/*.blade.php',
+            './../../vendor/filament/**/*.blade.php',
+            './../../userfiles/modules/**/*.blade.php',
+            './../../userfiles/modules/**/src/resources/views/**/*.blade.php',
+            './../../userfiles/modules/*/src/resources/views/**/*.blade.php',
+            './../../public/userfiles/modules/**/*.blade.php',
+            './../../public/userfiles/modules/**/src/resources/views/**/*.blade.php',
+            './../../public/userfiles/modules/*/src/resources/views/**/*.blade.php',
+        ],
+    },
+
+}

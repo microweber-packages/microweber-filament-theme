@@ -1,0 +1,19 @@
+@import './theme.css';
+@import './group';
+
+.fi-btn {
+    @apply !rounded-[0.3rem];
+
+    &:focus-visible {
+        @apply outline outline-4 outline-offset-0 outline-primary-500/30 !ring-0 dark:outline-primary-400/40;
+    }
+}
+
+.fi-btn-badge-ctn {
+    @apply rounded-full;
+}
+
+
+.fi-btn[data-mw-style="icon-only"] {
+    @apply !gap-0;
+}
