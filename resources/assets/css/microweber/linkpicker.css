@@ -1,4 +1,69 @@
+/* task-2026-09-23 — GENERAL dialog fix (root cause of "menu edit modal broken +
+ * link picker off-screen"). The dialog skin's open animation left the OPEN holder
+ * at `transform: translateY(0px)` — a settled identity transform that still
+ * establishes a CONTAINING BLOCK for position:fixed descendants. When a dialog
+ * hosts a Filament Livewire form (menu "Module Settings" → item Edit modal → link
+ * picker), the nested Filament modal AND the mw.dialog link picker are both
+ * position:fixed and got trapped inside the ~800px host holder → the Edit modal
+ * rendered squished/too-tall and the picker landed off the right edge.
+ * `none` is visually identical to translateY(0) once open and still animates in
+ * from the translateY(20px) start, but removes the containing block so nested
+ * fixed overlays resolve against the viewport again. */
+.mw-dialog-skin-default.active .mw-dialog-holder {
+    transform: none !important;
+}
+
+/* task-2026-09-23 — pages tree block: give the search/tree group the same top
+ * spacing as the Link-text field above it (was cramped directly under the input),
+ * and style the async loading/error placeholders. */
+/* Consistent vertical rhythm between field blocks on EVERY tab: the first field
+ * (Link text) and the next block (search / pages tree / content select) rendered
+ * flush with no gap. Space every block after the first in the controller body. */
+.mw_modal_live_edit_link_editor_settings .mw-ui-form-controller-root > div > * + * {
+    margin-top: 16px !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-loading,
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 2px;
+    font-size: 13px;
+    color: var(--mw-text-muted, #64748b);
+}
+.mw_modal_live_edit_link_editor_settings .mw-link-editor-tree-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--mw-border-color, #dadfe5);
+    border-top-color: var(--mw-text-secondary, #4a5568);
+    border-radius: 50%;
+    animation: mw-link-editor-spin 0.6s linear infinite;
+    flex: none;
+}
+@keyframes mw-link-editor-spin {
+    to { transform: rotate(360deg); }
+}
+
 /* ===== Link Picker Dialog ===== */
+
+/* task-2026-09-23 — Defense-in-depth for the "picker opened from a menu / module
+ * edit modal is narrow + clipped" report. dialog.js mounts this picker INSIDE the
+ * open Filament modal (to survive its focus-trap), so its box must never inherit
+ * the modal panel's width/overflow. Pin the dialog root to the viewport and let
+ * the holder size itself (holder width comes from the JS `width:1000` option,
+ * capped to the viewport here). The .mw-dialog root carries the skin class. */
+.mw-dialog.mw_modal_live_edit_link_editor_settings {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    z-index: 100000 !important;   /* above Filament's z-40 modal chrome */
+}
+.mw_modal_live_edit_link_editor_settings .mw-dialog-holder {
+    max-width: min(1000px, 96vw) !important;
+}
 
 /* Hide the default dialog header (title bar) */
 .mw_modal_live_edit_link_editor_settings .mw-dialog-header {
@@ -261,8 +326,8 @@
 
 /* OK button — primary style (last button) */
 .mw_modal_live_edit_link_editor_settings .mw-ui-form-controllers-footer button:last-child {
-    @apply bg-[#0d6efd] border-[#0d6efd] text-white;
-    @apply hover:bg-[#0b5ed7] hover:border-[#0a58ca];
+    @apply bg-[#182433] border-[#182433] text-white;
+    @apply hover:bg-[#1C1C1A] hover:border-[#1C1C1A];
 }
 
 /* ===== Search input on Pages/Content tabs ===== */
@@ -327,9 +392,63 @@
     background-color: oklch(0.371 0 0); /* gray-700 */
     @apply text-white;
 }
-.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control,
+/* task-2026-09-23 — style the "Search for content" TomSelect (All-content tab)
+ * to match the picker's other inputs (was the bare TomSelect default look). */
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control {
+    min-height: 40px !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--mw-border-color, #dadfe5) !important;
+    background-color: #fff !important;
+    padding: 6px 12px !important;
+    font-size: 13px !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    transition: border-color .15s, box-shadow .15s;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important;     /* gray-600 */
+}
 .mw_modal_live_edit_link_editor_settings .ts-wrapper.single .ts-control input {
     background-color: transparent !important;
+    font-size: 13px !important;
+    color: var(--mw-text-primary, #182433) !important;
+}
+.mw_modal_live_edit_link_editor_settings .ts-wrapper.single.focus .ts-control {
+    border-color: #182433 !important;
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-wrapper.single.focus .ts-control {
+    border-color: #93a1f3 !important;
+    box-shadow: 0 0 0 2px rgba(147, 161, 243, 0.25) !important;
+}
+/* selected single item + placeholder */
+.mw_modal_live_edit_link_editor_settings .ts-control .item {
+    font-size: 13px;
+    color: var(--mw-text-primary, #182433);
+}
+.dark .mw_modal_live_edit_link_editor_settings .ts-control .item { color: #e2e8f0; }
+
+/* dropdown option rows: roomy, rounded hover, avatar thumbs */
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item {
+    padding: 8px 10px !important;
+    margin: 2px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item img {
+    width: 34px;
+    height: 34px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex: none;
+}
+.mw_modal_live_edit_link_editor_settings .ts-dropdown .dropdown-item .icon {
+    display: flex;
+    align-items: center;
 }
 
 .mw_modal_live_edit_link_editor_settings .mw-autocomplete-list li a {
@@ -359,24 +478,158 @@
     @apply border-[#182433]/40 dark:border-gray-500 bg-[#182433]/5 dark:bg-white/5;
 }
 
-/* AI "Enter prompt" tab — the inner card already has its own white/gray
- * card styling from filepicker.js (max-w-sm + p-6 + border + rounded-lg).
- * Make the wrapping label-wrapper transparent so the card sits cleanly
- * in the modal without inheriting any input chrome from the parent. */
+/* ===== AI "Enter prompt" tab — full redesign (task-2026-09-27) =====
+ * Shipped as a generic clickable card: a whole-panel hover-grey, ragged
+ * oversized vertical gaps, a disabled-looking aspect-ratio dropdown and a
+ * nested scrollbar. Rebuild it as a clean, evenly-spaced form matching the
+ * rest of the link picker — flat container, consistent 40px rounded
+ * controls, a taller prompt field, a 2-col Width/Height row and a proper
+ * secondary "Select image" button. Scoped to the link-editor modal. */
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai {
     @apply w-full max-w-2xl mx-auto;
 }
-.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child {
-    @apply w-full;
+/* Flat container — strip the clickable-card chrome (border, shadow, hover bg). */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .block.p-6 {
+    @apply w-full p-0 bg-transparent border-0 shadow-none rounded-none;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai > div:first-child:hover,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .block.p-6:hover {
+    background: transparent !important;
+}
+/* COMPACT wrap layout — prompt on its own row, then all the dimension
+ * controls (aspect ratio + width + height + number of images) grouped on ONE
+ * row, then reference + Generate full-width. Tight enough that the whole form
+ * fits with no inner scrollbar. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap {
+    @apply flex flex-wrap items-start;
+    /* the element ships a `flex-col` utility class; force row so the dimension
+     * controls share a horizontal line (flex-basis was sizing height instead). */
+    flex-direction: row !important;
+    gap: 10px 12px !important;
+}
+/* Full-width rows: prompt, reference image, Generate button, status. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="prompt"]),
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[type="file"]),
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > button.btn-pill,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .mw-filepicker-ai-status {
+    flex: 1 1 100% !important;
+}
+/* Dimension row — aspect ratio | width + height | number of images.
+ * width:auto is required to beat the base wrapper's width:100% !important,
+ * otherwise each control keeps a full-width line and they stack. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(select[name="aspect_ratio"]) {
+    flex: 1 1 130px !important;
+    width: auto !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .flex.gap-4 {
+    flex: 1.6 1 200px !important;
+    width: auto !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="number_of_images"]) {
+    flex: 1 1 120px !important;
+    width: auto !important;
+}
+/* Keep the dimension labels on one line so the controls stay aligned. */
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(select[name="aspect_ratio"]) label,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .form-control-live-edit-label-wrapper:has(input[name="number_of_images"]) label,
+.mw_modal_live_edit_link_editor_settings .mw-filepicker-ai-tab-wrap > .flex.gap-4 label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper {
     max-width: none !important;
     width: 100% !important;
-    margin: 0 0 12px !important;
+    margin: 0 !important;
+    padding: 0 !important; /* base live-edit-input padding added ~24px dead height per field */
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-label-wrapper:empty {
+    display: none !important;
+}
+/* Legacy underline-animation span added dead vertical height — drop it. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .form-control-live-edit-bottom-effect {
+    display: none !important;
+}
+/* Labels */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai label {
+    @apply block text-sm font-medium text-gray-700 dark:text-gray-200;
+    margin-bottom: 6px !important;
+}
+/* Controls — consistent rounded 40px inputs / selects. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select {
+    @apply w-full rounded-lg border border-gray-300 text-sm text-gray-900 dark:text-white;
+    background-color: white !important;
+    padding: 8px 12px !important;
+    min-height: 40px !important;
+    height: 40px !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input,
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select,
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select {
+    background-color: oklch(0.269 0 0) !important; /* gray-800 */
+    border-color: oklch(0.371 0 0) !important;     /* gray-600 */
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input:focus,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai select:focus,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select:focus {
+    @apply border-[#182433];
+    box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+/* Aspect-ratio customizable <select> button — remove the greyed/disabled look. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-native-select button {
+    background: transparent !important;
+    border: 0 !important;
+    color: inherit !important;
+    width: 100% !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+/* Prompt field — taller, top-aligned so it reads as a prompt box. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai input[name="prompt"] {
+    min-height: 56px !important;
+    height: auto !important;
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+}
+/* Width / Height — 2-col row. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 {
+    @apply flex gap-4;
 }
 .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .flex.gap-4 .form-control-live-edit-label-wrapper {
     width: auto !important;
     flex: 1 1 0;
+}
+/* Collapse the empty reference-image preview (its .d-none wasn't hiding it,
+ * leaving ~80px of dead space that forced an inner scrollbar). When a
+ * reference is picked JS removes .d-none and the preview shows again. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .refference-image-pick-preview.d-none {
+    display: none !important;
+}
+
+/* "Select image" (reference image) — clean secondary button, not a raw pill. */
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill,
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai .mw-filepicker-ai-reference-image-button {
+    @apply w-full rounded-lg border border-gray-300 bg-white text-gray-800 dark:text-gray-100 text-sm font-medium;
+    height: 40px !important;
+    box-shadow: none !important;
+    background-image: none !important;
+}
+.dark .mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill {
+    background-color: oklch(0.269 0 0) !important;
+    border-color: oklch(0.371 0 0) !important;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill:hover:not(:disabled) {
+    @apply bg-gray-50 border-gray-400 dark:bg-gray-700;
+}
+.mw_modal_live_edit_link_editor_settings .mw-image-picker-ai button.btn-pill:disabled {
+    @apply opacity-60 cursor-not-allowed;
 }
 
 /* File picker navigation header tabs */
@@ -422,6 +675,34 @@
 .mw_modal_live_edit_link_editor_settings .form-select:focus {
     @apply border-[#182433];
     box-shadow: 0 0 0 2px rgba(24, 36, 51, 0.15) !important;
+}
+
+/* ===== File-manager (media browser) layout fix — task-2026-09-27 =====
+ * The File tab embeds the /admin/media library page in an auto-growing
+ * iframe (.mw-editor-frame). JS resizes that iframe to its FULL content
+ * height (~1800px), so the whole link-editor dialog inherited a giant
+ * scroll region: the media library's own toolbar + grid pushed the
+ * Cancel/OK footer far below the fold and the browser felt broken.
+ *
+ * Constrain the media iframe to a contained panel that scrolls INTERNALLY
+ * (its own content document handles overflow), so the dialog keeps a fixed
+ * height with the footer pinned — the media library reads as a proper
+ * embedded picker instead of an endless page. Height overrides the inline
+ * height:1800px JS sets (CSS !important beats a non-important inline style).
+ * Scoped to the link-editor modal so /admin/media standalone (which is
+ * correctly full-height) is untouched. */
+.mw_modal_live_edit_link_editor_settings .mw-editor-frame {
+    height: 60vh !important;
+    max-height: 620px !important;
+    min-height: 380px !important;
+    width: 100% !important;
+    border: 0 !important;
+}
+/* The label-wrapper that holds the iframe also auto-sized to ~1800px; let it
+ * collapse to the constrained iframe so no dead space remains below it. */
+.mw_modal_live_edit_link_editor_settings .form-control-live-edit-label-wrapper:has(> .mw-editor-frame) {
+    height: auto !important;
+    min-height: 0 !important;
 }
 
 /* ===== Misc ===== */

@@ -139,10 +139,8 @@
     @apply text-gray-300;
 }
 
-/* Badge dark mode */
-.dark .fi-badge {
-    @apply text-gray-100;
-}
+/* Badge styling (incl. dark text) is consolidated in
+   filament/support/badge.css — the single source of truth for .fi-badge. */
 
 /* Empty state dark mode */
 .dark .fi-empty-state-title {
@@ -317,13 +315,16 @@
 /*.fi-resource-list-records-page {
     @apply !px-0 !py-0 !mt-0;
 }
-.fi-resource-list-records-page section.flex {
+.fi-resource-list-records-page section.flex,
+.mw-records-page section.flex {
     @apply !gap-y-0 !py-0;
 }
-.fi-resource-list-records-page .fi-ta-header-toolbar {
+.fi-resource-list-records-page .fi-ta-header-toolbar,
+.mw-records-page .fi-ta-header-toolbar {
     @apply !mt-4;
 }
-.fi-resource-list-records-page .gap-y-6:first-child  {
+.fi-resource-list-records-page .gap-y-6:first-child,
+.mw-records-page .gap-y-6:first-child  {
     @apply gap-y-0 pb-8;
 }
 .fi-ta-content {

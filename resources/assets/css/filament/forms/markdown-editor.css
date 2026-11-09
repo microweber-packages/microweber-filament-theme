@@ -9,8 +9,26 @@
                 @apply transition duration-75;
             }
 
+            /* Toolbar glyphs are SVG MASKS painted by the ::before background-color.
+               Do NOT use `@apply bg-gray-*` here: under this theme's colour config a
+               `bg-gray-500` utility compiles to `rgb(var(--gray-500-rgb) / 1)`, and
+               because --gray-500-rgb is a COMMA triplet ("115, 115, 115") the mixed
+               comma + slash form is an invalid colour that paints transparent — an
+               invisible toolbar (the whole-app bug this rule fixes, markdown editor in
+               both the kitchen sink and OrderResource). Paint with the proper Tailwind
+               v4 --color-gray-* colour tokens, and the active glyph with
+               rgb(var(--primary-N)) per the project token rule (comma triplet, so the
+               rgb() wrapper has no slash-alpha and stays valid). */
             &:not(.active)::before {
-                @apply bg-gray-500 hover:bg-gray-700 dark:bg-gray-400 dark:hover:bg-gray-200;
+                background-color: var(--color-gray-500);
+            }
+
+            &:not(.active):hover::before {
+                background-color: var(--color-gray-700);
+            }
+
+            &.active::before {
+                background-color: rgb(var(--primary-600));
             }
 
             &.active {
@@ -18,4 +36,33 @@
             }
         }
     }
+}
+
+/* Dark toolbar — lighter glyphs for contrast on the dark surface. */
+.dark .fi-fo-markdown-editor .EasyMDEContainer .editor-toolbar button {
+    &:not(.active)::before {
+        background-color: var(--color-gray-400);
+    }
+
+    &:not(.active):hover::before {
+        background-color: var(--color-gray-200);
+    }
+
+    &.active::before {
+        background-color: rgb(var(--primary-400));
+    }
+}
+
+/* Dark editor body — the base codemirror.css lib (loaded after this theme) paints
+   .CodeMirror solid white/black, so in dark mode the editing surface read as a
+   jarring white block inside the dark wrapper. Let it inherit the dark input
+   wrapper and use the panel's light input ink. !important because codemirror.css
+   loads later in the cascade. */
+.dark .fi-fo-markdown-editor .EasyMDEContainer .CodeMirror {
+    background-color: transparent !important;
+    color: var(--color-gray-200) !important;
+}
+
+.dark .fi-fo-markdown-editor .EasyMDEContainer .CodeMirror-cursor {
+    border-left-color: var(--color-gray-200) !important;
 }

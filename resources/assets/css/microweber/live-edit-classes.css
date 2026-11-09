@@ -1,3 +1,4 @@
+/* live-edit — 01 toolbar: back-link, calm-toolbar colour pass, device-preview segment, tools (⋮) dropdown, active rail. */
 .modules-list-block-style-list {
     @apply h-[160px] w-full;
 }
@@ -344,14 +345,44 @@ body {
 .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active {
     color: #fff !important;
 }
-.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
-    background-color: rgb(31 41 55) !important;
-    color: white !important;
+/* task-2026-09-07-activerail — the active rail icon was rgb(31 41 55), DARKER
+   than the inactive #475569 slate pills, so in dark mode the open panel's icon
+   receded instead of standing out — you couldn't tell which was active. Make it
+   a clearly LIGHTER filled pill with a dark glyph, plus an accent bar. */
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons{
+    background-color: #e8eaed !important;
+    border-color: #e8eaed !important;
+    color: #182433 !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg,
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons svg *{
+    fill: #182433 !important;
+    color: #182433 !important;
+    stroke: #182433 !important;
+}
+/* The label is an ::after pseudo-element with its own colour (#e5e7eb light),
+   which is invisible on the light active pill — recolour it to contrast the
+   pill: dark on the light dark-mode pill, white on the ink light-mode pill. */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #ffffff !important;
+}
+.dark .mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active.btn-icon.live-edit-toolbar-buttons::after{
+    color: #182433 !important;
+}
+/* An accent ring reinforces the open panel (kept inside the pill so it never
+   clips against the adjacent panel). */
+.mw-live-edit-right-sidebar-template-sidebar .live-edit-right-sidebar-active{
+    box-shadow: 0 0 0 2px #0d6efd !important;
 }
 
 .mw-live-edit-right-sidebar-template-sidebar {
     background-color: #fff !important;
     border-inline-start: 1px solid #e5e7eb;
+    /* task-2026-09-07-railfit — lift the bottom (settings) icon off the viewport
+       edge so it isn't clipped on shorter screens; scroll only if truly needed. */
+    padding-bottom: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .dark .mw-live-edit-right-sidebar-template-sidebar {
@@ -394,7 +425,7 @@ body {
 #save-button:hover {
     @apply !bg-green-200 dark:!bg-green-800;
 }
-
+/* live-edit — 02 save button: SAVE pill states (idle solid, has-changes pulse, reduced-motion). */
 /* ======================================================================
    task-2026-05-16-8b10a3 / AI-699 — v2-style solid black pill SAVE button.
 
@@ -429,7 +460,7 @@ body {
     background-color: var(--ese-text, #111827) !important;
     color: var(--ese-surface, #ffffff) !important;
     border: none !important;
-    border-radius: 4px !important;
+    border-radius: var(--radius-pill, 999px) !important;
     padding: var(--space-sm, 8px) var(--space-md, 13px) !important;
     height: 36px !important;
     min-height: 36px !important;
@@ -477,7 +508,7 @@ body {
 
 @keyframes mw-save-button-pulse {
     0%  { box-shadow: 0 0 0 0 transparent; }
-    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #0d6efd); }
+    0.5% { box-shadow: 0 0 0 4px var(--ese-accent, #182433); }
     2%  { box-shadow: 0 0 0 4px transparent; }
     100% { box-shadow: 0 0 0 0 transparent; }
 }
@@ -554,15 +585,7 @@ body {
 #mw-dialog-holder-mw-add-content-editor-front {
     @apply !w-[800px];
 }
-
-.mw-btn-icon-delete {
-    @apply text-danger-100 relative;
-}
-.mw-btn-icon-delete::after {
-    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>');
-    @apply absolute right-0 top-0 z-10;
-}
-
+/* live-edit — 03 navigation & modals: dropdown nav items, teleported fi-modal placement + z-index. */
 /* Base styling for links and items in navigation */
 .mw-ui-navigation a,
 .mw-ui-navigation-item {
@@ -639,14 +662,6 @@ body {
     @apply !bg-[#ffffff30];
 }
 
-.mw-live-edit-tools-dropdown-menu {
-    @apply !min-w-[175px] !bg-white dark:!bg-gray-800;
-}
-
-.mw-live-edit-tools-dropdown-menu ul li a {
-    @apply flex items-center;
-}
-
 /* After JS teleport: fi-modal is moved to .fi-layout (> .mw-live-edit-page)
    as a direct child — outside .mw-admin-live-edit-page — so target via
    the layout class. Filament action modals must appear above the sidebar. */
@@ -721,7 +736,7 @@ body {
 h1,h2,h3,h4,h5,h6 {
     @apply !font-bold mb-[1rem];
 }
-
+/* live-edit — 04 field editor classes: @apply custom classes (mdi, mw-field, rounded, angle, s-field, sliders, spacing, v3ti). */
 /* Custom classes for Tailwind using @apply */
 
 /* mdi and mdi-set styles */
@@ -858,19 +873,9 @@ h1,h2,h3,h4,h5,h6 {
     @apply hidden;
 }
 
-/* Element spacing editor input background */
-.mw-element-spacing-editor-input {
-    @apply bg-white dark:bg-gray-800;
-}
-
 /* Holder background color */
 .mw-ese-holder {
     @apply bg-white dark:bg-gray-800;
-}
-
-/* Padding label color */
-.mw-ese-padding-label {
-    @apply text-black dark:text-white;
 }
 
 /* v3ti component styles */
@@ -1238,7 +1243,7 @@ body.fi-body:has(.mw-live-edit-module-settings-iframe) {
 .dark body.fi-body:has(.mw-live-edit-module-settings-iframe) {
     background-color: rgb(17 24 39) !important;
 }
-
+/* live-edit — 05 module settings: panel sections, compact density, inner/outer spacing, field rhythm. */
 /* Module settings sections — remove card borders/shadows and unify bg */
 .mw-live-edit-page-wrapper .fi-section:not(.fi-aside),
 .mw-live-edit-page-wrapper .fi-section-content-ctn,
@@ -1280,6 +1285,64 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     border: none !important;
 }
 
+/* task-2026-09-14-modsettings-spacing — unify the INNER spacing of the Live
+   Edit "Module Settings" panel across EVERY tab and EVERY module.
+
+   Root cause of the prior inconsistency:
+   - Tabbed modules (Btn, Logo, Shop, ...) render their fields inside a
+     .fi-sc-tabs-tab panel that carries Filament's default 24px padding, so
+     their fields sat ~32px from the panel edge, while untabbed modules
+     (Spacer, ...) only had the 8px wrapper gutter and sat at 8px.
+   - Design-tab Section cards add a .fi-section-content / -content-ctn inset,
+     nesting those fields a further ~10-12px deeper than the flat
+     Content-tab fields.
+   Net effect: field left-edges and vertical rhythm jumped between tabs and
+   between modules. The rules below pin ONE gutter + ONE rhythm everywhere.
+   They are padding/gap only (color-independent) so they hold in light AND
+   dark, and touch-target heights are untouched (>= 44px enforced elsewhere in
+   mobile-touch.css). Scoped to .mw-live-edit-page-wrapper, which only exists
+   on the module-settings surface, so nothing leaks to full-page admin. */
+.mw-live-edit-page-wrapper {
+    --mw-modset-gutter: 0.5rem;      /* outer content gutter (matches wrapper !p-2) */
+    --mw-modset-field-gap: 0.75rem;  /* vertical gap between fields */
+    --mw-modset-label-gap: 0.375rem; /* gap between a field label and its control */
+}
+/* Consistent outer content gutter for tabbed AND untabbed modules, on the
+   standalone /admin/<x>-module-settings page and inside the live-edit iframe. */
+.mw-live-edit-page-wrapper {
+    padding-left: var(--mw-modset-gutter) !important;
+    padding-right: var(--mw-modset-gutter) !important;
+}
+/* Tab panels: drop Filament's oversized 24px side padding so tabbed-module
+   fields align to the same gutter as untabbed modules; keep vertical rhythm
+   under the tab bar. */
+.mw-live-edit-page-wrapper .fi-sc-tabs-tab {
+    padding: var(--mw-modset-field-gap) 0 !important;
+}
+/* Section cards (Design tabs): borders/shadows are already stripped above, so
+   collapse their horizontal inset to 0 — sectioned fields now line up with the
+   flat fields and the section heading at the shared gutter. Vertical padding is
+   kept for header/content separation. */
+body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
+    padding: var(--mw-modset-field-gap) 0 0 !important;
+}
+.mw-live-edit-page-wrapper .fi-section-content-ctn {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.mw-live-edit-page-wrapper .fi-section-header {
+    padding: 0.5rem 0 !important;
+}
+/* Consistent vertical gap between every field — flat or inside a section. */
+.mw-live-edit-page-wrapper .fi-fo-component-ctn,
+.mw-live-edit-page-wrapper .fi-sc.fi-grid,
+.mw-live-edit-page-wrapper .fi-fo-component-ctn > .fi-fo-component {
+    gap: var(--mw-modset-field-gap) !important;
+}
+.mw-live-edit-page-wrapper .fi-fo-field-wrp {
+    gap: var(--mw-modset-label-gap) !important;
+}
+
 .mw-dropzone{
     text-align: center;
     cursor: pointer;
@@ -1293,7 +1356,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 .dropzone {
     @apply border-dashed border-2 border-gray-300 border-gray-300 dark:border-slate-700 p-[1rem] text-[#999FA4FF]
 }
-
+/* live-edit — 06 page-scoped + dark: .mw-live-edit-page dark grays, toolbar-button overrides, add-content dark. */
 /* AI-116 / TICKET-CI (cycle-107): scoped under `.mw-live-edit-page`.
    Without scope this `!px-0` was leaking to the Posts/Products
    admin list pages where padding is needed. */
@@ -1454,16 +1517,8 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     background-color: rgb(31 41 55);
 }
 
-.dark .mw-element-spacing-editor-input {
-    background-color: rgb(31 41 55);
-}
-
 .dark .mw-ese-holder {
     background-color: rgb(31 41 55);
-}
-
-.dark .mw-ese-padding-label {
-    color: white;
 }
 
 .dark .v3ti {
@@ -1530,48 +1585,13 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     border-color: rgb(55 65 81) !important;
 }
 
-.dark .mw-live-edit-search-dropdown-wrapper input,
-.dark .mw-live-edit-search-dropdown-wrapper input::placeholder {
-    color: white;
-}
-
 .dark .mw-live-edit-toolbar-link,
 .dark .mw-live-edit-toolbar-link span {
     color: white;
 }
 
-.dark .mw-live-edit-toolbar-link-menu {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-live-edit-toolbar-link-menu-content {
-    background-color: rgb(31 41 55) !important;
-}
-
-.dark .mw-liveedit-button-action-redo,
-.dark .mw-liveedit-button-action-undo {
-    background-color: rgb(55 65 81) !important;
-}
-
-.dark .mw-live-edit-save-btn-green {
-    background-color: rgb(22 101 52) !important;
-    color: rgb(187 247 208) !important;
-}
-
-.dark .mw-live-edit-save-btn-green:hover {
-    background-color: rgb(21 128 61) !important;
-}
-
 .dark .mw-live-edit-right-sidebar-wrapper svg {
     fill: white !important;
-}
-
-.dark .live-edit-module-settings-container {
-    background-color: rgb(31 41 55);
-}
-
-.dark .mw-module-quick-settings-sidebar .module-quick-settings-sidebar {
-    background-color: rgb(31 41 55) !important;
 }
 
 /*
@@ -1583,7 +1603,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
  * into the dark pill background. Force a light fill on every SVG
  * descendant of these widget containers.
  */
-.dark .mw-module-quick-settings-sidebar svg,
 .dark .module-quick-settings-sidebar svg,
 .dark .module-edit-button svg,
 .dark .module-settings-button svg,
@@ -1593,7 +1612,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     fill: #e2e8f0 !important;
     color: #e2e8f0 !important;
 }
-.dark .mw-module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-quick-settings-sidebar svg path:not([fill="none"]),
 .dark .module-edit-button svg path:not([fill="none"]),
 .dark .module-settings-button svg path:not([fill="none"]),
@@ -1603,7 +1621,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     fill: #e2e8f0 !important;
 }
 
-.dark .mw-element-spacing-editor-input,
 .dark .mw-live-edit-border-radius input {
     background-color: rgb(55 65 81);
     color: white;
@@ -1634,11 +1651,6 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
     background-color: rgb(55 65 81) !important;
     border-color: #4b5563 !important;
     color: white !important;
-}
-
-.dark .live-edit-toolbar-buttons-add {
-    background-color: rgb(55 65 81) !important;
-    border-color: rgb(55 65 81) !important;
 }
 
 /* Add content modal cards — dark mode
@@ -1787,7 +1799,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
         padding-top: 56px !important;
     } */
 }
-
+/* live-edit — 07 add-content modal: block grid, add-block card, per-type circles, mobile sheet, layout-module icons. */
 /* ─────────────────────────────────────────────────────────────────
  * AI-691a + AI-697 — Add-Content picker modal styling
  * task-2026-05-16-bc28fd (CHANGE re-ship of task-860f75 + task-e3da1a)
@@ -1983,17 +1995,17 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
    the section) inside the picker modal. */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.12));
-    border-color: var(--ese-accent, #0d6efd);
+    border-color: var(--ese-accent, #182433);
     min-height: calc(var(--space-xl, 42px) * 1.5);
     padding-block: var(--space-md, 13px);
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover {
     background-color: var(--ese-accent-soft, rgba(13, 110, 253, 0.16));
-    border-color: var(--ese-accent, #0d6efd);
+    border-color: var(--ese-accent, #182433);
 }
 /* task-2026-05-27-4b1344 / AI-1139 item 5: filled brand-blue circle */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon {
-    background-color: var(--ese-accent, #0d6efd);
+    background-color: var(--ese-accent, #182433);
     border-radius: 50%;
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-icon svg {
@@ -2002,7 +2014,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 /* Keep blue icon on hover — prevent generic hover rule from flipping it */
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon,
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon {
-    background-color: var(--ese-accent, #0d6efd) !important;
+    background-color: var(--ese-accent, #182433) !important;
 }
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
 .mw-content-picker-modal .mw-add-content-group--primary .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
@@ -2115,7 +2127,7 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 }
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:hover .mw-add-content-icon svg,
 .mw-content-picker-modal .mw-add-content-modal-action-wrapper:focus-visible .mw-add-content-icon svg {
-    color: var(--ese-accent, #0d6efd) !important;
+    color: var(--ese-accent, #182433) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -2315,5 +2327,87 @@ body.fi-panel-admin .mw-live-edit-page-wrapper .fi-section-content {
 }
 
 
+/* ================================================================== *
+ * task-2026-09-06-ledark — Live Edit toolbar dark-mode contrast fixes *
+ * ------------------------------------------------------------------- *
+ * Three defect families found live in html.dark admin:                *
+ *  (1) Device/resolution segmented switch: in dark mode it must be a   *
+ *      DARK pill with LIGHT icons (the earlier build forced a light    *
+ *      track from the index.css #toolbar rule, giving a white switch   *
+ *      with ink glyphs on the dark toolbar). We override the track +   *
+ *      cells to a translucent-light-on-dark surface and repaint the    *
+ *      glyphs #e5e7eb. The stray white fill also came from the         *
+ *      Tailwind @apply in general-styles.css:277-280 /                 *
+ *      live-edit-classes.css:374-377, which compiles (NOT dead) to     *
+ *      fill:var(--color-white) under &:is(.dark *) — (0,3,1)!important. *
+ *      We beat it with an #toolbar-anchored, .mw-segmented-scoped      *
+ *      selector so ONLY the top-bar device switch is affected (never   *
+ *      the filepicker tab-nav which reuses the wrapper class), and     *
+ *      light mode stays exactly as-is.                                 *
+ *  (2)/(3) The 3-dots Tools dropdown (+ its nested "More settings"     *
+ *      submenu) LI <button> items + their currentColor icons stayed    *
+ *      #222 on the dark panel, because the webpack dark theme only     *
+ *      had .dark .custom-dropdown .dropdown-content li a rules (the    *
+ *      matching li button rules and the component's own :global(.dark) *
+ *      scoped rules are dropped by the Vite build). Mirror the <a>     *
+ *      dark rules for <button> so both read #e5e7eb on the dark panel. *
+ * ================================================================== */
+
+/* (1) Device/resolution segmented switch — DARK pill + LIGHT icons in dark
+   mode. task-2026-09-06-ledark2 supersedes the earlier dark-ink forcing:
+   the switch now paints a dark surface on the dark toolbar (was a white
+   track from index.css #toolbar rule), so its glyphs must be LIGHT, not
+   ink. Track goes translucent-light-on-dark; inactive cells transparent
+   with #e5e7eb icons; the active/checked cell gets a slightly lighter
+   pill. Scoped to #toolbar + .mw-segmented so the filepicker tab-nav
+   (which reuses .mw-live-edit-resolutions-wrapper) is never touched.
+   Specificity (1 id, 3+ class, 1 elem) + !important beats the index.css
+   light-track rule (1 id, 2 class) AND the compiled Tailwind white-fill
+   @apply (0,3,1)!important. Light mode is left entirely as-is. */
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons {
+    background-color: transparent !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons svg * {
+    color: #e5e7eb !important;
+    fill: #e5e7eb !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons:hover {
+    background-color: rgba(255, 255, 255, 0.10) !important;
+}
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.is-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons.live-edit-resolution-active,
+html.dark #toolbar .mw-live-edit-resolutions-wrapper.mw-segmented .mw-segmented__cell.live-edit-toolbar-buttons[aria-checked="true"] {
+    background-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+/* (2)/(3) Tools dropdown + submenu <button> items — mirror the <a> dark
+   rules so button labels + currentColor icons read light on the dark
+   panel. .dropdown-content descendant selector also covers the nested
+   .submenu (More settings) buttons. */
+.dark .custom-dropdown .dropdown-content li button {
+    color: #e5e7eb !important;
+}
+.dark .custom-dropdown .dropdown-content li button:hover,
+.dark .custom-dropdown .dropdown-content li button:focus {
+    background-color: rgb(31 41 55) !important;
+    color: #ffffff !important;
+}
+.dark .custom-dropdown .dropdown-content li button.active,
+.dark .custom-dropdown .dropdown-content li button.expanded {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e5e7eb !important;
+}
+/* Icons inside dropdown/submenu buttons use fill="currentColor"; keep
+   them locked to the button's (light) text colour in dark mode so a
+   stray global fill rule can't repaint them dark-on-dark. */
+.dark .custom-dropdown .dropdown-content li button svg {
+    fill: currentColor !important;
+    color: inherit !important;
+}
 
 

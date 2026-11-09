@@ -4,12 +4,6 @@ namespace MicroweberPackages\MicroweberFilamentTheme;
 
 use Filament\Support\Colors\Color;
 
-/**
- * Filament color palette for every panel that registers MicroweberFilamentTheme.
- *
- * RGB-triplet shades (not OKLCH) so Tailwind `rgba(var(--primary-500), 1)`
- * utilities resolve. Slot 500 of Blue is Bootstrap #0d6efd (AI-209 / AI-819).
- */
 class Palette
 {
     /** Brand primary — same ladder as MwColors::Blue. */
@@ -60,7 +54,7 @@ class Palette
     /**
      * Full palette passed to Panel::colors() and FilamentColor::register().
      *
-     * @return array<string, array<int, string>|\Filament\Support\Colors\ColorPalette>
+     * @return array<string, array<int, string>>
      */
     public static function colors(): array
     {
